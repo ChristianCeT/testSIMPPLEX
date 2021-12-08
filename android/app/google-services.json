@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "862263627818",
+    "project_id": "exhibideas-v2",
+    "storage_bucket": "exhibideas-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862263627818:android:441f9acc10a4d5b6cab353",
+        "android_client_info": {
+          "package_name": "com.example.client_exhibideas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862263627818-jar5e1hotb24m130bvf3qr4rmmis0tc1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.client_exhibideas",
+            "certificate_hash": "ee2c0a7ad83e1b6aebfe1bee5befab7a167164af"
+          }
+        },
+        {
+          "client_id": "862263627818-n7av1dis92ur0qllsfarrjuqo15o22p3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDv-2nMVsbPeFBMbAmfJtETDy6I7iipu0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862263627818-n7av1dis92ur0qllsfarrjuqo15o22p3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
