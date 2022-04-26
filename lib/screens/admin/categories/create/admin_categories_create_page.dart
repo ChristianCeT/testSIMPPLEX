@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class AdminCategoriesCreatePage extends StatefulWidget {
-  AdminCategoriesCreatePage({Key key}) : super(key: key);
+  const AdminCategoriesCreatePage({Key key}) : super(key: key);
   static String routeName = "/admin/categories/list";
 
   @override
@@ -13,7 +13,8 @@ class AdminCategoriesCreatePage extends StatefulWidget {
 }
 
 class _AdminCategoriesCreatePageState extends State<AdminCategoriesCreatePage> {
-  AdminCategoriesCreateController _con = new AdminCategoriesCreateController();
+  final AdminCategoriesCreateController _con =
+      AdminCategoriesCreateController();
 
   @override
   void initState() {
@@ -23,37 +24,41 @@ class _AdminCategoriesCreatePageState extends State<AdminCategoriesCreatePage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Nueva Categoría"),
+        title: const Text("Nueva Categoría"),
         backgroundColor: MyColors.primaryColor,
       ),
       body: Column(
         children: [
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           _textFieldCategoryName(),
           _textFieldCategoryDescription(),
         ],
       ),
-      bottomNavigationBar: _buttonCreate(),
+      bottomNavigationBar: Container(
+          margin: EdgeInsets.only(bottom: size.height * 0.04),
+          child: _buttonCreate()),
     );
   }
 
   Widget _textFieldCategoryName() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
+        color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
         controller: _con.nameController,
         decoration: InputDecoration(
             hintText: "Nombre de la categoría",
-            hintStyle: TextStyle(color: Colors.black),
+            hintStyle: const TextStyle(color: Colors.black),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
+            contentPadding: const EdgeInsets.all(15),
             suffixIcon: Icon(
               Icons.list_alt,
               color: MyColors.primaryColor,
@@ -64,10 +69,10 @@ class _AdminCategoriesCreatePageState extends State<AdminCategoriesCreatePage> {
 
   Widget _textFieldCategoryDescription() {
     return Container(
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
+       color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -76,9 +81,9 @@ class _AdminCategoriesCreatePageState extends State<AdminCategoriesCreatePage> {
         maxLength: 255,
         decoration: InputDecoration(
             hintText: "Descripción de la categoría",
-            hintStyle: TextStyle(color: Colors.black),
+            hintStyle: const TextStyle(color: Colors.black),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
+            contentPadding: const EdgeInsets.all(15),
             suffixIcon: Icon(
               Icons.description_outlined,
               color: MyColors.primaryColor,
@@ -89,17 +94,17 @@ class _AdminCategoriesCreatePageState extends State<AdminCategoriesCreatePage> {
 
   Widget _buttonCreate() {
     return Container(
-      height: 50,
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: ElevatedButton(
         onPressed: _con.createCategory,
-        child: Text("Crear categoria"),
+        child: const Text("Crear categoria"),
         style: ElevatedButton.styleFrom(
-            primary: MyColors.primaryColor,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            padding: EdgeInsets.symmetric(vertical: 15)),
+          primary: MyColors.primaryColor,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          padding: const EdgeInsets.symmetric(vertical: 15),
+        ),
       ),
     );
   }

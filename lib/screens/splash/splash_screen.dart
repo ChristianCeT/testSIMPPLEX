@@ -8,8 +8,7 @@ class SplashScreen1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      backgroundColor: Colors.white,
+    return const Scaffold(
       body: Body(),
     );
   }

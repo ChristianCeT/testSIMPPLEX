@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientOrderCreatePage extends StatefulWidget {
-  ClientOrderCreatePage({Key key}) : super(key: key);
+  const ClientOrderCreatePage({Key key}) : super(key: key);
   static String routeName = "/client/orders/create";
 
   @override
@@ -14,7 +14,7 @@ class ClientOrderCreatePage extends StatefulWidget {
 }
 
 class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
-  ClientOrdersCreateController _con = ClientOrdersCreateController();
+  final ClientOrdersCreateController _con = ClientOrdersCreateController();
 
   @override
   void initState() {
@@ -24,27 +24,34 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Carrito"),
-          backgroundColor: Colors.black,
+          title: const Text("Carrito"),
         ),
-        bottomNavigationBar: Container(
-          height: MediaQuery.of(context).size.height * 0.21,
-          child: Column(
-            children: [
-              Divider(
-                color: MyColors.primaryColor,
-                endIndent: 30, // margen en la parte izquierda
-                indent: 30, // margen en la parte derecha
-              ),
-              _textTotalPrice(),
-              _buttonNextShopping()
-            ],
-          ),
-        ),
-        body: _con.selectedProducts.length > 0
+        bottomNavigationBar: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.21,
+            child: _con.selectedProducts.isEmpty
+                ? const Text(
+                    "Aún no tienes productos en tu carrito :(",
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+                : Column(
+                    children: [
+                      Divider(
+                        color: MyColors.primaryColor,
+                        endIndent: 30, // margen en la parte izquierda
+                        indent: 30, // margen en la parte derecha
+                      ),
+                      _textTotalPrice(),
+                      _buttonNextShopping(),
+                    ],
+                  )),
+        body: _con.selectedProducts.isNotEmpty
             ? ListView(
                 children: _con.selectedProducts.map((Product product) {
                 return _cardProduct(product);
@@ -56,41 +63,35 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
 
   Widget _buttonNextShopping() {
     return Container(
-      margin: EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 30),
       child: ElevatedButton(
         onPressed: _con.goToAddress,
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
-            padding: EdgeInsets.symmetric(vertical: 2),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                alignment: Alignment.center,
-                height: 50,
-                child: Text(
-                  "Continuar",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: EdgeInsets.only(left: 103, top: 13),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 13),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Padding(
+                padding: EdgeInsets.only(right: 5),
                 child: Icon(
                   Icons.check_circle_outline,
                   size: 22,
                 ),
               ),
-            ),
-          ],
+              Text(
+                "Continuar",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -98,25 +99,25 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
 
   Widget _cardProduct(Product product) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
           _imageProduct(product),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(product?.nombre ?? "",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(
                 height: 10,
               ),
               _addOrRemoveItem(product),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Column(
             children: [
               _textPrice(product),
@@ -130,15 +131,16 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
 
   Widget _textTotalPrice() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment
             .spaceBetween, // la fila tiene un mainaxisalignment
         children: [
-          Text("Total: ",
+          const Text("Total: ",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
           Text("S/${_con.total}",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
         ],
       ),
     );
@@ -146,12 +148,12 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
 
   Widget _iconDelete(Product product) {
     return Container(
-      margin: EdgeInsets.only(left: 20),
+      margin: const EdgeInsets.only(left: 20),
       child: IconButton(
         onPressed: () {
           _con.deleteItem(product);
         },
-        icon: Icon(Icons.delete_outline),
+        icon: const Icon(Icons.delete_outline),
         color: MyColors.primaryColor,
       ),
     );
@@ -159,10 +161,10 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
 
   Widget _textPrice(Product product) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: Text(
         "S/${product.precio * product.cantidad}",
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
       ),
     );
   }
@@ -170,16 +172,16 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
   Widget _imageProduct(Product product) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          color: Colors.grey[200]),
-      padding: EdgeInsets.all(10),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          color: MyColors.primaryColor.withOpacity(0.15)),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: FadeInImage(
         image: product.image1 != null
             ? NetworkImage(product.image1)
-            : AssetImage("assets/images/noImagen.png"),
+            : const AssetImage("assets/images/noImagen.png"),
         fit: BoxFit.contain,
-        fadeInDuration: Duration(milliseconds: 50),
-        placeholder: AssetImage("assets/images/noImagen.png"),
+        fadeInDuration: const Duration(milliseconds: 50),
+        placeholder: const AssetImage("assets/images/noImagen.png"),
       ),
       height: 90,
       width: 90,
@@ -194,13 +196,13 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
             _con.removeItem(product);
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(8),
                     bottomLeft: Radius.circular(8)),
                 color: MyColors.primaryColor),
-            child: Text(
+            child: const Text(
               "-",
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -208,11 +210,12 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
           ),
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
           color: MyColors.primaryColor,
           child: Text(
             "${product?.cantidad ?? 0}",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
         GestureDetector(
@@ -220,13 +223,13 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
             _con.addItem(product);
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(8),
                     bottomRight: Radius.circular(8)),
                 color: MyColors.primaryColor),
-            child: Text(
+            child: const Text(
               "+",
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),

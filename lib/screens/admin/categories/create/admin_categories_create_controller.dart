@@ -10,13 +10,13 @@ class AdminCategoriesCreateController {
   BuildContext context;
   Function refresh;
 
-  TextEditingController nameController = new TextEditingController();
-  TextEditingController descriptionController = new TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
-  CategoriesProvider _categoriesProvider = new CategoriesProvider();
+  final CategoriesProvider _categoriesProvider = CategoriesProvider();
   User user;
 
-  SharedPref sharedPref = new SharedPref();
+  SharedPref sharedPref = SharedPref();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -35,7 +35,7 @@ class AdminCategoriesCreateController {
       return;
     }
 
-    Category category = new Category(nombre: name, descripcion: description);
+    Category category = Category(nombre: name, descripcion: description);
 
     ResponseApi responseApi = await _categoriesProvider.create(category);
     MySnackBar.show(context, responseApi.message);
@@ -43,7 +43,5 @@ class AdminCategoriesCreateController {
       nameController.text = "";
       descriptionController.text = "";
     }
-
-    print("Nombre: $name, Description: $description");
   }
 }

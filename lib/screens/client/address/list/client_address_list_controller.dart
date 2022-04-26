@@ -16,20 +16,20 @@ class ClientAddressListController {
   List<Address> address = [];
   List<Product> selectedProducts = [];
 
-  AddressProvider _addressProvider = new AddressProvider();
-  OrdersProvider _ordersProvider = new OrdersProvider();
+  final AddressProvider _addressProvider = AddressProvider();
+  final OrdersProvider _ordersProvider = OrdersProvider();
 /*   StripeProvider _stripeProvider = new StripeProvider(); */
   ProgressDialog progressDialog;
 
   User user;
-  SharedPref _sharedPref = new SharedPref();
+  final SharedPref _sharedPref = SharedPref();
 
   int radioValue = 0;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    progressDialog = new ProgressDialog(context: context);
+    progressDialog = ProgressDialog(context: context);
     user = User.fromJson(await _sharedPref.read('user'));
     selectedProducts =
         Product.fromJsonList(await _sharedPref.read("order")).toList;
@@ -63,7 +63,7 @@ class ClientAddressListController {
     radioValue = value;
     _sharedPref.save('address', address[value]);
     refresh();
-    print("Valor seleccionado: ${radioValue}");
+    print("Valor seleccionado: $radioValue");
   }
 
   Future<List<Address>> getAddress() async {

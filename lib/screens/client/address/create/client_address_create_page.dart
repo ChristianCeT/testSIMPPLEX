@@ -1,10 +1,11 @@
 import 'package:client_exhibideas/screens/client/address/create/client_address_create_controller.dart';
 import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:client_exhibideas/widgets/input_decorations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientAddressCreatePage extends StatefulWidget {
-  ClientAddressCreatePage({Key key}) : super(key: key);
+  const ClientAddressCreatePage({Key key}) : super(key: key);
 
   static String routeName = "/client/address/create";
 
@@ -14,7 +15,7 @@ class ClientAddressCreatePage extends StatefulWidget {
 }
 
 class _ClientAddressCreatePageState extends State<ClientAddressCreatePage> {
-  ClientAddressCreateController _con = new ClientAddressCreateController();
+  final ClientAddressCreateController _con = ClientAddressCreateController();
   @override
   void initState() {
     super.initState();
@@ -23,11 +24,14 @@ class _ClientAddressCreatePageState extends State<ClientAddressCreatePage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-            title: Text("Crear dirección"), backgroundColor: Colors.black),
-        bottomNavigationBar: _buttonAccept(),
+          title: const Text("Crear dirección"),
+        ),
+        bottomNavigationBar: _buttonAccept(size),
         body: Column(
           children: [
             _textCompleteData(),
@@ -38,14 +42,15 @@ class _ClientAddressCreatePageState extends State<ClientAddressCreatePage> {
         ));
   }
 
-  Widget _buttonAccept() {
+  Widget _buttonAccept(Size size) {
     return Container(
       height: 50,
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 30, horizontal: 50),
+      margin:
+          EdgeInsets.symmetric(vertical: size.height * 0.07, horizontal: 30),
       child: ElevatedButton(
         onPressed: _con.createAddress,
-        child: Text("ACEPTAR"),
+        child: const Text("ACEPTAR"),
         style: ElevatedButton.styleFrom(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -58,16 +63,12 @@ class _ClientAddressCreatePageState extends State<ClientAddressCreatePage> {
     return Container(
       child: TextField(
         controller: _con.addressController,
-        decoration: InputDecoration(
-          labelStyle: TextStyle(color: MyColors.primaryColor),
-          labelText: "Dirección",
-          suffixIcon: Icon(
-            Icons.location_on,
-            color: Colors.black,
-          ),
-        ),
+        decoration: InputDecorations.authInputDecoration(
+            hintText: "Dirección",
+            labelText: "Ingresa la dirección",
+            prefixIcon: Icons.location_on),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
     );
   }
 
@@ -75,16 +76,12 @@ class _ClientAddressCreatePageState extends State<ClientAddressCreatePage> {
     return Container(
       child: TextField(
         controller: _con.neighborhoodController,
-        decoration: InputDecoration(
-          labelStyle: TextStyle(color: MyColors.primaryColor),
-          labelText: "Avenida",
-          suffixIcon: Icon(
-            Icons.location_city,
-            color: Colors.black,
-          ),
-        ),
+        decoration: InputDecorations.authInputDecoration(
+            hintText: "Avenida",
+            labelText: "Ingrese la avenida",
+            prefixIcon: Icons.location_city),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
     );
   }
 
@@ -95,24 +92,20 @@ class _ClientAddressCreatePageState extends State<ClientAddressCreatePage> {
         onTap: _con.openMap,
         autofocus: false,
         focusNode: AlwaysDisabledFocusNode(),
-        decoration: InputDecoration(
-          labelStyle: TextStyle(color: MyColors.primaryColor),
-          labelText: "Punto de referencia",
-          suffixIcon: Icon(
-            Icons.map,
-            color: Colors.black,
-          ),
-        ),
+        decoration: InputDecorations.authInputDecoration(
+            hintText: "Punto de referencia",
+            labelText: "¡Ubica aquí tu dirección!",
+            prefixIcon: Icons.map),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
     );
   }
 
   Widget _textCompleteData() {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.symmetric(horizontal: 40, vertical: 30),
-      child: Text(
+      margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+      child: const Text(
         "Completa estos datos",
         style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
       ),

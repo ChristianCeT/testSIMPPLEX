@@ -12,12 +12,12 @@ class ClientAddressMapController {
   String addressName;
   LatLng addressLaglng;
 
-  CameraPosition initialPosition = CameraPosition(
+  CameraPosition initialPosition = const CameraPosition(
       target: LatLng(-11.991651, -77.0147332), zoom: 1); // zoom del 1 al 20
 
-  Completer<GoogleMapController> _mapController = Completer();
+  final Completer<GoogleMapController> _mapController = Completer();
 
-  Future init(BuildContext context, Function refresh) {
+  Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     checkGPS();
@@ -35,21 +35,21 @@ class ClientAddressMapController {
     Navigator.pop(context, data);
   }
 
-  Future<Null> setLocationDraggableInfo() async {
+  Future setLocationDraggableInfo() async {
     if (initialPosition != null) {
       double lat = initialPosition.target.latitude;
       double long = initialPosition.target.longitude;
       List<Placemark> address = await placemarkFromCoordinates(lat, long);
 
       if (address != null) {
-        if (address.length > 0) {
+        if (address.isNotEmpty) {
           String direction = address[0].thoroughfare;
           String street = address[0].subThoroughfare;
           String city = address[0].locality;
           String deparment = address[0].administrativeArea;
           /* String country = address[0].country; */
           addressName = '$direction #$street, $city, $deparment';
-          addressLaglng = new LatLng(lat, long);
+          addressLaglng = LatLng(lat, long);
 
           refresh();
         }

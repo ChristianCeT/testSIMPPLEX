@@ -17,17 +17,17 @@ class AdminProductsCreateController {
   BuildContext context;
   Function refresh;
 
-  TextEditingController nameController = new TextEditingController();
-  TextEditingController descriptionController = new TextEditingController();
-  TextEditingController linkRAController = new TextEditingController();
-  MoneyMaskedTextController priceController = new MoneyMaskedTextController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController linkRAController = TextEditingController();
+  MoneyMaskedTextController priceController =  MoneyMaskedTextController();
 
-  CategoriesProvider _categoriesProvider = new CategoriesProvider();
-  ProductsProvider _productsProvider = new ProductsProvider();
+  final CategoriesProvider _categoriesProvider = CategoriesProvider();
+  final ProductsProvider _productsProvider = ProductsProvider();
 
   User user;
 
-  SharedPref sharedPref = new SharedPref();
+  SharedPref sharedPref = SharedPref();
 
   List<Category> categories = [];
   String idCategory; // almacena el id de la categoria seleccionada
@@ -43,7 +43,7 @@ class AdminProductsCreateController {
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    _progressDialog = new ProgressDialog(context: context);
+    _progressDialog = ProgressDialog(context: context);
     user = User.fromJson(await sharedPref.read("user"));
     _categoriesProvider.init(context, user);
     _productsProvider.init(context, user);
@@ -140,16 +140,16 @@ class AdminProductsCreateController {
         onPressed: () {
           selectedImage(ImageSource.gallery, numberFile);
         },
-        child: Text("Galería"));
+        child: const Text("Galería"));
 
     Widget cameraButton = ElevatedButton(
         onPressed: () {
           selectedImage(ImageSource.camera, numberFile);
         },
-        child: Text("Camara"));
+        child: const Text("Camara"));
 
     AlertDialog alertDialog = AlertDialog(
-      title: Text("Selecciona tu imagen"),
+      title: const Text("Selecciona tu imagen"),
       actions: [galleryButton, cameraButton],
     );
 

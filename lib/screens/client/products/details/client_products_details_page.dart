@@ -1,6 +1,7 @@
 import 'package:client_exhibideas/models/product.dart';
 import 'package:client_exhibideas/screens/client/products/details/client_products_details_controller.dart';
 import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:client_exhibideas/widgets/web_view_ra.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
@@ -16,7 +17,7 @@ class ClientProductDetailsPage extends StatefulWidget {
 }
 
 class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
-  ClientProductDetailController _con = new ClientProductDetailController();
+  final ClientProductDetailController _con = ClientProductDetailController();
 
   @override
   void initState() {
@@ -28,7 +29,7 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.9,
       child: Column(
         children: [
@@ -41,10 +42,13 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
             ],
           ),
           _productDescription(),
+          TextButton(onPressed: () {
+            Navigator.pushNamed(context, WebViewRa.routeName, arguments: _con.product.linkRA);
+          }, child: const Text("prueba")),
           const Spacer(),
           _addOrRemoveItem(),
           _standarDelivery(),
-          _buttonShoppingBag()
+          _buttonShoppingBag(),
         ],
       ),
     );
@@ -98,36 +102,30 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
         onPressed: _con.addToBag,
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
-            padding: EdgeInsets.symmetric(vertical: 2),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                alignment: Alignment.center,
-                height: 50,
-                child: Text(
-                  "AGREGAR AL CARRITO",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: EdgeInsets.only(left: 52, top: 13),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 13),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Padding(
+                padding: EdgeInsets.only(right: 4),
                 child: Icon(
-                  Icons.shopping_cart_sharp,
+                  Icons.add_shopping_cart,
                   size: 22,
                 ),
               ),
-            ),
-          ],
+              Text(
+                "AGREGAR AL CARRITO",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -136,9 +134,9 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
   Widget _productDescription() {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(right: 30, left: 30, top: 15),
+      margin: const EdgeInsets.only(right: 30, left: 30, top: 15),
       child: Text(_con.product?.descripcion ?? "",
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 13,
             color: Colors.grey,
           )),
@@ -147,17 +145,17 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
 
   Widget _standarDelivery() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Row(
         children: [
           Image.asset(
             "assets/images/delivery.png",
             height: 25,
           ),
-          SizedBox(
+          const SizedBox(
             width: 7,
           ),
-          Text("Envio estándar",
+          const Text("Envio estándar",
               style: TextStyle(color: Colors.green, fontSize: 12)),
         ],
       ),
@@ -166,36 +164,34 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
 
   Widget _addOrRemoveItem() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 17),
+      margin: const EdgeInsets.symmetric(horizontal: 17),
       child: Row(
         children: [
           IconButton(
               onPressed: _con.addItem,
               icon: Icon(
                 Icons.add_circle_outline,
-                color: Colors.grey,
+                color: MyColors.primaryColor,
                 size: 30,
               )),
           Text(
             "${_con.counter}",
-            style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                color: MyColors.primaryColor),
+            style: const TextStyle(
+                fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           IconButton(
               onPressed: _con.removeItem,
               icon: Icon(
                 Icons.remove_circle_outline,
-                color: Colors.grey,
+                color: MyColors.primaryColor,
                 size: 30,
               )),
-          Spacer(),
+          const Spacer(),
           Container(
-            margin: EdgeInsets.only(right: 10),
+            margin: const EdgeInsets.only(right: 10),
             child: Text(
-              "S/${_con.productPrice ?? 0}",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              "S/ ${_con.productPrice ?? 0}",
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           )
         ],
@@ -221,26 +217,26 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
             FadeInImage(
               image: _con.product?.image1 != null
                   ? NetworkImage(_con.product.image1)
-                  : AssetImage("assets/images/noImagen.png"),
+                  : const AssetImage("assets/images/noImagen.png"),
               fit: BoxFit.cover,
-              fadeInDuration: Duration(milliseconds: 50),
-              placeholder: AssetImage("assets/images/noImagen.png"),
+              fadeInDuration: const Duration(milliseconds: 50),
+              placeholder: const AssetImage("assets/images/noImagen.png"),
             ),
             FadeInImage(
               image: _con.product?.image2 != null
                   ? NetworkImage(_con.product.image2)
-                  : AssetImage("assets/images/noImagen.png"),
+                  : const AssetImage("assets/images/noImagen.png"),
               fit: BoxFit.cover,
-              fadeInDuration: Duration(milliseconds: 50),
-              placeholder: AssetImage("assets/images/noImagen.png"),
+              fadeInDuration: const Duration(milliseconds: 50),
+              placeholder: const AssetImage("assets/images/noImagen.png"),
             ),
             FadeInImage(
               image: _con.product?.image3 != null
                   ? NetworkImage(_con.product.image3)
-                  : AssetImage("assets/images/noImagen.png"),
+                  : const AssetImage("assets/images/noImagen.png"),
               fit: BoxFit.cover,
-              fadeInDuration: Duration(milliseconds: 50),
-              placeholder: AssetImage("assets/images/noImagen.png"),
+              fadeInDuration: const Duration(milliseconds: 50),
+              placeholder: const AssetImage("assets/images/noImagen.png"),
             ),
           ],
         ),

@@ -1,4 +1,3 @@
-import 'package:client_exhibideas/utils/constants.dart';
 import 'package:client_exhibideas/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -15,19 +14,16 @@ class SplashContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Spacer(),
-        Text(
-          "EXHIBIDEAS",
-          style: TextStyle(
-              fontSize: getProportionateScreenWidth(36),
-              color: kPrimaryColor,
-              fontWeight: FontWeight.bold),
+        const Spacer(),
+        const Image(
+          image: AssetImage("assets/images/Simplex.png"),
+          height: 80,
         ),
         Text(
           text,
           textAlign: TextAlign.center,
         ),
-        Spacer(
+        const Spacer(
           flex: 2,
         ),
         Image.asset(

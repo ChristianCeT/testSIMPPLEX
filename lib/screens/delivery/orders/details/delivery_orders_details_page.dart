@@ -25,6 +25,7 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -39,7 +40,6 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             ),
           ],
-          backgroundColor: Colors.black,
         ),
         bottomNavigationBar: Container(
           height: MediaQuery.of(context).size.height * 0.3,
@@ -55,9 +55,9 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
                   _textData("Cliente:",
                       '${_con.order?.cliente?.nombre ?? ''} ${_con.order?.cliente?.apellido ?? ''}'),
                   _textData("Entregar en:",
-                      '${_con.order?.direccion?.direccion ?? ''}'),
+                      _con.order?.direccion?.direccion ?? ''),
                   _textData("Fecha de pedido:",
-                      "${RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)}"),
+                      RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
                   _con?.order?.estado != "ENTREGADO"
                       ? _buttonNext()
                       : Container(),
@@ -70,7 +70,7 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
             ? NoDataWidget(
                 text: "Tu carrito está vacío",
               )
-            : _con.order.producto.length > 0
+            : _con.order.producto.isNotEmpty
                 ? ListView(
                     children: _con.order.producto.map((Product producto) {
                     return _cardProduct(producto);
@@ -82,7 +82,7 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
 
   Widget _textData(String title, String content) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: ListTile(
           title: Text(title),
           subtitle: Text(
@@ -94,14 +94,14 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
 
   Widget _buttonNext() {
     return Container(
-      margin: EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 30),
+      margin: const EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 30),
       child: ElevatedButton(
         onPressed: _con.updateOrder,
         style: ElevatedButton.styleFrom(
             primary: _con?.order?.estado == "DESPACHADO"
                 ? Colors.blue
                 : Colors.green,
-            padding: EdgeInsets.symmetric(vertical: 2),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
         child: Stack(
@@ -115,7 +115,7 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
                   _con?.order?.estado == "DESPACHADO"
                       ? "INICIAR ENTREGA"
                       : "IR AL MAPA",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

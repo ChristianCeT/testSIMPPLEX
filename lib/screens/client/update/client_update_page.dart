@@ -1,10 +1,11 @@
 import 'package:client_exhibideas/screens/client/update/client_update_controller.dart';
 import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:client_exhibideas/widgets/input_decorations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientUpdatePage extends StatefulWidget {
-  ClientUpdatePage({Key key}) : super(key: key);
+  const ClientUpdatePage({Key key}) : super(key: key);
   static String routeName = "/client/update";
 
   @override
@@ -12,7 +13,7 @@ class ClientUpdatePage extends StatefulWidget {
 }
 
 class _ClientUpdatePageState extends State<ClientUpdatePage> {
-  ClientUpdateController _con = new ClientUpdateController();
+  final ClientUpdateController _con = ClientUpdateController();
 
   @override
   void initState() {
@@ -25,9 +26,7 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(title: Text("Editar perfil"), backgroundColor: Colors.black),
-      backgroundColor: Colors.white,
+      appBar: AppBar(title: const Text("Editar perfil")),
       body: Container(
           width: double.infinity,
           color: Colors.white,
@@ -35,19 +34,32 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
           child: (SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 _imageUser(),
-                SizedBox(height: 30),
-                _textFieldEmail(),
-                _textFieldName(),
-                _textFieldLastName(),
-                _textFieldPhone(),
-                _textFieldPassword(),
-                _textFieldConfirmPassword(),
+                const SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Column(
+                    children: [
+                      _textFieldEmail(),
+                      const SizedBox(height: 10),
+                      _textFieldName(),
+                      const SizedBox(height: 10),
+                      _textFieldLastName(),
+                      const SizedBox(height: 10),
+                      _textFieldPhone(),
+                      const SizedBox(height: 10),
+                      _textFieldPassword(),
+                      const SizedBox(height: 10),
+                      _textFieldConfirmPassword(),
+                      const SizedBox(height: 10),
+                      _buttonUpdateData(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ))),
-      bottomNavigationBar: _buttonLogin(),
     );
   }
 
@@ -59,201 +71,99 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
             ? FileImage(_con.imageFile)
             : _con.user?.image != null
                 ? NetworkImage(_con.user?.image)
-                : AssetImage("assets/images/noAvatar2.png"),
+                : const AssetImage("assets/images/noAvatar2.png"),
         radius: 55,
         backgroundColor: Colors.grey[200],
       ),
     );
   }
 
-  Widget _circle() {
-    return Container(
-      width: 240,
-      height: 230,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: MyColors.primaryColor),
-    );
-  }
-
-  Widget _iconBack() {
-    return IconButton(
-        onPressed: _con.back,
-        icon: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.white,
-          size: 16,
-        ));
-  }
-
-  Widget _textRegister() {
-    return Text(
-      "REGÍSTRATE",
-      style: TextStyle(
-          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-    );
-  }
-
   Widget _textFieldEmail() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
-        controller: _con.emailController,
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-            hintText: "Correo electrónico",
-            hintStyle: TextStyle(color: Colors.black),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            prefixIcon: Icon(
-              Icons.email_outlined,
-              color: MyColors.primaryColor,
-            )),
-      ),
+    return TextField(
+      controller: _con.emailController,
+      keyboardType: TextInputType.emailAddress,
+      cursorColor: MyColors.primaryColor,
+      decoration: InputDecorations.authInputDecoration(
+          hintText: "Correo electrónico",
+          labelText: "Correo electrónico",
+          prefixIcon: Icons.email_outlined),
     );
   }
 
   Widget _textFieldName() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
-        controller: _con.nameController,
-        decoration: InputDecoration(
-            hintText: "Nombres",
-            hintStyle: TextStyle(color: Colors.black),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            prefixIcon: Icon(
-              Icons.person_outline,
-              color: MyColors.primaryColor,
-            )),
+    return TextField(
+      controller: _con.nameController,
+      keyboardType: TextInputType.text,
+      cursorColor: MyColors.primaryColor,
+      decoration: InputDecorations.authInputDecoration(
+        hintText: "Nombre",
+        labelText: "Nombre de usuario",
+        prefixIcon: Icons.person_outline,
       ),
     );
   }
 
   Widget _textFieldLastName() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
+    return TextField(
         controller: _con.lastnameController,
-        decoration: InputDecoration(
-            hintText: "Apellidos",
-            hintStyle: TextStyle(color: Colors.black),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            prefixIcon: Icon(
-              Icons.person_add_alt_1_outlined,
-              color: MyColors.primaryColor,
-            )),
-      ),
-    );
+        keyboardType: TextInputType.text,
+        cursorColor: MyColors.primaryColor,
+        decoration: InputDecorations.authInputDecoration(
+          hintText: "Apellido",
+          labelText: "Apellido del usuario",
+          prefixIcon: Icons.person_outline,
+        ));
   }
 
   Widget _textFieldPhone() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
+    return TextField(
         controller: _con.phoneController,
         keyboardType: TextInputType.phone,
-        decoration: InputDecoration(
-            hintText: "Teléfono",
-            hintStyle: TextStyle(color: Colors.black),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            prefixIcon: Icon(
-              Icons.phone_outlined,
-              color: MyColors.primaryColor,
-            )),
-      ),
-    );
+        decoration: InputDecorations.authInputDecoration(
+          hintText: "Teléfono",
+          labelText: "Teléfono",
+          prefixIcon: Icons.phone_android_outlined,
+        ));
   }
 
   Widget _textFieldPassword() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
-        controller: _con.passwordController,
-        obscureText: true,
-        decoration: InputDecoration(
-            hintText: "Contraseña",
-            hintStyle: TextStyle(color: Colors.black),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            prefixIcon: Icon(
-              Icons.lock_outline,
-              color: MyColors.primaryColor,
-            )),
-      ),
+    return TextField(
+      controller: _con.passwordController,
+      obscureText: true,
+      decoration: InputDecorations.authInputDecoration(
+          hintText: "Contraseña",
+          labelText: "Contraseña",
+          prefixIcon: Icons.lock_outline),
     );
   }
 
   Widget _textFieldConfirmPassword() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
-        controller: _con.confirmPasswordController,
-        obscureText: true,
-        decoration: InputDecoration(
-            hintText: "Confirmar contraseña",
-            hintStyle: TextStyle(color: Colors.black),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            prefixIcon: Icon(
-              Icons.lock_open_outlined,
-              color: MyColors.primaryColor,
-            )),
-      ),
+    return TextField(
+      controller: _con.confirmPasswordController,
+      obscureText: true,
+      decoration: InputDecorations.authInputDecoration(
+          hintText: "Confirmar contraseña",
+          labelText: "Confirmar contraseña",
+          prefixIcon: Icons.lock_outline),
     );
   }
 
-  Widget _buttonLogin() {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-      child: ElevatedButton(
+  Widget _buttonUpdateData() {
+    return MaterialButton(
         onPressed: _con.isEnable ? _con.update : null,
-        child: Text("ACTUALIZAR DATOS"),
-        style: ElevatedButton.styleFrom(
-            primary: MyColors.primaryColor,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            padding: EdgeInsets.symmetric(vertical: 15)),
-      ),
-    );
-  }
-
-  Widget _imageBanner() {
-    return Container(
-      child: Image.asset(
-        "assets/images/LOGO3.png",
-        width: 200,
-        height: 100,
-      ),
-    );
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        disabledColor: Colors.grey,
+        elevation: 0,
+        color: MyColors.primaryColor,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+          child: const Text(
+            'Ingresar',
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ));
   }
 
   void refresh() {

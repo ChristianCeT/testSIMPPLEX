@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class AdminProductsCreatePage extends StatefulWidget {
-  AdminProductsCreatePage({Key key}) : super(key: key);
+  const AdminProductsCreatePage({Key key}) : super(key: key);
   static String routeName = "/admin/products/create";
 
   @override
@@ -15,7 +15,7 @@ class AdminProductsCreatePage extends StatefulWidget {
 }
 
 class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
-  AdminProductsCreateController _con = new AdminProductsCreateController();
+  final AdminProductsCreateController _con = AdminProductsCreateController();
 
   @override
   void initState() {
@@ -25,21 +25,21 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Nuevo Producto"),
-        backgroundColor: MyColors.primaryColor,
+        title: const Text("Nuevo Producto"),
       ),
       body: ListView(
         children: [
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           _textFieldProductName(),
           _textFieldCategoryDescription(),
           _textFieldProductPrice(),
           _textFieldRALink(),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 30),
+            margin: const EdgeInsets.symmetric(horizontal: 30),
             height: 100,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,10 +59,10 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
 
   Widget _textFieldProductName() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
+      color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -87,7 +87,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
       padding: EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
+       color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -111,7 +111,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
       padding: EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
+       color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -189,22 +189,21 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
 
   List<DropdownMenuItem<String>> _dropDownItems(List<Category> categories) {
     List<DropdownMenuItem<String>> list = [];
-    categories.forEach((category) {
+    for (var category in categories) {
       list.add(DropdownMenuItem(
         child: Text(category.nombre),
         value: category.id,
       ));
-    });
-
+    }
     return list;
   }
 
   Widget _textFieldCategoryDescription() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
+        color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -232,7 +231,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
       child: imageFile != null
           ? Card(
               elevation: 2.0,
-              child: Container(
+              child: SizedBox(
                 height: 140,
                 width: MediaQuery.of(context).size.width * 0.24,
                 child: Image.file(
@@ -243,10 +242,10 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
             )
           : Card(
               elevation: 2.0,
-              child: Container(
+              child: SizedBox(
                   height: 140,
                   width: MediaQuery.of(context).size.width * 0.24,
-                  child: Image(
+                  child: const Image(
                     image: AssetImage('assets/images/noImagen.png'),
                   )),
             ),

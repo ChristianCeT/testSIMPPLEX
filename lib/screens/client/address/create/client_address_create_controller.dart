@@ -13,15 +13,15 @@ class ClientAddressCreateController {
   BuildContext context;
   Function refresh;
 
-  TextEditingController refPointController = new TextEditingController();
-  TextEditingController addressController = new TextEditingController();
-  TextEditingController neighborhoodController = new TextEditingController();
+  TextEditingController refPointController =  TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController neighborhoodController = TextEditingController();
 
   Map<String, dynamic> refPoint;
 
-  AddressProvider _addressProvider = new AddressProvider();
+  final AddressProvider _addressProvider = AddressProvider();
   User user;
-  SharedPref _sharedPref = new SharedPref();
+  final SharedPref _sharedPref = SharedPref();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -41,7 +41,7 @@ class ClientAddressCreateController {
       return;
     }
 
-    Address address = new Address(
+    Address address = Address(
       direccion: addressName,
       avenida: neighborhood,
       latitud: lat,

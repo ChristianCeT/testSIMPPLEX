@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ClientOrdersMapPage extends StatefulWidget {
-  ClientOrdersMapPage({Key key}) : super(key: key);
+  const ClientOrdersMapPage({Key key}) : super(key: key);
 
   static String routeName = "/client/orders/map";
 
@@ -14,7 +14,7 @@ class ClientOrdersMapPage extends StatefulWidget {
 }
 
 class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
-  ClientOrdersMapController _con = new ClientOrdersMapController();
+  final ClientOrdersMapController _con = ClientOrdersMapController();
 
   @override
   void initState() {
@@ -30,18 +30,19 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
     _con.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
       children: [
-        Container(
+        SizedBox(
             height: MediaQuery.of(context).size.height * 0.67,
             child: _googleMaps()),
         SafeArea(
           child: Column(
             children: [
               _buttonCenterPosition(),
-              Spacer(),
+              const Spacer(),
               _cardOrderInfo(),
             ],
           ),
@@ -56,14 +57,14 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
       width: double.infinity,
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topRight: Radius.circular(20), topLeft: Radius.circular(20)),
           boxShadow: [
             BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 5,
                 blurRadius: 5,
-                offset: Offset(0, 3))
+                offset: const Offset(0, 3))
           ]),
       child: Column(
         children: [
@@ -80,37 +81,37 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
 
   Widget _clientInfo() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
       child: Row(
         children: [
-          Container(
+          SizedBox(
             height: 50,
             width: 50,
             child: FadeInImage(
               image: _con.order?.deliveryList?.image != null
                   ? NetworkImage(_con.order?.deliveryList?.image)
-                  : AssetImage("assets/images/noImagen.png"),
+                  : const AssetImage("assets/images/noImagen.png"),
               fit: BoxFit.cover,
-              fadeInDuration: Duration(milliseconds: 50),
-              placeholder: AssetImage("assets/images/noImagen.png"),
+              fadeInDuration: const Duration(milliseconds: 50),
+              placeholder: const AssetImage("assets/images/noImagen.png"),
             ),
           ),
           Container(
-              margin: EdgeInsets.only(left: 10),
+              margin: const EdgeInsets.only(left: 10),
               child: Text(
                 "${_con.order?.deliveryList?.nombre ?? ''} ${_con.order?.deliveryList?.apellido ?? ''} ",
-                style: TextStyle(color: Colors.black, fontSize: 16),
+                style: const TextStyle(color: Colors.black, fontSize: 16),
                 maxLines: 1,
               )),
-          Spacer(),
+          const Spacer(),
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               color: Colors.grey[300],
             ),
             child: IconButton(
                 onPressed: _con.call,
-                icon: Icon(Icons.phone, color: Colors.black)),
+                icon: const Icon(Icons.phone, color: Colors.black)),
           )
         ],
       ),
@@ -119,10 +120,10 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
 
   Widget _listTitleAddress(String title, String subtitle, IconData iconData) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 30),
       child: ListTile(
-        title: Text(title ?? '', style: TextStyle(fontSize: 13)),
-        subtitle: Text("Vecindario"),
+        title: Text(title ?? '', style: const TextStyle(fontSize: 13)),
+        subtitle: const Text("Vecindario"),
         trailing: Icon(iconData),
       ),
     );
@@ -133,14 +134,14 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
       onTap: () {},
       child: Container(
         alignment: Alignment.centerRight,
-        margin: EdgeInsets.symmetric(horizontal: 5),
+        margin: const EdgeInsets.symmetric(horizontal: 5),
         child: Card(
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           color: Colors.white,
           elevation: 4.0,
           child: Container(
-            padding: EdgeInsets.all(10),
-            child: Icon(
+            padding: const EdgeInsets.all(10),
+            child: const Icon(
               Icons.location_searching,
               color: Colors.black,
               size: 20,

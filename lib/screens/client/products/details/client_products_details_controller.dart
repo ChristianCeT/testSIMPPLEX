@@ -12,7 +12,7 @@ class ClientProductDetailController {
   int counter = 1;
   double productPrice;
 
-  SharedPref _sharedPref = new SharedPref();
+  final SharedPref _sharedPref = SharedPref();
 
   List<Product> selectedProducts = [];
 
@@ -26,9 +26,6 @@ class ClientProductDetailController {
     /*  _sharedPref.remove("order");  */ //eliminar lo que hay en el sharedpreferences
     selectedProducts =
         Product.fromJsonList(await _sharedPref.read("order")).toList;
-    selectedProducts.forEach((p) {
-      print("Productos seleccionados ${p.toJson()}");
-    });
     refresh();
   }
 
@@ -43,9 +40,7 @@ class ClientProductDetailController {
         .indexWhere((p) => p.id == product.id); // para saber si elemento existe
     //si es -1 no existe el producto
     if (index == -1) {
-      if (product.cantidad == null) {
-        product.cantidad = 1;
-      }
+      product.cantidad ??= 1;
       selectedProducts.add(product);
     } else {
       selectedProducts[index].cantidad =

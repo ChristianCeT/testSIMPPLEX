@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ClientAddressMapPage extends StatefulWidget {
-  ClientAddressMapPage({Key key}) : super(key: key);
+  const ClientAddressMapPage({Key key}) : super(key: key);
 
   static String routeName = "/client/address/map";
 
@@ -14,7 +14,7 @@ class ClientAddressMapPage extends StatefulWidget {
 }
 
 class _ClientAddressMapPageState extends State<ClientAddressMapPage> {
-  ClientAddressMapController _con = new ClientAddressMapController();
+  final ClientAddressMapController _con = ClientAddressMapController();
   @override
   void initState() {
     super.initState();
@@ -23,12 +23,12 @@ class _ClientAddressMapPageState extends State<ClientAddressMapPage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Ubica tu dirección en el mapa"),
-          backgroundColor: Colors.black,
-        ),
+            title: const Text("Ubica tu dirección en el mapa"),
+            backgroundColor: MyColors.primaryColor),
         body: Stack(
           children: [
             _googleMaps(),
@@ -36,7 +36,7 @@ class _ClientAddressMapPageState extends State<ClientAddressMapPage> {
             Container(
               child: _cardAddress(),
               alignment: Alignment.topCenter,
-              margin: EdgeInsets.only(top: 30),
+              margin: const EdgeInsets.only(top: 30),
             ),
             Container(
               alignment: Alignment.bottomCenter,
@@ -47,28 +47,28 @@ class _ClientAddressMapPageState extends State<ClientAddressMapPage> {
   }
 
   Widget _cardAddress() {
-    return Container(
-        child: Card(
+    return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Text(
           _con.addressName ?? "",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
       color: Colors.grey[800],
-    ));
+    );
   }
 
   Widget _buttonAccept() {
     return Container(
       height: 50,
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 30, horizontal: 70),
+      margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 70),
       child: ElevatedButton(
         onPressed: _con.selectRefPoint,
-        child: Text("SELECCIONAR ESTE PUNTO"),
+        child: const Text("SELECCIONAR ESTE PUNTO"),
         style: ElevatedButton.styleFrom(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -80,8 +80,8 @@ class _ClientAddressMapPageState extends State<ClientAddressMapPage> {
   Widget iconMyLocation() {
     return Image.asset(
       "assets/images/my-location.png",
-      width: 65,
-      height: 65,
+      width: 45,
+      height: 45,
     );
   }
 

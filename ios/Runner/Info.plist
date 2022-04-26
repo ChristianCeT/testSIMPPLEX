@@ -2,6 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSLocationWhenInUseUsageDescription</key>
+	<string>Necesito permiso a tu ubicación</string>
+
+	<key>NSAppTransportSecurity</key>
+    <dict>
+        <!--Not a recommended way, there are better solutions available-->
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+	
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -22,6 +32,12 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Necesito acceso a la camara para tomar fotos</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Necesito acceso al micrófono para hacer un video</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Necesito acceso a la libreria para seleccionar fotos</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

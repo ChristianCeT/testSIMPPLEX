@@ -15,7 +15,7 @@ class ClientPaymentsStatusPage extends StatefulWidget {
 }
 
 class _ClientPaymentsStatusPageState extends State<ClientPaymentsStatusPage> {
-  ClientPaymentsStatusController _con = new ClientPaymentsStatusController();
+  final ClientPaymentsStatusController _con = ClientPaymentsStatusController();
 
   @override
   void initState() {
@@ -25,7 +25,9 @@ class _ClientPaymentsStatusPageState extends State<ClientPaymentsStatusPage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +37,10 @@ class _ClientPaymentsStatusPageState extends State<ClientPaymentsStatusPage> {
           _textCardMessageStatus()
         ],
       ),
-      bottomNavigationBar: Container(height: 90, child: _buttoNext()),
+      bottomNavigationBar: Container(
+          margin: EdgeInsets.symmetric(
+              horizontal: 30, vertical: size.height * 0.07),
+          child: _buttoNext()),
     );
   }
 
@@ -45,29 +50,30 @@ class _ClientPaymentsStatusPageState extends State<ClientPaymentsStatusPage> {
       child: Container(
         height: 250,
         width: double.infinity,
-        color: Colors.black,
+        color: MyColors.primaryColor,
         child: SafeArea(
           child: Column(
             children: [
               _con?.mercadoPagoPayment?.status == "approved"
-                  ? Icon(
+                  ? const Icon(
                       Icons.check_circle,
-                      color: MyColors.primaryColor,
+                      color: Colors.black,
                       size: 150,
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.cancel,
-                      color: Colors.white,
+                      color: Colors.black,
                       size: 150,
                     ),
               Text(
-                  _con?.mercadoPagoPayment?.status == "approved"
-                      ? "Gracias por tu compra"
-                      : "Error en la transacción",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22))
+                _con?.mercadoPagoPayment?.status == "approved"
+                    ? "Gracias por tu compra"
+                    : "Error en la transacción",
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22),
+              )
             ],
           ),
         ),
@@ -77,60 +83,54 @@ class _ClientPaymentsStatusPageState extends State<ClientPaymentsStatusPage> {
 
   Widget _textCardDetail() {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         child: _con?.mercadoPagoPayment?.status == "approved"
             ? Text(
                 "Tu orden fue procesada exitosamente usando (${_con.mercadoPagoPayment?.paymentMethodId?.toUpperCase() ?? ''} **** ${_con.mercadoPagoPayment?.card?.lastFourDigits ?? ''}",
-                style: TextStyle(fontSize: 17),
+                style: const TextStyle(fontSize: 17),
                 textAlign: TextAlign.center)
-            : Text("Tu pago fue rechazado",
+            : const Text("Tu pago fue rechazado",
                 style: TextStyle(fontSize: 17), textAlign: TextAlign.center));
   }
 
   Widget _textCardMessageStatus() {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         child: _con?.mercadoPagoPayment?.status == "approved"
-            ? Text("Mira el estado de tu compra en la sección de MIS PEDIDOS",
-                style: TextStyle(fontSize: 17), textAlign: TextAlign.center)
+            ? const Text(
+                "Mira el estado de tu compra en la sección de MIS PEDIDOS",
+                style: TextStyle(fontSize: 17),
+                textAlign: TextAlign.center)
             : Text(_con.errorMessage ?? '',
-                style: TextStyle(fontSize: 17), textAlign: TextAlign.center));
+                style: const TextStyle(fontSize: 17),
+                textAlign: TextAlign.center));
   }
 
   Widget _buttoNext() {
-    return Container(
-      margin: EdgeInsets.all(20),
-      child: ElevatedButton(
-        onPressed: _con.finishShopping,
-        style: ElevatedButton.styleFrom(
-            primary: MyColors.primaryColor,
-            padding: EdgeInsets.symmetric(vertical: 2),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10))),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                alignment: Alignment.center,
-                height: 45,
-                child: Text(
-                  "FINALIZAR COMPRA",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+    return ElevatedButton(
+      onPressed: _con.finishShopping,
+      style: ElevatedButton.styleFrom(
+          primary: MyColors.primaryColor,
+          padding: const EdgeInsets.symmetric(vertical: 2),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Padding(
+              padding: EdgeInsets.only(right: 5),
+              child: Icon(
+                Icons.arrow_forward,
+                size: 22,
               ),
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: EdgeInsets.only(left: 75),
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                ),
+            Text(
+              "FINALIZAR COMPRA",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],

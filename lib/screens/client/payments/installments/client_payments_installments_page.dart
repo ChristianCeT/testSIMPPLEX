@@ -16,8 +16,8 @@ class ClientPaymentsInstallmentsPage extends StatefulWidget {
 
 class _ClientPaymentsInstallmentsPageState
     extends State<ClientPaymentsInstallmentsPage> {
-  ClientPaymentsInstallmentsController _con =
-      new ClientPaymentsInstallmentsController();
+  final ClientPaymentsInstallmentsController _con =
+      ClientPaymentsInstallmentsController();
 
   @override
   void initState() {
@@ -27,17 +27,18 @@ class _ClientPaymentsInstallmentsPageState
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cuotas"),
+        title: const Text("Cuotas"),
         backgroundColor: MyColors.primaryColor,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [_textDescription(), _dropDownInstallments()],
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: SizedBox(
         height: 140,
         child: Column(
           children: [
@@ -51,25 +52,25 @@ class _ClientPaymentsInstallmentsPageState
 
   Widget _textDescription() {
     return Container(
-      margin: EdgeInsets.all(20),
-      child: Text("¿En cuántas cuotas?",
+      margin: const EdgeInsets.all(20),
+      child: const Text("¿En cuántas cuotas?",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
     );
   }
 
   Widget _textTotalPrice() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
+          const Text(
             "Total a pagar:",
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           Text(
             '${_con?.totalPayment}',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           )
         ],
       ),
@@ -78,41 +79,35 @@ class _ClientPaymentsInstallmentsPageState
 
   Widget _buttoNext() {
     return Container(
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: ElevatedButton(
         onPressed: _con.createPay,
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
-            padding: EdgeInsets.symmetric(vertical: 2),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                alignment: Alignment.center,
-                height: 45,
-                child: Text(
-                  "CONFIRMAR PAGO",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: EdgeInsets.only(left: 80, top: 11),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 13),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Padding(
+                padding: EdgeInsets.only(right: 5),
                 child: Icon(
                   Icons.attach_money_outlined,
                   size: 22,
                 ),
               ),
-            ),
-          ],
+              Text(
+                "CONFIRMAR PAGO",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -120,17 +115,17 @@ class _ClientPaymentsInstallmentsPageState
 
   Widget _dropDownInstallments() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Material(
         elevation: 2.0,
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 7),
+          padding: const EdgeInsets.symmetric(horizontal: 7),
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: DropdownButton(
                   underline: Container(
                       alignment: Alignment.centerRight,
@@ -140,7 +135,7 @@ class _ClientPaymentsInstallmentsPageState
                       )),
                   elevation: 3,
                   isExpanded: true,
-                  hint: Text("Seleccionar número de cuotas",
+                  hint: const Text("Seleccionar número de cuotas",
                       style: TextStyle(color: Colors.grey, fontSize: 16)),
                   items: _dropDownItems(_con?.installmentsList),
                   value: _con?.selectedInstallment,
@@ -161,14 +156,12 @@ class _ClientPaymentsInstallmentsPageState
   List<DropdownMenuItem<String>> _dropDownItems(
       List<MercadoPagoInstallment> installmentsList) {
     List<DropdownMenuItem<String>> list = [];
-    installmentsList?.forEach((installment) {
+    for (var installment in installmentsList) {
       list.add(DropdownMenuItem(
-        child: Container(
-          child: Text('${installment?.installments}'),
-        ),
+        child: Text('${installment?.installments}'),
         value: '${installment?.installments}',
       ));
-    });
+    }
 
     return list;
   }

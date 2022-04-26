@@ -1,12 +1,10 @@
-import 'package:client_exhibideas/screens/client/Account/client_account_page.dart';
-import 'package:client_exhibideas/screens/client/orders/create/client_orders_create_page.dart';
 import 'package:client_exhibideas/screens/client/products/client_products_menu/client_products_menu_controller.dart';
-import 'package:client_exhibideas/screens/client/products/list/client_products_list_page.dart';
+import 'package:client_exhibideas/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClienteProductsMenu extends StatefulWidget {
-  ClienteProductsMenu({Key key}) : super(key: key);
+  const ClienteProductsMenu({Key key}) : super(key: key);
 
   static String routeName = "/client/products/menu";
 
@@ -14,15 +12,8 @@ class ClienteProductsMenu extends StatefulWidget {
   _ClienteProductsMenuState createState() => _ClienteProductsMenuState();
 }
 
-int _paginaActual = 0;
-List<Widget> _paginas = [
-  ClientProductsListPage(),
-  ClientOrderCreatePage(),
-  ClientAcountPage()
-];
-
 class _ClienteProductsMenuState extends State<ClienteProductsMenu> {
-  ClientProductMenu _con = new ClientProductMenu();
+  final ClientProductMenu _con = ClientProductMenu();
   @override
   @override
   void initState() {
@@ -32,10 +23,17 @@ class _ClienteProductsMenuState extends State<ClienteProductsMenu> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _paginas[_paginaActual],
+      body: _con.paginas[_con.position],
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _con.position,
+        onTap: (int index) {
+          _con.position = index;
+          setState(() {});
+        },
+        elevation: 0,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -50,17 +48,12 @@ class _ClienteProductsMenuState extends State<ClienteProductsMenu> {
             label: 'Cuenta',
           ),
         ],
-        currentIndex: _paginaActual,
-        onTap: (index) {
-          setState(() {
-            _paginaActual = index;
-          });
-        },
-        selectedItemColor: Colors.white,
-        backgroundColor: Colors.black,
-        unselectedItemColor: Colors.grey,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        selectedItemColor: MyColors.primaryColor,
+        unselectedItemColor: const Color.fromRGBO(116, 117, 152, 1),
       ),
-    );
+    );    
   }
 
   void refresh() {

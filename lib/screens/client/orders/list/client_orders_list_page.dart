@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientOrdersListPage extends StatefulWidget {
-  ClientOrdersListPage({Key key}) : super(key: key);
+  const ClientOrdersListPage({Key key}) : super(key: key);
   static String routeName = "/client/orders/list";
 
   @override
@@ -14,7 +14,7 @@ class ClientOrdersListPage extends StatefulWidget {
 }
 
 class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
-  ClientOrdersListController _con = new ClientOrdersListController();
+  final ClientOrdersListController _con = ClientOrdersListController();
 
   @override
   void initState() {
@@ -24,15 +24,16 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: _con.status?.length,
       child: Scaffold(
         key: _con.key,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100),
+          preferredSize: const Size.fromHeight(100),
           child: AppBar(
-            title: Text("Mis pedidos"),
+            title: const Text("Mis pedidos"),
             backgroundColor: MyColors.primaryColor,
             bottom: TabBar(
               indicatorColor: MyColors.primaryColor,
@@ -53,10 +54,10 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
                 future: _con.getOrders(status),
                 builder: (context, AsyncSnapshot<List<Order>> snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.length > 0) {
+                    if (snapshot.data.isNotEmpty) {
                       return ListView.builder(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                              const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
                             return _cardOrder(snapshot.data[index]);
@@ -84,7 +85,7 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
         _con.openBottomSheet(order);
       },
       child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           height: 150,
           child: Card(
             elevation: 3.0,
@@ -98,7 +99,7 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
                         height: 30,
                         decoration: BoxDecoration(
                             color: MyColors.primaryColor,
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15),
                             )),
@@ -106,42 +107,42 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
                           width: double.infinity,
                           alignment: Alignment.center,
                           child: Text("Pedido ${order.id}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 15,
                                 color: Colors.white,
                                 fontFamily: "NimbusSans",
                               )),
                         ))),
                 Container(
-                  margin: EdgeInsets.only(top: 40, left: 20, right: 20),
+                  margin: const EdgeInsets.only(top: 40, left: 20, right: 20),
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
                         alignment: Alignment.centerLeft,
                         width: double.infinity,
-                        child: Text(
+                        child: const Text(
                           "Pedido: 2015-05-23",
                           style: TextStyle(fontSize: 13),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
                         alignment: Alignment.centerLeft,
                         width: double.infinity,
                         child: Text(
                           "Repartidor: ${order.deliveryList?.nombre ?? 'No asignado'} ${order.deliveryList?.apellido ?? ''}",
-                          style: TextStyle(fontSize: 13),
+                          style: const TextStyle(fontSize: 13),
                           maxLines: 1,
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
                         alignment: Alignment.centerLeft,
                         width: double.infinity,
                         child: Text(
                           "Entregar en: ${order.direccion?.direccion ?? ''}",
-                          style: TextStyle(fontSize: 13),
+                          style: const TextStyle(fontSize: 13),
                           maxLines: 2,
                         ),
                       ),

@@ -4,17 +4,17 @@ class MySnackBar {
   static void show(BuildContext context, String text) {
     if (context == null) return;
 
-    FocusScope.of(context).requestFocus(new FocusNode());
+    FocusScope.of(context).requestFocus(FocusNode());
 
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
         text,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white, fontSize: 14),
+        style: const TextStyle(color: Colors.white, fontSize: 14),
       ),
       backgroundColor: Colors.black,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     ));
   }
 }

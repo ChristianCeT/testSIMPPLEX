@@ -31,7 +31,7 @@ class SharedPref {
   }
 
   void logout(BuildContext context, String idUser) async {
-    UsersProvider usersProvider = new UsersProvider();
+    UsersProvider usersProvider = UsersProvider();
     usersProvider.init(context);
 
     await usersProvider.logout(idUser);

@@ -7,7 +7,7 @@ import 'package:client_exhibideas/provider/orders_provider.dart';
 import 'package:client_exhibideas/screens/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:client_exhibideas/utils/my_snackbar.dart';
 import 'package:client_exhibideas/utils/share_preferences.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as iosocket;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
@@ -24,23 +24,23 @@ class DeliveryOrdersMapController {
   String addressName;
   LatLng addressLaglng;
 
-  CameraPosition initialPosition = CameraPosition(
+  CameraPosition initialPosition = const CameraPosition(
       target: LatLng(-11.991651, -77.0147332), zoom: 20); // zoom del 1 al 20
 
-  Completer<GoogleMapController> _mapController = Completer();
+  final Completer<GoogleMapController> _mapController = Completer();
 
   BitmapDescriptor deliveryMarker;
   BitmapDescriptor homeMarker;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  OrdersProvider _ordersProvider = new OrdersProvider();
+  final OrdersProvider _ordersProvider = OrdersProvider();
   User user;
-  SharedPref _sharedPref = new SharedPref();
+  final SharedPref _sharedPref = SharedPref();
   Order order;
   double _distanceBetween;
 
-  IO.Socket socket;
+  iosocket.Socket socket;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -51,7 +51,7 @@ class DeliveryOrdersMapController {
         await createMarketFromAssets('assets/images/delivery3.png');
     homeMarker = await createMarketFromAssets('assets/images/home1.png');
 
-    socket = IO.io(
+    socket = iosocket.io(
         'http://${Enviroment.API_DELIVERY}/orders/delivery', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
@@ -161,27 +161,27 @@ class DeliveryOrdersMapController {
   }
 
   Future<BitmapDescriptor> createMarketFromAssets(String path) async {
-    ImageConfiguration configuration = ImageConfiguration();
+    ImageConfiguration configuration = const ImageConfiguration();
     BitmapDescriptor descriptor =
         await BitmapDescriptor.fromAssetImage(configuration, path);
     return descriptor;
   }
 
-  Future<Null> setLocationDraggableInfo() async {
+  Future<void> setLocationDraggableInfo() async {
     if (initialPosition != null) {
       double lat = initialPosition.target.latitude;
       double long = initialPosition.target.longitude;
       List<Placemark> address = await placemarkFromCoordinates(lat, long);
 
       if (address != null) {
-        if (address.length > 0) {
+        if (address.isNotEmpty) {
           String direction = address[0].thoroughfare;
           String street = address[0].subThoroughfare;
           String city = address[0].locality;
           String deparment = address[0].administrativeArea;
           /* String country = address[0].country; */
           addressName = '$direction #$street, $city, $deparment';
-          addressLaglng = new LatLng(lat, long);
+          addressLaglng = LatLng(lat, long);
 
           refresh();
         }

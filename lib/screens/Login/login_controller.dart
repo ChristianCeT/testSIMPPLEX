@@ -10,12 +10,12 @@ import 'package:flutter/material.dart';
 
 class LoginController {
   BuildContext context;
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-  UsersProvider usersProvider = new UsersProvider();
+  UsersProvider usersProvider = UsersProvider();
 
-  SharedPref _sharedPref = new SharedPref();
+  final SharedPref _sharedPref = SharedPref();
 
   Future init(BuildContext context) async {
     this.context = context;
@@ -51,9 +51,9 @@ class LoginController {
     if (responseApi.success) {
       //retorno de mapa de valores
       // se obtiene el usuario
-      User user = await User.fromJson(responseApi.data);
+      User user = User.fromJson(responseApi.data);
       //se almacena el usuario en el dispositivo
-      _sharedPref.save('user', await user.toJson());
+      _sharedPref.save('user', user.toJson());
 
       print("USUARIO LOGEADO: ${user.toJson()}");
 

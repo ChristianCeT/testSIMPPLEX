@@ -20,9 +20,9 @@ class ClientPaymentsInstallmentsController {
   BuildContext context;
   Function refresh;
 
-  MercadoPagoProvider _mercadoPagoProvider = new MercadoPagoProvider();
+  final MercadoPagoProvider _mercadoPagoProvider =  MercadoPagoProvider();
   User user;
-  SharedPref _sharedPref = new SharedPref();
+  final SharedPref _sharedPref = SharedPref();
   List<Product> selectedProducts = [];
 
   double totalPayment = 0;
@@ -74,9 +74,9 @@ class ClientPaymentsInstallmentsController {
   }
 
   void getTotalPayment() {
-    selectedProducts.forEach((product) {
+    for (var product in selectedProducts) {
       totalPayment = totalPayment + (product.cantidad * product.precio);
-    });
+    }
     refresh();
   }
 
@@ -85,7 +85,7 @@ class ClientPaymentsInstallmentsController {
       MySnackBar.show(context, "Debes seleccionar el numero de cuotas");
       return;
     }
-    Order order = new Order(
+    Order order = Order(
       direccion: address,
       cliente: user,
       producto: selectedProducts,
@@ -117,7 +117,7 @@ class ClientPaymentsInstallmentsController {
         Navigator.pushNamedAndRemoveUntil(
             context, ClientPaymentsStatusPage.routeName, (route) => false,
             arguments: creditCardPayment.toJson());
-        print("CREDIT CARD PAYMENT ${creditCardPayment.toJson()}");
+            
       } else if (response.statusCode == 501) {
         if (data['err']['status'] == 400) {
           badRequestProcess(data);
@@ -168,7 +168,7 @@ class ClientPaymentsInstallmentsController {
     Map<String, String> badTokenErrorCodeMap = {
       '106': 'No puedes realizar pagos a usuarios de otros paises.',
       '109':
-          '${installments.paymentMethodId} no procesa pagos en ${selectedInstallment} cuotas',
+          '${installments.paymentMethodId} no procesa pagos en $selectedInstallment cuotas',
       '126': 'No pudimos procesar tu pago.',
       '129':
           '${installments.paymentMethodId} no procesa pagos del monto seleccionado.',

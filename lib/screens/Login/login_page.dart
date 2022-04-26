@@ -1,11 +1,12 @@
 import 'package:client_exhibideas/screens/Login/login_controller.dart';
 import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:client_exhibideas/widgets/input_decorations.dart';
+import 'package:client_exhibideas/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key}) : super(key: key);
+  const LoginPage({Key key}) : super(key: key);
   static String routeName = "/Login";
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -14,14 +15,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   // _ privada sin raya al piso variable publica
 
-  LoginController _con = new LoginController();
+  final LoginController _con = LoginController();
 
   // metodo que se ejecuta al abrir un page
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _con.init(context);
     });
@@ -29,145 +28,102 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Container(
-      width: double.infinity,
-      color: Colors.white,
-      height: double.infinity,
-      child: Stack(
-        children: [
-          Positioned(top: -92, left: -100, child: _circleLogin()),
-          Positioned(top: 55, left: 25, child: _textLogin()),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                _imageBanner(),
-                /*   _lottieAnimation(), */
-                _textFieldEmail(),
-                _textFieldPassword(),
-                _buttonLogin(),
-                _textDontHaveAcoount(),
-              ],
-            ),
+      body: BackgroundWidget(
+        page: "loginPage",
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: size.height * 0.24),
+              CardContainer(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    const Image(
+                      image: AssetImage("assets/images/Simplex.png"),
+                    ),
+                    const SizedBox(height: 30),
+                    _loginForm(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("¿Aún no tienes cuenta?"),
+                        TextButton(
+                          onPressed: _con.goToRegisterPage,
+                          child:  Text(
+                            "Click aquí",
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: MyColors.primaryColor),
+                          ),
+                          style: ButtonStyle(
+                            overlayColor: MaterialStateProperty.all(
+                                MyColors.primaryColor.withOpacity(0.07)),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
-        ],
+        ),
       ),
-    ));
-  }
-
-/*   Widget _lottieAnimation() {
-    return Lottie.asset("assets/json/Furniture.json",
-        width: 150, height: 150, fit: BoxFit.fill);
-  } */
-
-  Widget _textLogin() {
-    return Text(
-      "LOGIN",
-      style: TextStyle(
-          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
     );
   }
 
-  Widget _textDontHaveAcoount() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+  Widget _loginForm() {
+    return Column(
       children: [
-        Text("¿No tienes cuenta?"),
-        SizedBox(
-          width: 7,
-        ),
-        GestureDetector(
-          onTap: _con.goToRegisterPage,
-          child: Text(
-            "Registrate aquí",
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: MyColors.primaryColor),
+        _textFieldEmail(),
+        const SizedBox(height: 30),
+        _textFieldPassword(),
+        const SizedBox(height: 30),
+        MaterialButton(
+          onPressed: _con.login,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-        )
+          disabledColor: Colors.grey,
+          elevation: 0,
+          color: MyColors.primaryColor,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+            child: const Text(
+              'Ingresar',
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ),
+        ),
       ],
     );
   }
 
-  Widget _buttonLogin() {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-      child: ElevatedButton(
-        onPressed: _con.login,
-        child: Text("Ingresar"),
-        style: ElevatedButton.styleFrom(
-            primary: MyColors.primaryColor,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            padding: EdgeInsets.symmetric(vertical: 15)),
+  Widget _textFieldEmail() {
+    return TextField(
+      autocorrect: false,
+      controller: _con.emailController,
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecorations.authInputDecoration(
+        hintText: 'jhon.doe@hotmail.com',
+        labelText: 'Correo electrónico',
+        prefixIcon: Icons.alternate_email_rounded,
       ),
     );
   }
 
   Widget _textFieldPassword() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
-        controller: _con.passwordController,
-        obscureText: true,
-        decoration: InputDecoration(
-            hintText: "Contraseña",
-            hintStyle: TextStyle(color: Colors.black),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            prefixIcon: Icon(
-              Icons.lock_outline,
-              color: MyColors.primaryColor,
-            )),
-      ),
-    );
-  }
-
-  Widget _textFieldEmail() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-      decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
-        controller: _con.emailController,
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-            hintText: "Correo electrónico",
-            hintStyle: TextStyle(color: Colors.black),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            prefixIcon: Icon(
-              Icons.email_outlined,
-              color: MyColors.primaryColor,
-            )),
-      ),
-    );
-  }
-
-  Widget _circleLogin() {
-    return Container(
-      width: 240,
-      height: 230,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: MyColors.primaryColor),
-    );
-  }
-
-  Widget _imageBanner() {
-    return Container(
-      margin: EdgeInsets.only(
-          top: 100, bottom: MediaQuery.of(context).size.height * 0.01),
-      child: Image.asset(
-        "assets/images/LOGO3.png",
-        width: 300,
-        height: 180,
+    return TextField(
+      controller: _con.passwordController,
+      obscureText: true,
+      autocorrect: false,
+      keyboardType: TextInputType.text,
+      decoration: InputDecorations.authInputDecoration(
+        hintText: '******',
+        labelText: 'Contraseña',
+        prefixIcon: Icons.lock_outline,
       ),
     );
   }

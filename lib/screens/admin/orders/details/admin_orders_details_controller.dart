@@ -15,14 +15,14 @@ class AdminOrdersDetailsController {
   int counter = 1;
   double productPrice;
 
-  SharedPref _sharedPref = new SharedPref();
+  final SharedPref _sharedPref = SharedPref();
 
   double total = 0;
   Order order;
   User user;
   List<User> users = [];
-  UsersProvider _usersProvider = new UsersProvider();
-  OrdersProvider _ordersProvider = new OrdersProvider();
+  final UsersProvider _usersProvider = UsersProvider();
+  final OrdersProvider _ordersProvider = OrdersProvider();
   String idDelivery;
 
   Future init(BuildContext context, Function refresh, Order order) async {
@@ -51,15 +51,17 @@ class AdminOrdersDetailsController {
 
   void getUsers() async {
     users = await _usersProvider.getDeliveryUser();
-
     refresh();
   }
 
   void getTotal() {
     total = 0;
     // ignore: sdk_version_set_literal
-    order.producto.forEach(
-        (product) => {total = total + (product.precio * product.cantidad)});
+    for (var product in order.producto) {
+      {
+        total = total + (product.precio * product.cantidad);
+      }
+    }
     refresh();
   }
 }

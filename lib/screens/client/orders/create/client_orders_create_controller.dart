@@ -11,7 +11,7 @@ class ClientOrdersCreateController {
   int counter = 1;
   double productPrice;
 
-  SharedPref _sharedPref = new SharedPref();
+  final SharedPref _sharedPref = SharedPref();
 
   List<Product> selectedProducts = [];
   double total = 0;
@@ -27,9 +27,9 @@ class ClientOrdersCreateController {
 
   void getTotal() {
     total = 0;
-    selectedProducts.forEach((product) {
+    for (var product in selectedProducts) {
       total = total + (product.cantidad * product.precio);
-    });
+    }
     refresh();
   }
 

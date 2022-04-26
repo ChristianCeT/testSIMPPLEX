@@ -105,15 +105,15 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
                 style: TextStyle(color: Colors.black, fontSize: 16),
                 maxLines: 1,
               )),
-          Spacer(),
+          const Spacer(),
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               color: Colors.grey[300],
             ),
             child: IconButton(
                 onPressed: _con.call,
-                icon: Icon(Icons.phone, color: Colors.black)),
+                icon: const Icon(Icons.phone, color: Colors.black)),
           )
         ],
       ),
@@ -147,7 +147,7 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
 
   Widget _buttonNext() {
     return Container(
-      margin: EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 5),
+      margin: const EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 5),
       child: ElevatedButton(
         onPressed: _con.updateToDelivered,
         style: ElevatedButton.styleFrom(

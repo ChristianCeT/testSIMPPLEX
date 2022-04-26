@@ -19,12 +19,12 @@ class ClientProductsListController {
 
   List<Category> categories = [];
 
-  CategoriesProvider _categoriesProvider = new CategoriesProvider();
-  ProductsProvider _productsProvider = new ProductsProvider();
+  final CategoriesProvider _categoriesProvider = CategoriesProvider();
+  final ProductsProvider _productsProvider = ProductsProvider();
 
-  SharedPref sharedPref = new SharedPref();
+  SharedPref sharedPref = SharedPref();
 
-  GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
 
   Timer searchOnStoppedTyping;
   String productName = '';
@@ -49,16 +49,14 @@ class ClientProductsListController {
   }
 
   void onChangeText(String text) {
-    Duration duration = Duration(milliseconds: 800);
+    Duration duration = const Duration(milliseconds: 800);
     if (searchOnStoppedTyping != null) {
       searchOnStoppedTyping.cancel();
       refresh();
     }
-    searchOnStoppedTyping = new Timer(duration, () {
+    searchOnStoppedTyping = Timer(duration, () {
       productName = text;
-
       refresh();
-      print("TEXTO COMPLETO: $productName");
     });
   }
 

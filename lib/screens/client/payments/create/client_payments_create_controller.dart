@@ -14,9 +14,9 @@ class ClientPaymentsCreateController {
   BuildContext context;
   Function refresh;
 
-  GlobalKey<FormState> keyForm = new GlobalKey();
+  GlobalKey<FormState> keyForm = GlobalKey();
 
-  TextEditingController documentNumberController = new TextEditingController();
+  TextEditingController documentNumberController = TextEditingController();
 
   String cardNumber = '';
   String expireDate = '';
@@ -25,9 +25,9 @@ class ClientPaymentsCreateController {
   bool isCvvFocused = false;
 
   List<MercadoPagoDocumentType> documentTypeList = [];
-  MercadoPagoProvider _mercadoPagoProvider = new MercadoPagoProvider();
+  final MercadoPagoProvider _mercadoPagoProvider = MercadoPagoProvider();
   User user;
-  SharedPref _sharedPref = new SharedPref();
+  final SharedPref _sharedPref = SharedPref();
 
   String typesDocument = 'DNI';
   String expirationYear;
@@ -45,9 +45,9 @@ class ClientPaymentsCreateController {
   void getIdenteficationTypes() async {
     documentTypeList = await _mercadoPagoProvider.getIdentificacionTtpes();
 
-    documentTypeList.forEach((documentMercado) {
+    for (var documentMercado in documentTypeList) {
       print("DOCUMENTO: ${documentMercado.toJson()}");
-    });
+    }
     refresh();
   }
 
@@ -113,7 +113,7 @@ class ClientPaymentsCreateController {
     if (response != null) {
       final data = json.decode(response.body);
       if (response.statusCode == 201) {
-        cardToken = new MercadoPagoCardToken.fromJsonMap(data);
+        cardToken = MercadoPagoCardToken.fromJsonMap(data);
 /*         print('card token: ${cardToken.toJson()}'); */
 
         Navigator.pushNamed(context, ClientPaymentsInstallmentsPage.routeName,

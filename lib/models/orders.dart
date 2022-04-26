@@ -68,10 +68,10 @@ class Order {
 
   Order.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
-    jsonList.forEach((element) {
+    for (var element in jsonList) {
       Order order = Order.fromJson(element);
       toList.add(order);
-    });
+    }
   }
 
   Map<String, dynamic> toJson() => {

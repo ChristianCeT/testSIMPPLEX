@@ -13,11 +13,11 @@ class ClientOrdersListController {
   BuildContext context;
   Function refresh;
   User user;
-  SharedPref sharedPref = new SharedPref();
-  GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
+  SharedPref sharedPref = SharedPref();
+  GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
 
   List<String> status = ["PAGADO", "DESPACHADO", "EN CAMINO", "ENTREGADO"];
-  OrdersProvider _ordersProvider = new OrdersProvider();
+  final OrdersProvider _ordersProvider = OrdersProvider();
 
   bool isUpdated;
 

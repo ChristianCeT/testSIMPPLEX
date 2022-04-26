@@ -3,6 +3,6 @@ import 'package:client_exhibideas/app.dart';
 
 void main() {
   runApp(
-    App(),
+    const App(),
   );
 }

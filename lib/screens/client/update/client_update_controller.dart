@@ -4,6 +4,7 @@ import 'package:client_exhibideas/models/response_api.dart';
 import 'package:client_exhibideas/models/user.dart';
 import 'package:client_exhibideas/provider/user_provider.dart';
 import 'package:client_exhibideas/screens/client/products/client_products_menu/client_products_menu.dart';
+import 'package:client_exhibideas/utils/my_colors.dart';
 import 'package:client_exhibideas/utils/my_snackbar.dart';
 import 'package:client_exhibideas/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +14,14 @@ import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class ClientUpdateController {
   BuildContext context;
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController nameController = new TextEditingController();
-  TextEditingController lastnameController = new TextEditingController();
-  TextEditingController phoneController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
-  TextEditingController confirmPasswordController = new TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
-  UsersProvider usersProvider = new UsersProvider();
+  UsersProvider usersProvider = UsersProvider();
 
   PickedFile pickedFile;
   File imageFile;
@@ -28,7 +29,7 @@ class ClientUpdateController {
   ProgressDialog _progressDialog;
   bool isEnable = true;
   User user;
-  SharedPref _sharedPref = new SharedPref();
+  final SharedPref _sharedPref = SharedPref();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -56,10 +57,14 @@ class ClientUpdateController {
       return;
     }
 
-    _progressDialog.show(max: 100, msg: "Espere un momento....");
+    _progressDialog.show(
+        max: 100,
+        msg: "Espere un momento....",
+        progressBgColor: MyColors.primaryColor,
+        progressValueColor: Colors.grey[300]);
     isEnable = false;
 
-    User myUser = new User(
+    User myUser = User(
       id: user.id,
       nombre: name,
       apellido: lastname,
@@ -80,9 +85,7 @@ class ClientUpdateController {
 
       if (responseApi.success) {
         ResponseApi responseApi2 = await usersProvider.getById(myUser.id);
-        User userData = await User.fromJson(responseApi2.data);
-
-        print("USUARIO OBTENIDO JSON ${userData.toJson()}");
+        User userData = User.fromJson(responseApi2.data);
         _sharedPref.save(
             'user', userData.toJson()); // guardar el usuario en sesión
 
@@ -105,19 +108,21 @@ class ClientUpdateController {
 
   void showAlertDialog() {
     Widget galleryButton = ElevatedButton(
-        onPressed: () {
-          selectedImage(ImageSource.gallery);
-        },
-        child: Text("Galería"));
+      onPressed: () {
+        selectedImage(ImageSource.gallery);
+      },
+      child: const Text("Galería"),
+    );
 
     Widget cameraButton = ElevatedButton(
-        onPressed: () {
-          selectedImage(ImageSource.camera);
-        },
-        child: Text("Camara"));
+      onPressed: () {
+        selectedImage(ImageSource.camera);
+      },
+      child: const Text("Camara"),
+    );
 
     AlertDialog alertDialog = AlertDialog(
-      title: Text("Selecciona tu imagen"),
+      title: const Text("Selecciona tu imagen"),
       actions: [galleryButton, cameraButton],
     );
 

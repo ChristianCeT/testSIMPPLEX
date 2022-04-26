@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:client_exhibideas/api/enviroment.dart';
 import 'package:client_exhibideas/models/address.dart';
 import 'package:client_exhibideas/models/response_api.dart';
@@ -10,9 +9,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import "package:http/http.dart" as http;
 
 class AddressProvider {
-  String _url = Enviroment.API_DELIVERY;
-  String _agregar = "/crearDireccion";
-  String _usuarioDireccion = "/direcciones";
+  final String _url = Enviroment.API_DELIVERY;
+  final String _agregar = "/crearDireccion";
+  final String _usuarioDireccion = "/direcciones";
 
   BuildContext context;
   User sessionUser;
@@ -34,7 +33,7 @@ class AddressProvider {
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id);
       }
       final data = json.decode(res.body); // categorias
       print(data);
@@ -53,7 +52,7 @@ class AddressProvider {
   Future<ResponseApi> create(Address address) async {
     try {
       //authority url de la peticion
-      Uri url = Uri.https(_url, "$_agregar");
+      Uri url = Uri.https(_url, _agregar);
       String bodyParams = json.encode(address);
       Map<String, String> headers = {
         "Content-type": "application/json",
@@ -63,7 +62,7 @@ class AddressProvider {
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id);
       }
       final data = json.decode(res.body);
       //espera mapa de valores

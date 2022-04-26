@@ -11,14 +11,14 @@ import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class RegisterController {
   BuildContext context;
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController nameController = new TextEditingController();
-  TextEditingController lastnameController = new TextEditingController();
-  TextEditingController phoneController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
-  TextEditingController confirmPasswordController = new TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
-  UsersProvider usersProvider = new UsersProvider();
+  UsersProvider usersProvider = UsersProvider();
 
   PickedFile pickedFile;
   File imageFile;
@@ -28,7 +28,7 @@ class RegisterController {
 
   bool isEnable = true;
 
-  Future init(BuildContext context, Function refresh) {
+  Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     usersProvider.init(context);
@@ -72,7 +72,7 @@ class RegisterController {
     _progressDialog.show(max: 100, msg: "Espere un momento");
     isEnable = false;
 
-    User user = new User(
+    User user = User(
       nombre: name,
       apellido: lastname,
       correo: email,
@@ -94,7 +94,7 @@ class RegisterController {
       MySnackBar.show(context, responseApi.message);
 
       if (responseApi.success) {
-        Future.delayed(Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 2), () {
           Navigator.pushReplacementNamed(context, LoginPage.routeName);
         });
       } else {
@@ -117,16 +117,16 @@ class RegisterController {
         onPressed: () {
           selectedImage(ImageSource.gallery);
         },
-        child: Text("Galería"));
+        child: const Text("Galería"));
 
     Widget cameraButton = ElevatedButton(
         onPressed: () {
           selectedImage(ImageSource.camera);
         },
-        child: Text("Camara"));
+        child: const Text("Cámara"));
 
     AlertDialog alertDialog = AlertDialog(
-      title: Text("Selecciona tu imagen"),
+      title: const Text("Selecciona tu imagen"),
       actions: [galleryButton, cameraButton],
     );
 

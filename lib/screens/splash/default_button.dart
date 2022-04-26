@@ -1,4 +1,5 @@
 import 'package:client_exhibideas/utils/constants.dart';
+import 'package:client_exhibideas/utils/my_colors.dart';
 import 'package:client_exhibideas/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class DefaultButton extends StatelessWidget {
       height: getProportionateScreenWidth(56),
       child: TextButton(
           style: TextButton.styleFrom(
-              backgroundColor: kPrimaryColor,
+              backgroundColor: MyColors.primaryColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20))),
           onPressed: press,

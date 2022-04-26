@@ -20,6 +20,7 @@ import 'package:client_exhibideas/screens/delivery/orders/map/delivery_orders_ma
 import 'package:client_exhibideas/screens/register/register_page.dart';
 import 'package:client_exhibideas/screens/roles/roles_page.dart';
 import 'package:client_exhibideas/screens/splash/splash_screen.dart';
+import 'package:client_exhibideas/widgets/web_view_ra.dart';
 import 'package:flutter/material.dart';
 
 // Rutas
@@ -47,4 +48,5 @@ final Map<String, WidgetBuilder> routes = {
   ClientPaymentsInstallmentsPage.routeName: (context) =>
       ClientPaymentsInstallmentsPage(),
   ClientPaymentsStatusPage.routeName: (context) => ClientPaymentsStatusPage(),
+  WebViewRa.routeName: (context) => const WebViewRa(),
 };

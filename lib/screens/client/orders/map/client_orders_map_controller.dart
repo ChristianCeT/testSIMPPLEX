@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import "package:location/location.dart" as location;
 import 'package:url_launcher/url_launcher.dart';
+
 // ignore: library_prefixes
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -20,19 +21,19 @@ class ClientOrdersMapController {
   String addressName;
   LatLng addressLaglng;
 
-  CameraPosition initialPosition = CameraPosition(
+  CameraPosition initialPosition = const CameraPosition(
       target: LatLng(-11.991651, -77.0147332), zoom: 14); // zoom del 1 al 20
 
-  Completer<GoogleMapController> _mapController = Completer();
+  final Completer<GoogleMapController> _mapController = Completer();
 
   BitmapDescriptor deliveryMarker;
   BitmapDescriptor homeMarker;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  OrdersProvider _ordersProvider = new OrdersProvider();
+  final OrdersProvider _ordersProvider =  OrdersProvider();
   User user;
-  SharedPref _sharedPref = new SharedPref();
+  final SharedPref _sharedPref = SharedPref();
   Order order;
   double _distanceBetween;
   IO.Socket socket;
@@ -69,7 +70,7 @@ class ClientOrdersMapController {
     _distanceBetween = Geolocator.distanceBetween(_position.latitude,
         _position.longitude, order.direccion.latitud, order.direccion.longitud);
 
-    print("----Distancia ${_distanceBetween} ---------");
+    print("----Distancia $_distanceBetween ---------");
   }
 
   void addMarker(String markerId, double lat, double long, String title,
@@ -98,27 +99,27 @@ class ClientOrdersMapController {
   }
 
   Future<BitmapDescriptor> createMarketFromAssets(String path) async {
-    ImageConfiguration configuration = ImageConfiguration();
+    ImageConfiguration configuration = const ImageConfiguration();
     BitmapDescriptor descriptor =
         await BitmapDescriptor.fromAssetImage(configuration, path);
     return descriptor;
   }
 
-  Future<Null> setLocationDraggableInfo() async {
+  Future setLocationDraggableInfo() async {
     if (initialPosition != null) {
       double lat = initialPosition.target.latitude;
       double long = initialPosition.target.longitude;
       List<Placemark> address = await placemarkFromCoordinates(lat, long);
 
       if (address != null) {
-        if (address.length > 0) {
+        if (address.isNotEmpty) {
           String direction = address[0].thoroughfare;
           String street = address[0].subThoroughfare;
           String city = address[0].locality;
           String deparment = address[0].administrativeArea;
           /* String country = address[0].country; */
           addressName = '$direction #$street, $city, $deparment';
-          addressLaglng = new LatLng(lat, long);
+          addressLaglng = LatLng(lat, long);
 
           refresh();
         }

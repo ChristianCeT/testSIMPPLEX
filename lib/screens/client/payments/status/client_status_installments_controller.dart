@@ -16,7 +16,6 @@ class ClientPaymentsStatusController {
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
 
     mercadoPagoPayment = MercadoPagoPayment.fromJsonMap(arguments);
-    print("MERCADO PAGO PAYMENT ${mercadoPagoPayment.toJson()}");
 
     if (mercadoPagoPayment.status == 'rejected') {
       createErrorMessage();

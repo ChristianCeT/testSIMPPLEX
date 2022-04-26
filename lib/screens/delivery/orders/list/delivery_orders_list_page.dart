@@ -1,6 +1,7 @@
 import 'package:client_exhibideas/models/orders.dart';
 import 'package:client_exhibideas/screens/delivery/orders/list/delivery_orders_list_controller.dart';
 import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:client_exhibideas/widgets/drawer.dart';
 import 'package:client_exhibideas/widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -24,35 +25,52 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: _con.status?.length,
       child: Scaffold(
-        drawer: _drawer(),
+        drawer: DrawerMenu(
+          apellido: _con.user?.apellido ?? "",
+          nombre: _con.user?.nombre ?? "",
+          correo: _con.user?.correo ?? "",
+          image: _con.user?.image ?? "",
+          telefono: _con.user?.telefono ?? "",
+          items: _itemsDrawer(),
+        ),
         key: _con.key,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
-            flexibleSpace: Column(
-              children: [
-                SizedBox(
-                  height: 40,
+          preferredSize: const Size.fromHeight(100),
+          child: SafeArea(
+            child: AppBar(
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.white.withOpacity(0.01),
+              flexibleSpace: Container(
+                margin: const EdgeInsets.only(top: 12),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        MenuIconDrawer(
+                          openDrawer: _con.openDrawer,
+                        )
+                      ],
+                    ),
+                  ],
                 ),
-                _menuDrawer(),
-              ],
-            ),
-            bottom: TabBar(
-              indicatorColor: MyColors.primaryColor,
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey[400],
-              isScrollable: true,
-              tabs: List<Widget>.generate(_con.status.length, (index) {
-                return Tab(
-                  child: Text(_con.status[index] ?? ""),
-                );
-              }),
+              ),
+              bottom: TabBar(
+                indicatorColor: MyColors.primaryColor,
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey[400],
+                isScrollable: true,
+                tabs: List<Widget>.generate(_con.status.length, (index) {
+                  return Tab(
+                    child: Text(_con.status[index] ?? ""),
+                  );
+                }),
+              ),
             ),
           ),
         ),
@@ -163,86 +181,26 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
     );
   }
 
-  Widget _menuDrawer() {
-    return GestureDetector(
-      onTap: _con.openDrawer,
-      child: Container(
-        margin: EdgeInsets.only(left: 15),
-        alignment: Alignment.centerLeft,
-        child: Icon(Icons.menu),
-      ),
-    );
-  }
-
-  Widget _drawer() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-              decoration: BoxDecoration(color: Colors.black),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${_con.user?.nombre ?? ''} ${_con.user?.apellido ?? ''} ',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 1, // no puede ocupar mas de una linea
-                  ),
-                  Text(
-                    "${_con.user?.correo ?? ''}",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[300],
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 1, // no puede ocupar mas de una linea
-                  ),
-                  Text(
-                    "${_con.user?.telefono ?? ''}",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[300],
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 1, // no puede ocupar mas de una linea
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    height: 60,
-                    child: FadeInImage(
-                      image: _con.user?.image != null
-                          ? NetworkImage(_con.user?.image)
-                          : AssetImage("assets/image/no-avatar.png"),
-                      fit: BoxFit.contain,
-                      fadeInDuration: Duration(milliseconds: 50),
-                      placeholder: AssetImage("assets/images/no-avatar.png"),
-                    ),
-                  )
-                ],
-              )),
-          ListTile(
-            title: Text("Seleccionar rol"),
-            onTap: _con.goToRoles,
-            trailing: Icon(
-              Icons.person_outline,
-              color: MyColors.primaryColor,
-            ),
+  Widget _itemsDrawer() {
+    return Column(
+      children: [
+        ListTile(
+          title: const Text("Seleccionar rol"),
+          onTap: _con.goToRoles,
+          trailing: Icon(
+            Icons.person_outline,
+            color: MyColors.primaryColor,
           ),
-          ListTile(
-            onTap: _con.logout,
-            title: Text("Cerrar sesión"),
-            trailing: Icon(
-              Icons.power_settings_new,
-              color: MyColors.primaryColor,
-            ),
+        ),
+        ListTile(
+          onTap: _con.logout,
+          title: const Text("Cerrar sesión"),
+          trailing: Icon(
+            Icons.power_settings_new,
+            color: MyColors.primaryColor,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

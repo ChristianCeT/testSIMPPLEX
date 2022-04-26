@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class RolesPage extends StatefulWidget {
-  RolesPage({Key key}) : super(key: key);
+  const RolesPage({Key key}) : super(key: key);
   static String routeName = "/roles";
 
   @override
@@ -13,7 +13,7 @@ class RolesPage extends StatefulWidget {
 }
 
 class _RolesPageState extends State<RolesPage> {
-  RolesController _con = new RolesController();
+  final RolesController _con = RolesController();
 
   @override
   void initState() {
@@ -25,54 +25,103 @@ class _RolesPageState extends State<RolesPage> {
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       appBar: AppBar(
-        title: Text("Selecciona un rol"),
-        backgroundColor: MyColors.primaryColor,
+        title: const Text("Selecciona un rol"),
       ),
-      backgroundColor: Colors.white,
       body: Container(
         margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.14),
         child: ListView(
             children: _con.user != null
                 ? _con.user.roles.map((Rol rol) {
-                    return _cardRol(rol);
+                    return _cardRol(rol, context);
                   }).toList()
                 : []),
       ),
     );
   }
 
-  Widget _cardRol(Rol rol) {
-    return GestureDetector(
-      onTap: () {
-        _con.goToPage(rol.route);
-      },
-      child: Column(children: [
-        Container(
-          height: 100,
-          // nos da una animación
-          child: FadeInImage(
-            image: rol.imagen != null
-                ? NetworkImage(rol.imagen)
-                : AssetImage("assets/images/noImagen.png"),
-            fit: BoxFit.contain,
-            fadeInDuration: Duration(milliseconds: 50),
-            placeholder: AssetImage("assets/images/noImagen.png"),
+  Widget _cardRol(Rol rol, BuildContext context) {
+     final size = MediaQuery.of(context).size;
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+      width: size.width,
+      height: size.height * 0.15,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: const Offset(2, 2), // changes position of shadow
           ),
+        ],
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            const Color(0xFFFFFFFF),
+            MyColors.primaryColor,
+          ],
         ),
-        SizedBox(
-          height: 15,
+      ),
+      child: GestureDetector(
+        onTap: () {
+          _con.goToPage(rol.route);
+        },
+        child: Container(
+          width: size.width * 0.9,
+          height: size.height * 0.15,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 1,
+                offset: const Offset(2, 2), // changes position of shadow
+              ),
+            ],
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                const Color(0xFFFFFFFF),
+                MyColors.primaryColor,
+              ],
+            ),
+          ),
+          child: _dataContainer(rol),
         ),
-        Text(rol.nombre ?? "",
-            style: TextStyle(fontSize: 16, color: Colors.black)),
-        SizedBox(
-          height: 25,
-        ),
-      ]),
+      ),
     );
   }
 
+  Widget _dataContainer(Rol rol) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+      Text(rol.nombre ?? "", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      const SizedBox(
+        height: 25,
+      ),
+      SizedBox(
+        height: 100,
+        child: FadeInImage(
+          image: rol.imagen != null
+              ? NetworkImage(rol.imagen)
+              : const AssetImage("assets/images/noImagen.png"),
+          fit: BoxFit.contain,
+          fadeInDuration: const Duration(milliseconds: 50),
+          placeholder: const AssetImage("assets/images/noImagen.png"),
+        ),
+      ),
+    ]);
+  }
+
+/*  */
   void refresh() {
     setState(() {});
   }

@@ -16,7 +16,7 @@ class ClientOrdersDetailsPage extends StatefulWidget {
 }
 
 class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
-  ClientOrdersDetailsController _con = ClientOrdersDetailsController();
+  final ClientOrdersDetailsController _con = ClientOrdersDetailsController();
   @override
   void initState() {
     super.initState();
@@ -25,6 +25,7 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -34,35 +35,33 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
           ),
           actions: [
             Container(
-              margin: EdgeInsets.only(top: 18, right: 15),
+              margin: const EdgeInsets.only(top: 18, right: 15),
               child: Text("Total: S/${_con.total}",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18)),
             ),
           ],
-          backgroundColor: Colors.black,
         ),
-        bottomNavigationBar: Container(
+        bottomNavigationBar: SizedBox(
           height: MediaQuery.of(context).size.height * 0.3,
-          child: Container(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Divider(
-                    color: MyColors.primaryColor,
-                    endIndent: 30, // margen en la parte izquierda
-                    indent: 30, // margen en la parte derecha
-                  ),
-                  _textData("Repartidor:",
-                      '${_con.order?.deliveryList?.nombre ?? 'No asignado '} ${_con.order?.deliveryList?.apellido ?? ''}'),
-                  _textData("Entregar en:",
-                      '${_con.order?.direccion?.direccion ?? ''}'),
-                  _textData("Fecha de pedido:",
-                      "${RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)}"),
-                  _con?.order?.estado == "EN CAMINO"
-                      ? _buttonNext()
-                      : Container(),
-                ],
-              ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Divider(
+                  color: MyColors.primaryColor,
+                  endIndent: 30, // margen en la parte izquierda
+                  indent: 30, // margen en la parte derecha
+                ),
+                _textData("Repartidor:",
+                    '${_con.order?.deliveryList?.nombre ?? 'No asignado '} ${_con.order?.deliveryList?.apellido ?? ''}'),
+                _textData(
+                    "Entregar en:", _con.order?.direccion?.direccion ?? ''),
+                _textData("Fecha de pedido:",
+                    RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
+                _con?.order?.estado == "EN CAMINO"
+                    ? _buttonNext()
+                    : Container(),
+              ],
             ),
           ),
         ),
@@ -70,7 +69,7 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
             ? NoDataWidget(
                 text: "Tu carrito está vacío",
               )
-            : _con.order.producto.length > 0
+            : _con.order.producto.isNotEmpty
                 ? ListView(
                     children: _con.order.producto.map((Product producto) {
                     return _cardProduct(producto);
@@ -82,7 +81,7 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
 
   Widget _textData(String title, String content) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: ListTile(
           title: Text(title),
           subtitle: Text(
@@ -94,12 +93,12 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
 
   Widget _buttonNext() {
     return Container(
-      margin: EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 30),
+      margin: const EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 30),
       child: ElevatedButton(
         onPressed: _con.updateOrder,
         style: ElevatedButton.styleFrom(
             primary: Colors.blue,
-            padding: EdgeInsets.symmetric(vertical: 2),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
         child: Stack(
@@ -109,7 +108,7 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
               child: Container(
                 alignment: Alignment.center,
                 height: 40,
-                child: Text(
+                child: const Text(
                   "SEGUIR ENTREGA",
                   style: TextStyle(
                     fontSize: 16,
@@ -121,8 +120,8 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
             Align(
               alignment: Alignment.centerLeft,
               child: Container(
-                margin: EdgeInsets.only(left: 62, top: 9),
-                child: Icon(
+                margin: const EdgeInsets.only(left: 62, top: 9),
+                child: const Icon(
                   Icons.directions_car,
                   size: 22,
                 ),
@@ -136,24 +135,24 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
 
   Widget _cardProduct(Product producto) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
           _imageProduct(producto),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(producto?.nombre ?? "",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(
                 height: 10,
               ),
               Text("Cantidad: ${producto.cantidad}",
-                  style: TextStyle(fontSize: 13)),
-              SizedBox(
+                  style: const TextStyle(fontSize: 13)),
+              const SizedBox(
                 height: 10,
               ),
             ],
@@ -166,16 +165,16 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
   Widget _imageProduct(Product producto) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           color: Colors.grey[200]),
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       child: FadeInImage(
         image: producto.image1 != null
             ? NetworkImage(producto.image1)
-            : AssetImage("assets/images/noImagen.png"),
+            : const AssetImage("assets/images/noImagen.png"),
         fit: BoxFit.contain,
-        fadeInDuration: Duration(milliseconds: 50),
-        placeholder: AssetImage("assets/images/noImagen.png"),
+        fadeInDuration: const Duration(milliseconds: 50),
+        placeholder: const AssetImage("assets/images/noImagen.png"),
       ),
       height: 50,
       width: 50,

@@ -2,11 +2,12 @@ import 'package:client_exhibideas/screens/Login/login_page.dart';
 import 'package:client_exhibideas/screens/splash/default_button.dart';
 import 'package:client_exhibideas/screens/splash/splash_content.dart';
 import 'package:client_exhibideas/utils/constants.dart';
+import 'package:client_exhibideas/utils/my_colors.dart';
 import 'package:client_exhibideas/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatefulWidget {
-  Body({Key key}) : super(key: key);
+  const Body({Key key}) : super(key: key);
 
   @override
   _BodyState createState() => _BodyState();
@@ -16,7 +17,7 @@ class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
     {
-      "text": "Bienvenido a Exhibideas !A comprar!",
+      "text": "Bienvenido a SIMPPLEX ¡A comprar!",
       "image": "assets/images/splash_1.png"
     },
     {
@@ -24,7 +25,7 @@ class _BodyState extends State<Body> {
       "image": "assets/images/splash_2.png"
     },
     {
-      "text": "Es fácil comprar en Exhibideas \nSólo quedate en casa",
+      "text": "Es fácil comprar en SIMPPLEX \nSólo quedate en casa",
       "image": "assets/images/splash_3.png"
     },
   ];
@@ -60,7 +61,7 @@ class _BodyState extends State<Body> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(splashData.length,
-                            (index) => BuildDot(index: index)),
+                            (index) => buildDot(index: index)),
                       ),
                       const Spacer(
                         flex: 3,
@@ -81,14 +82,14 @@ class _BodyState extends State<Body> {
     );
   }
 
-  AnimatedContainer BuildDot({index}) {
+  AnimatedContainer buildDot({index}) {
     return AnimatedContainer(
       duration: kAnimationDuration,
-      margin: const EdgeInsets.only(right: 5),
+      margin: const EdgeInsets.only(right: 6),
       height: 6,
       width: currentPage == index ? 20 : 6,
       decoration: BoxDecoration(
-          color: currentPage == index ? kPrimaryColor : Colors.blueGrey,
+          color: currentPage == index ? MyColors.primaryColor : Colors.blueGrey,
           borderRadius: BorderRadius.circular(3)),
     );
   }

@@ -17,7 +17,7 @@ class AdminOrdersDetailsPage extends StatefulWidget {
 }
 
 class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
-  AdminOrdersDetailsController _con = AdminOrdersDetailsController();
+  final AdminOrdersDetailsController _con = AdminOrdersDetailsController();
   @override
   void initState() {
     super.initState();
@@ -26,6 +26,7 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -35,42 +36,40 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
           ),
           actions: [
             Container(
-              margin: EdgeInsets.only(top: 18, right: 15),
+              margin: const EdgeInsets.only(top: 18, right: 15),
               child: Text("Total: S/${_con.total}",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             ),
           ],
           backgroundColor: Colors.black,
         ),
-        bottomNavigationBar: Container(
+        bottomNavigationBar: SizedBox(
           height: MediaQuery.of(context).size.height * 0.3,
-          child: Container(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Divider(
-                    color: MyColors.primaryColor,
-                    endIndent: 30, // margen en la parte izquierda
-                    indent: 30, // margen en la parte derecha
-                  ),
-                  _textDescription(),
-                  _con.order?.estado != "PAGADO"
-                      ? _deliveryData()
-                      : Container(),
-                  _con.order?.estado == "PAGADO"
-                      ? _con.users != null
-                          ? _dropDown(_con?.users)
-                          : ''
-                      : Container(),
-                  _textData("Cliente:",
-                      '${_con.order?.cliente?.nombre ?? ''} ${_con.order?.cliente?.apellido ?? ''}'),
-                  _textData("Entregar en:",
-                      '${_con.order?.direccion?.direccion ?? ''}'),
-                  _textData("Fecha de pedido:",
-                      "${RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)}"),
-                  _con.order?.estado == "PAGADO" ? _buttonNext() : Container(),
-                ],
-              ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Divider(
+                  color: MyColors.primaryColor,
+                  endIndent: 30, // margen en la parte izquierda
+                  indent: 30, // margen en la parte derecha
+                ),
+                _textDescription(),
+                _con.order?.estado != "PAGADO"
+                    ? _deliveryData()
+                    : Container(),
+                _con.order?.estado == "PAGADO"
+                    ? _con.users != null
+                        ? _dropDown(_con?.users)
+                        : ''
+                    : Container(),
+                _textData("Cliente:",
+                    '${_con.order?.cliente?.nombre ?? ''} ${_con.order?.cliente?.apellido ?? ''}'),
+                _textData("Entregar en:",
+                    _con.order?.direccion?.direccion ?? ''),
+                _textData("Fecha de pedido:",
+                    RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
+                _con.order?.estado == "PAGADO" ? _buttonNext() : Container(),
+              ],
             ),
           ),
         ),
@@ -78,7 +77,7 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
             ? NoDataWidget(
                 text: "Tu carrito está vacío",
               )
-            : _con.order.producto.length > 0
+            : _con.order.producto.isNotEmpty
                 ? ListView(
                     children: _con.order.producto.map((Product producto) {
                     return _cardProduct(producto);
@@ -91,7 +90,7 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
   Widget _textDescription() {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.symmetric(horizontal: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 30),
       child: Text(
           _con.order?.estado == "PAGADO"
               ? "Asignar repartidor"
@@ -105,38 +104,36 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
 
   Widget _dropDown(List<User> users) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 9),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 9),
       child: Material(
         elevation: 2.0,
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        child: Container(
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: DropdownButton(
-                  underline: Container(
-                      alignment: Alignment.centerRight,
-                      child: Icon(
-                        Icons.arrow_drop_down_circle,
-                        color: MyColors.primaryColor,
-                      )),
-                  elevation: 3,
-                  isExpanded: true,
-                  hint: Text("Repartidor",
-                      style: TextStyle(color: Colors.grey, fontSize: 16)),
-                  items: _dropDownItems(users),
-                  value: _con?.idDelivery,
-                  onChanged: (option) {
-                    setState(() {
-                      _con?.idDelivery = option;
-                    });
-                  },
-                ),
-              )
-            ],
-          ),
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: DropdownButton(
+                underline: Container(
+                    alignment: Alignment.centerRight,
+                    child: Icon(
+                      Icons.arrow_drop_down_circle,
+                      color: MyColors.primaryColor,
+                    )),
+                elevation: 3,
+                isExpanded: true,
+                hint: const Text("Repartidor",
+                    style: TextStyle(color: Colors.grey, fontSize: 16)),
+                items: _dropDownItems(users),
+                value: _con?.idDelivery,
+                onChanged: (option) {
+                  setState(() {
+                    _con?.idDelivery = option;
+                  });
+                },
+              ),
+            )
+          ],
         ),
       ),
     );

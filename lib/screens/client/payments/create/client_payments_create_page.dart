@@ -1,6 +1,7 @@
 import 'package:client_exhibideas/models/mercado_pago/mercado_pago_document_type.dart';
 import 'package:client_exhibideas/screens/client/payments/create/client_payments_create_controller.dart';
 import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:client_exhibideas/widgets/input_decorations_card_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
@@ -17,7 +18,7 @@ class ClientPaymentsCreatePage extends StatefulWidget {
 }
 
 class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
-  ClientPaymentsCreateController _con = new ClientPaymentsCreateController();
+  final ClientPaymentsCreateController _con = ClientPaymentsCreateController();
 
   @override
   void initState() {
@@ -27,10 +28,11 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pagos"),
+        title: const Text("Pagos"),
         backgroundColor: MyColors.primaryColor,
       ),
       body: ListView(
@@ -39,7 +41,7 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
             cardNumber: _con.cardNumber,
             expiryDate: _con.expireDate,
             onCreditCardWidgetChange: (CreditCardBrand card) {
-              print("ADSAD $card");
+              print("ADSAD ${card.brandName}");
             },
             cardHolderName: _con.cardHolderName,
             cvvCode: _con.cvvCode,
@@ -50,13 +52,13 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
             isHolderNameVisible: true,
             isChipVisible: false,
             isSwipeGestureEnabled: true,
-            animationDuration: Duration(milliseconds: 1000),
+            animationDuration: const Duration(milliseconds: 1000),
             labelCardHolder: "NOMBRE Y APELLIDO",
           ),
           CreditCardForm(
             formKey: _con.keyForm, // Required
             onCreditCardModelChange: _con.onCreditCardModelChanged, // Required
-            themeColor: Colors.red,
+            themeColor: MyColors.primaryColor,
             obscureCvv: true,
             cvvCode: '',
             expiryDate: '',
@@ -66,24 +68,28 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
             isHolderNameVisible: true,
             isCardNumberVisible: true,
             isExpiryDateVisible: true,
-            cardNumberDecoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Número de la tarjeta',
-              hintText: 'XXXX XXXX XXXX XXXX',
+            cardNumberDecoration:
+                InputDecorationsPayment.paymentInputDecoration(
+              hintText: "Número de tarjeta",
+              labelText: "Ingresa el número de la tarjeta",
+              prefixIcon: Icons.credit_card,
             ),
-            expiryDateDecoration: InputDecoration(
-              border: OutlineInputBorder(),
+            expiryDateDecoration:
+                InputDecorationsPayment.paymentInputDecoration(
               labelText: 'Fecha de expiración',
               hintText: 'XX/XX',
+              prefixIcon: Icons.date_range,
             ),
-            cvvCodeDecoration: InputDecoration(
-              border: OutlineInputBorder(),
+            cvvCodeDecoration: InputDecorationsPayment.paymentInputDecoration(
               labelText: 'CVV',
               hintText: 'XXX',
+              prefixIcon: Icons.lock,
             ),
-            cardHolderDecoration: InputDecoration(
-              border: OutlineInputBorder(),
+            cardHolderDecoration:
+                InputDecorationsPayment.paymentInputDecoration(
               labelText: 'Nombre del titular',
+              hintText: 'Nombre del titular',
+              prefixIcon: Icons.person,
             ),
           ),
           _documentInfo(),
@@ -95,41 +101,35 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
 
   Widget _buttoNext() {
     return Container(
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: ElevatedButton(
         onPressed: _con.createCardToken,
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
-            padding: EdgeInsets.symmetric(vertical: 2),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                alignment: Alignment.center,
-                height: 45,
-                child: Text(
-                  "CONTINUAR",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: EdgeInsets.only(left: 80, top: 11),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 13),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Padding(
+                padding: EdgeInsets.only(right: 5),
                 child: Icon(
-                  Icons.arrow_forward_ios,
+                  Icons.arrow_forward,
                   size: 22,
                 ),
               ),
-            ),
-          ],
+              Text(
+                "CONTINUAR",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -137,7 +137,7 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
 
   Widget _documentInfo() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: Row(
         children: [
           Flexible(
@@ -145,13 +145,13 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
             child: Material(
               elevation: 2.0,
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+              borderRadius: const BorderRadius.all(Radius.circular(5)),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 7),
+                padding: const EdgeInsets.symmetric(horizontal: 7),
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: DropdownButton(
                         underline: Container(
                             alignment: Alignment.centerRight,
@@ -161,7 +161,7 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
                             )),
                         elevation: 3,
                         isExpanded: true,
-                        hint: Text("Tipo doc",
+                        hint: const Text("Tipo doc",
                             style: TextStyle(color: Colors.grey, fontSize: 16)),
                         items: _dropDownItems(_con?.documentTypeList),
                         value: _con?.typesDocument,
@@ -177,7 +177,7 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 15,
           ),
           Flexible(
@@ -185,9 +185,10 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
             child: TextField(
               controller: _con.documentNumberController,
               keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Número de documento"),
+              decoration: InputDecorationsPayment.paymentInputDecoration(
+                  labelText: "Número de documento",
+                  hintText: "Número de doc",
+                  prefixIcon: Icons.document_scanner),
             ),
           )
         ],
@@ -198,14 +199,12 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
   List<DropdownMenuItem<String>> _dropDownItems(
       List<MercadoPagoDocumentType> mercadoDocumentType) {
     List<DropdownMenuItem<String>> list = [];
-    mercadoDocumentType?.forEach((mercadoDocument) {
+    for (var mercadoDocument in mercadoDocumentType) {
       list.add(DropdownMenuItem(
-        child: Container(
-          child: Text(mercadoDocument?.name),
-        ),
+        child: Text(mercadoDocument?.name),
         value: mercadoDocument?.id,
       ));
-    });
+    }
 
     return list;
   }

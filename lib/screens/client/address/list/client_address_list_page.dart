@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientAddressListPage extends StatefulWidget {
-  ClientAddressListPage({Key key}) : super(key: key);
+  const ClientAddressListPage({Key key}) : super(key: key);
 
   static String routeName = "/client/address/list";
 
@@ -15,7 +15,7 @@ class ClientAddressListPage extends StatefulWidget {
 }
 
 class _ClientAddressListPageState extends State<ClientAddressListPage> {
-  ClientAddressListController _con = new ClientAddressListController();
+  final ClientAddressListController _con = ClientAddressListController();
   @override
   void initState() {
     super.initState();
@@ -24,14 +24,15 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Direcciones"),
+        title: const Text("Direcciones"),
         actions: [
           _iconAdd(),
         ],
-        backgroundColor: Colors.black,
       ),
       body: Stack(
         children: [
@@ -39,10 +40,12 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
             child: _textSelectAddress(),
             top: 0,
           ),
-          Container(margin: EdgeInsets.only(top: 50), child: _listAddress())
+          Container(
+              margin: EdgeInsets.only(top: size.height * 0.08),
+              child: _listAddress())
         ],
       ),
-      bottomNavigationBar: _buttonAccept(),
+      bottomNavigationBar: _buttonAccept(size),
     );
   }
 
@@ -50,7 +53,7 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(),
+          margin: const EdgeInsets.only(),
           child: NoDataWidget(
             text: "Agrega una nueva dirección",
           ),
@@ -61,15 +64,15 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
   }
 
   Widget _buttonNewAddress() {
-    return Container(
+    return SizedBox(
       height: 40,
       child: ElevatedButton(
         onPressed: _con.goToNewAddress,
-        child: Text("Nueva dirección"),
+        child: const Text("Nueva dirección"),
         style: ElevatedButton.styleFrom(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            primary: Colors.green),
+            primary: MyColors.primaryColor),
       ),
     );
   }
@@ -79,9 +82,10 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
         future: _con.getAddress(),
         builder: (context, AsyncSnapshot<List<Address>> snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.length > 0) {
+            if (snapshot.data.isNotEmpty) {
               return ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                   itemCount: snapshot.data?.length ?? 0,
                   itemBuilder: (_, index) {
                     return _radioSelectorAddress(snapshot.data[index], index);
@@ -99,23 +103,25 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
 
   Widget _radioSelectorAddress(Address address, int index) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           Row(
             children: [
               Radio(
-                  value: index,
-                  groupValue: _con.radioValue,
-                  onChanged: _con.handleRadioValueChange),
+                value: index,
+                groupValue: _con.radioValue,
+                onChanged: _con.handleRadioValueChange,
+                activeColor: MyColors.primaryColor,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(address?.direccion ?? "",
-                      style:
-                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                      style: const TextStyle(
+                          fontSize: 13, fontWeight: FontWeight.bold)),
                   Text(address?.avenida ?? "",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                       )),
                 ],
@@ -130,14 +136,14 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
     );
   }
 
-  Widget _buttonAccept() {
+  Widget _buttonAccept(Size size) {
     return Container(
       height: 50,
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 30, horizontal: 50),
+      margin: EdgeInsets.symmetric(vertical: size.height * 0.07, horizontal: 30),
       child: ElevatedButton(
         onPressed: _con.createOrder,
-        child: Text("PAGAR"),
+        child: const Text("PAGAR"),
         style: ElevatedButton.styleFrom(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -149,8 +155,8 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
   Widget _textSelectAddress() {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.symmetric(horizontal: 40, vertical: 30),
-      child: Text(
+      margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+      child: const Text(
         "Elige donde recibir tus compras",
         style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
       ),
@@ -160,7 +166,7 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
   Widget _iconAdd() {
     return IconButton(
         onPressed: _con.goToNewAddress,
-        icon: Icon(
+        icon: const Icon(
           Icons.add_outlined,
           color: Colors.white,
         ));
