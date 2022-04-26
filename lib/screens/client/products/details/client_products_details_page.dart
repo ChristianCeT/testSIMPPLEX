@@ -42,9 +42,6 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
             ],
           ),
           _productDescription(),
-          TextButton(onPressed: () {
-            Navigator.pushNamed(context, WebViewRa.routeName, arguments: _con.product.linkRA);
-          }, child: const Text("prueba")),
           const Spacer(),
           _addOrRemoveItem(),
           _standarDelivery(),
