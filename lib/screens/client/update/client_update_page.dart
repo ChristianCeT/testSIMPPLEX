@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientUpdatePage extends StatefulWidget {
-  const ClientUpdatePage({Key key}) : super(key: key);
+  const ClientUpdatePage({Key? key}) : super(key: key);
   static String routeName = "/client/update";
 
   @override
@@ -18,7 +18,7 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -68,10 +68,10 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
       onTap: _con.showAlertDialog,
       child: CircleAvatar(
         backgroundImage: _con.imageFile != null
-            ? FileImage(_con.imageFile)
+            ? FileImage(_con.imageFile!)
             : _con.user?.image != null
-                ? NetworkImage(_con.user?.image)
-                : const AssetImage("assets/images/noAvatar2.png"),
+                ? NetworkImage(_con.user!.image!)
+                : const AssetImage("assets/images/noAvatar2.png") as ImageProvider,
         radius: 55,
         backgroundColor: Colors.grey[200],
       ),

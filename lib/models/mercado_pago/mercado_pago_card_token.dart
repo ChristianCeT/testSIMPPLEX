@@ -1,35 +1,33 @@
 import 'package:client_exhibideas/models/mercado_pago/mercado_pago_card_holder.dart';
 
 class MercadoPagoCardToken {
-  String id;
-  String publicKey;
-  String cardId;
-  bool luhnValidation;
-  String status;
-  DateTime dateUsed;
-  int cardNumberLength;
-  DateTime dateCreated;
-  String firstSixDigits;
-  String lastFourDigits;
-  int securityCodeLength;
-  int expirationMonth;
-  int expirationYear;
-  DateTime dateLastUpdated;
-  DateTime dateDue;
-  bool liveMode;
-  MercadoPagoCardHolder cardHolder;
+  String? id;
+  String? publicKey;
+  String? cardId;
+  bool? luhnValidation;
+  String? status;
+  DateTime? dateUsed;
+  int? cardNumberLength;
+  DateTime? dateCreated;
+  String? firstSixDigits;
+  String? lastFourDigits;
+  int? securityCodeLength;
+  int? expirationMonth;
+  int? expirationYear;
+  DateTime? dateLastUpdated;
+  DateTime? dateDue;
+  bool? liveMode;
+  MercadoPagoCardHolder? cardHolder;
   List<MercadoPagoCardToken> cardTokenList = [];
 
+  
   MercadoPagoCardToken();
 
   MercadoPagoCardToken.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) {
-      return;
-    }
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       final chat = MercadoPagoCardToken.fromJsonMap(item);
       cardTokenList.add(chat);
-    });
+    }
   }
 
   MercadoPagoCardToken.fromJsonMap(Map<String, dynamic> json) {
@@ -81,7 +79,7 @@ class MercadoPagoCardToken {
         'expiration_year': expirationYear,
         'date_last_updated': dateLastUpdated,
         'date_due': dateDue,
-        'cardholder': cardHolder.toJson(),
+        'cardholder': cardHolder!.toJson(),
         'live_mode': liveMode
       };
 }

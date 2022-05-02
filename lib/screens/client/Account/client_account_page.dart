@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientAcountPage extends StatefulWidget {
-  const ClientAcountPage({Key key}) : super(key: key);
+  const ClientAcountPage({Key? key}) : super(key: key);
   static String routeName = "/client/datos";
 
   @override
@@ -17,7 +17,7 @@ class _ClientAcountPageState extends State<ClientAcountPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -31,7 +31,7 @@ class _ClientAcountPageState extends State<ClientAcountPage> {
             itemBuilder: (context, index) {
               return Column(
                 children: [
-                   ListTile(
+                  ListTile(
                     title: Container(
                       margin: const EdgeInsets.only(top: 15),
                       child: const Image(
@@ -58,10 +58,11 @@ class _ClientAcountPageState extends State<ClientAcountPage> {
                           child: FadeInImage(
                             placeholder:
                                 const AssetImage("assets/images/no-avatar.png"),
-                            image: _con.user?.image != null
-                                ? NetworkImage(_con.user?.image)
+                            image: _con.user.image != null
+                                ? NetworkImage(_con.user.image!)
                                 : const AssetImage(
-                                    "assets/images/no-avatar.png"),
+                                        "assets/images/no-avatar.png")
+                                    as ImageProvider,
                             fit: BoxFit.cover,
                             fadeInDuration: const Duration(milliseconds: 50),
                           ),
@@ -139,7 +140,7 @@ class _ClientAcountPageState extends State<ClientAcountPage> {
                   ),
                   const Divider(),
                   _con.user != null
-                      ? _con.user.roles.length > 1
+                      ? _con.user.roles!.length > 1
                           ? ListTile(
                               title: const Text(
                                 "Cambiar de rol",

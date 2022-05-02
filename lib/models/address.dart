@@ -5,14 +5,14 @@ Address addressFromJson(String str) => Address.fromJson(json.decode(str));
 String addressToJson(Address data) => json.encode(data.toJson());
 
 class Address {
-  String id;
-  String direccion;
-  String avenida;
-  double longitud;
-  double latitud;
-  String usuario;
+  String? id;
+  String? direccion;
+  String? avenida;
+  double? longitud;
+  double? latitud;
+  String? usuario;
   List<Address> toList = [];
-  
+
   Address({
     this.id,
     this.direccion,
@@ -37,11 +37,10 @@ class Address {
 
   //transformar la data que viene en json en un arreglo list
   Address.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) return;
-    jsonList.forEach((element) {
+    for (var element in jsonList) {
       Address address = Address.fromJson(element);
       toList.add(address);
-    });
+    }
   }
 
   Map<String, dynamic> toJson() => {

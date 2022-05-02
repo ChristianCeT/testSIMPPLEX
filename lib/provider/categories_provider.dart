@@ -10,31 +10,31 @@ import 'package:fluttertoast/fluttertoast.dart';
 import "package:http/http.dart" as http;
 
 class CategoriesProvider {
-  String _url = Enviroment.API_DELIVERY;
-  String _agregar = "/crearCategoria";
-  String _categorias = "/categories";
+  final String _url = Enviroment.API_DELIVERY;
+  final String _agregar = "/crearCategoria";
+  final String _categorias = "/categories";
 
-  BuildContext context;
-  User sessionUser;
+  late BuildContext context;
+  late User sessionUser;
 
-  Future init(BuildContext context, User sessionUser) {
+  Future init(BuildContext context, User sessionUser) async {
     this.context = context;
     this.sessionUser = sessionUser;
   }
 
   Future<List<Category>> getAll() async {
     try {
-      Uri url = Uri.https(_url, "$_categorias");
+      Uri url = Uri.https(_url, _categorias);
       print(url);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.get(url, headers: headers);
 
       if (res.statusCode == 403) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body); // categorias
       print(data);
@@ -50,20 +50,20 @@ class CategoriesProvider {
     }
   }
 
-  Future<ResponseApi> create(Category category) async {
+  Future<ResponseApi?> create(Category category) async {
     try {
       //authority url de la peticion
-      Uri url = Uri.https(_url, "$_agregar");
+      Uri url = Uri.https(_url, _agregar);
       String bodyParams = json.encode(category);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.post(url, headers: headers, body: bodyParams);
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body);
       //espera mapa de valores

@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class DeliveryOrdersDetailsPage extends StatefulWidget {
-  Order order;
-  DeliveryOrdersDetailsPage({Key key, @required this.order}) : super(key: key);
+  final Order order;
+  const DeliveryOrdersDetailsPage({Key? key, required this.order}) : super(key: key);
 
   @override
   _DeliveryOrdersDetailsState createState() => _DeliveryOrdersDetailsState();
@@ -20,7 +20,7 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh, widget.order);
     });
   }
@@ -30,7 +30,7 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Pedido ${_con.order?.id ?? ''}",
+            "Pedido ${_con.order.id ?? ''}",
             maxLines: 2,
           ),
           actions: [
@@ -55,10 +55,10 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
                   _textData("Cliente:",
                       '${_con.order?.cliente?.nombre ?? ''} ${_con.order?.cliente?.apellido ?? ''}'),
                   _textData("Entregar en:",
-                      _con.order?.direccion?.direccion ?? ''),
+                      _con.order.direccion?.direccion ?? ''),
                   _textData("Fecha de pedido:",
                       RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
-                  _con?.order?.estado != "ENTREGADO"
+                  _con.order.estado != "ENTREGADO"
                       ? _buttonNext()
                       : Container(),
                 ],
@@ -70,9 +70,9 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
             ? NoDataWidget(
                 text: "Tu carrito está vacío",
               )
-            : _con.order.producto.isNotEmpty
+            : _con.order.producto!.isNotEmpty
                 ? ListView(
-                    children: _con.order.producto.map((Product producto) {
+                    children: _con.order.producto!.map((Product producto) {
                     return _cardProduct(producto);
                   }).toList())
                 : NoDataWidget(
@@ -175,8 +175,8 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
       padding: EdgeInsets.all(5),
       child: FadeInImage(
         image: producto.image1 != null
-            ? NetworkImage(producto.image1)
-            : AssetImage("assets/images/noImagen.png"),
+            ? NetworkImage(producto.image1!)
+            : const AssetImage("assets/images/noImagen.png") as ImageProvider,
         fit: BoxFit.contain,
         fadeInDuration: Duration(milliseconds: 50),
         placeholder: AssetImage("assets/images/noImagen.png"),

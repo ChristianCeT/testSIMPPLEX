@@ -6,7 +6,7 @@ import 'package:flutter/scheduler.dart';
 import '../../widgets/input_decorations.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key key}) : super(key: key);
+  const RegisterPage({Key? key}) : super(key: key);
   static String routeName = "/register";
 
   @override
@@ -19,7 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -85,8 +85,8 @@ class _RegisterPageState extends State<RegisterPage> {
       onTap: _con.showAlertDialog,
       child: CircleAvatar(
         backgroundImage: _con.imageFile != null
-            ? FileImage(_con.imageFile)
-            : const AssetImage("assets/images/noAvatar2.png"),
+            ? FileImage(_con.imageFile!)
+            : const AssetImage("assets/images/noAvatar2.png") as ImageProvider,
         radius: 45,
         backgroundColor: Colors.grey[350],
       ),

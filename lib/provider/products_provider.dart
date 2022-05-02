@@ -15,23 +15,23 @@ class ProductsProvider {
   final String _productoCategoria = "/productoCategoria";
   final String _productoCategoriaNombre = "/buscarProductoNombreCat";
 
-  BuildContext context;
-  User sessionUser;
+  late BuildContext context;
+  late User sessionUser;
 
-  Future init(BuildContext context, User sessionUser) {
+  Future init(BuildContext context, User sessionUser) async {
     this.context = context;
     this.sessionUser = sessionUser;
   }
 
-  Future<Stream> create(Product product, List<File> images) async {
+  Future<Stream?> create(Product product, List<File> images) async {
     try {
-      Uri url = Uri.https(_url, "$_agregar");
+      Uri url = Uri.https(_url, _agregar);
       print(url);
 
       final request = http.MultipartRequest("POST", url);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
 
       for (int i = 0; i < images.length; i++) {
@@ -44,11 +44,11 @@ class ProductsProvider {
 
       request.headers.addAll(headers);
       request.fields["producto"] = json.encode(product);
-      request.fields["nombre"] = product.nombre;
-      request.fields["descripcion"] = product.descripcion;
-      request.fields["linkRA"] = product.linkRA;
+      request.fields["nombre"] = product.nombre!;
+      request.fields["descripcion"] = product.descripcion!;
+      request.fields["linkRA"] = product.linkRA!;
       request.fields["precio"] = product.precio.toString();
-      request.fields["categoria"] = product.categoria;
+      request.fields["categoria"] = product.categoria!;
 
       final response = await request.send();
 
@@ -65,13 +65,13 @@ class ProductsProvider {
       print(url);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.get(url, headers: headers);
 
       if (res.statusCode == 403) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body); // categorias
       print(data);
@@ -95,13 +95,13 @@ class ProductsProvider {
       print(url);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.get(url, headers: headers);
 
       if (res.statusCode == 403) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body); // categorias
       print(data);

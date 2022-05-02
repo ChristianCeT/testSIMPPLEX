@@ -9,8 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class AdminOrdersDetailsPage extends StatefulWidget {
-  Order order;
-  AdminOrdersDetailsPage({Key key, @required this.order}) : super(key: key);
+  final Order order;
+  const AdminOrdersDetailsPage({Key? key, required this.order})
+      : super(key: key);
 
   @override
   _AdminOrdersDetailsState createState() => _AdminOrdersDetailsState();
@@ -21,7 +22,7 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh, widget.order);
     });
   }
@@ -38,7 +39,8 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
             Container(
               margin: const EdgeInsets.only(top: 18, right: 15),
               child: Text("Total: S/${_con.total}",
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18)),
             ),
           ],
           backgroundColor: Colors.black,
@@ -54,18 +56,14 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
                   indent: 30, // margen en la parte derecha
                 ),
                 _textDescription(),
-                _con.order?.estado != "PAGADO"
-                    ? _deliveryData()
-                    : Container(),
-                _con.order?.estado == "PAGADO"
-                    ? _con.users != null
-                        ? _dropDown(_con?.users)
-                        : ''
+                _con.order?.estado != "PAGADO" ? _deliveryData() : Container(),
+                _con.order?.estado == "PAGADO" && _con.user != null
+                    ? _dropDown(_con.users)
                     : Container(),
                 _textData("Cliente:",
                     '${_con.order?.cliente?.nombre ?? ''} ${_con.order?.cliente?.apellido ?? ''}'),
-                _textData("Entregar en:",
-                    _con.order?.direccion?.direccion ?? ''),
+                _textData(
+                    "Entregar en:", _con.order?.direccion?.direccion ?? ''),
                 _textData("Fecha de pedido:",
                     RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
                 _con.order?.estado == "PAGADO" ? _buttonNext() : Container(),
@@ -74,15 +72,15 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
           ),
         ),
         body: _con.order?.producto == null
-            ? NoDataWidget(
+            ? const NoDataWidget(
                 text: "Tu carrito está vacío",
               )
-            : _con.order.producto.isNotEmpty
+            : _con.order!.producto!.isNotEmpty
                 ? ListView(
-                    children: _con.order.producto.map((Product producto) {
+                    children: _con.order!.producto!.map((Product producto) {
                     return _cardProduct(producto);
                   }).toList())
-                : NoDataWidget(
+                : const NoDataWidget(
                     text: "Tu carrito está vacío",
                   ));
   }
@@ -125,10 +123,10 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
                 hint: const Text("Repartidor",
                     style: TextStyle(color: Colors.grey, fontSize: 16)),
                 items: _dropDownItems(users),
-                value: _con?.idDelivery,
+                value: _con.idDelivery,
                 onChanged: (option) {
                   setState(() {
-                    _con?.idDelivery = option;
+                    _con.idDelivery = option as String?;
                   });
                 },
               ),
@@ -151,14 +149,14 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
             width: 40,
             child: FadeInImage(
               image: _con.order?.deliveryList?.image != null
-                  ? NetworkImage(_con.order?.deliveryList?.image)
-                  : AssetImage("assets/images/noImagen.png"),
+                  ? NetworkImage(_con.order!.deliveryList!.image!)
+                  : AssetImage("assets/images/noImagen.png") as ImageProvider,
               fit: BoxFit.contain,
               fadeInDuration: Duration(milliseconds: 50),
               placeholder: AssetImage("assets/images/noImagen.png"),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Text(
@@ -170,7 +168,7 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
 
   List<DropdownMenuItem<String>> _dropDownItems(List<User> users) {
     List<DropdownMenuItem<String>> list = [];
-    users.forEach((user) {
+    for (var user in users) {
       list.add(DropdownMenuItem(
         child: Row(
           children: [
@@ -178,9 +176,9 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
               height: 40,
               width: 40,
               child: FadeInImage(
-                image: user.image != null
-                    ? NetworkImage(user.image)
-                    : AssetImage("assets/images/noImagen.png"),
+                image: user.image!.isNotEmpty
+                    ? NetworkImage(user.image!)
+                    : AssetImage("assets/images/noImagen.png") as ImageProvider,
                 fit: BoxFit.contain,
                 fadeInDuration: Duration(milliseconds: 50),
                 placeholder: AssetImage("assets/images/noImagen.png"),
@@ -194,7 +192,7 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
         ),
         value: user?.id,
       ));
-    });
+    }
 
     return list;
   }
@@ -290,8 +288,8 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
       padding: EdgeInsets.all(5),
       child: FadeInImage(
         image: producto.image1 != null
-            ? NetworkImage(producto.image1)
-            : AssetImage("assets/images/noImagen.png"),
+            ? NetworkImage(producto.image1!)
+            : AssetImage("assets/images/noImagen.png") as ImageProvider,
         fit: BoxFit.contain,
         fadeInDuration: Duration(milliseconds: 50),
         placeholder: AssetImage("assets/images/noImagen.png"),

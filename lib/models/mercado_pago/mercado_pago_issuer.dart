@@ -1,23 +1,21 @@
 class MercadoPagoIssuer {
 
   //IDENTIFICACION DEL EMISON
-  String id;
+  String? id;
 
   //NOMBRE DEL EMISOR
-  String name;
+  String? name;
 
   List<MercadoPagoIssuer> issuerList = [];
 
   MercadoPagoIssuer();
 
   MercadoPagoIssuer.fromJsonList( List<dynamic> jsonList  ){
-    if ( jsonList == null ) {
-      return;
-    }
-    jsonList.forEach((item) {
+
+    for (var item in jsonList) {
       final chat = MercadoPagoIssuer.fromJsonMap(item);
       issuerList.add(chat);
-    });
+    }
   }
 
   MercadoPagoIssuer.fromJsonMap( Map<String, dynamic> json ) {

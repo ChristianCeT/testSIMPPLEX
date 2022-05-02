@@ -13,9 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ClientProductsListController {
-  BuildContext context;
-  Function refresh;
-  User user;
+  late BuildContext context;
+  late Function refresh;
+  User? user;
 
   List<Category> categories = [];
 
@@ -26,7 +26,7 @@ class ClientProductsListController {
 
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
 
-  Timer searchOnStoppedTyping;
+  Timer? searchOnStoppedTyping;
   String productName = '';
 
   Future init(BuildContext context, Function refresh) async {
@@ -34,8 +34,8 @@ class ClientProductsListController {
     this.refresh = refresh;
     user = User.fromJson(
         await sharedPref.read("user")); // PUEDE TARDAR UN TIEMPO EN OBTENER
-    _categoriesProvider.init(context, user);
-    _productsProvider.init(context, user);
+    _categoriesProvider.init(context, user!);
+    _productsProvider.init(context, user!);
     getCategories(); // llamar al metodo
     refresh();
   }
@@ -51,7 +51,7 @@ class ClientProductsListController {
   void onChangeText(String text) {
     Duration duration = const Duration(milliseconds: 800);
     if (searchOnStoppedTyping != null) {
-      searchOnStoppedTyping.cancel();
+      searchOnStoppedTyping?.cancel();
       refresh();
     }
     searchOnStoppedTyping = Timer(duration, () {
@@ -76,7 +76,7 @@ class ClientProductsListController {
   }
 
   logout() {
-    sharedPref.logout(context, user.id);
+    sharedPref.logout(context, user!.id!);
   }
 
   void goToOrdersList() {
@@ -84,7 +84,7 @@ class ClientProductsListController {
   }
 
   void openDrawer() {
-    key.currentState.openDrawer();
+    key.currentState?.openDrawer();
   }
 
   void goToRoles() {

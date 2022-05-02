@@ -7,14 +7,14 @@ import 'package:client_exhibideas/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 
 class AdminCategoriesCreateController {
-  BuildContext context;
-  Function refresh;
+  late BuildContext context;
+  late Function refresh;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
   final CategoriesProvider _categoriesProvider = CategoriesProvider();
-  User user;
+  late User user;
 
   SharedPref sharedPref = SharedPref();
 
@@ -37,9 +37,10 @@ class AdminCategoriesCreateController {
 
     Category category = Category(nombre: name, descripcion: description);
 
-    ResponseApi responseApi = await _categoriesProvider.create(category);
-    MySnackBar.show(context, responseApi.message);
-    if (responseApi.success) {
+    ResponseApi? responseApi = await _categoriesProvider.create(category);
+    if(responseApi == null) return;
+    MySnackBar.show(context, responseApi.message!);
+    if (responseApi.success!) {
       nameController.text = "";
       descriptionController.text = "";
     }

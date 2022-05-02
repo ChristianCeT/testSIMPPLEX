@@ -13,7 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class ClientUpdateController {
-  BuildContext context;
+  late BuildContext context;
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
@@ -23,12 +23,12 @@ class ClientUpdateController {
 
   UsersProvider usersProvider = UsersProvider();
 
-  PickedFile pickedFile;
-  File imageFile;
-  Function refresh;
-  ProgressDialog _progressDialog;
+  PickedFile? pickedFile;
+  File? imageFile;
+  late Function refresh;
+  late ProgressDialog _progressDialog;
   bool isEnable = true;
-  User user;
+  User? user;
   final SharedPref _sharedPref = SharedPref();
 
   Future init(BuildContext context, Function refresh) async {
@@ -37,10 +37,11 @@ class ClientUpdateController {
     _progressDialog = ProgressDialog(context: context);
     user = User.fromJson(await _sharedPref.read("user"));
     usersProvider.init(context, sessionUser: user);
-    emailController.text = user.correo;
-    nameController.text = user.nombre;
-    lastnameController.text = user.apellido;
-    phoneController.text = user.telefono;
+    if (user == null) return;
+    emailController.text = user!.correo!;
+    nameController.text = user!.nombre!;
+    lastnameController.text = user!.apellido!;
+    phoneController.text = user!.telefono!;
     refresh();
   }
 
@@ -61,31 +62,31 @@ class ClientUpdateController {
         max: 100,
         msg: "Espere un momento....",
         progressBgColor: MyColors.primaryColor,
-        progressValueColor: Colors.grey[300]);
+        progressValueColor: Colors.grey[300] ?? Colors.grey);
     isEnable = false;
 
     User myUser = User(
-      id: user.id,
+      id: user?.id,
       nombre: name,
       apellido: lastname,
       correo: email,
       telefono: phone,
-      image: user.image,
+      image: user?.image,
       password: password,
     );
 
-    Stream stream = await usersProvider.updateWithImage(myUser, imageFile);
+    Stream? stream = await usersProvider.updateWithImage(myUser, imageFile!);
 
-    stream.listen((res) async {
+    stream?.listen((res) async {
       // devuelve un responseApi de user
       _progressDialog.close();
 
-      ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
-      Fluttertoast.showToast(msg: responseApi.message);
+      ResponseApi? responseApi = ResponseApi.fromJson(json.decode(res));
+      Fluttertoast.showToast(msg: responseApi.message!);
 
-      if (responseApi.success) {
-        ResponseApi responseApi2 = await usersProvider.getById(myUser.id);
-        User userData = User.fromJson(responseApi2.data);
+      if (responseApi.success!) {
+        ResponseApi? responseApi2 = await usersProvider.getById(myUser.id!);
+        User userData = User.fromJson(responseApi2?.data);
         _sharedPref.save(
             'user', userData.toJson()); // guardar el usuario en sesión
 
@@ -99,9 +100,7 @@ class ClientUpdateController {
 
   Future selectedImage(ImageSource imageSource) async {
     pickedFile = await ImagePicker().getImage(source: imageSource);
-    if (pickedFile != null) {
-      imageFile = File(pickedFile?.path);
-    }
+    imageFile = File(pickedFile!.path);
     Navigator.pop(context);
     refresh();
   }

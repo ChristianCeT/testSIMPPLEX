@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class AdminCategoriesCreatePage extends StatefulWidget {
-  const AdminCategoriesCreatePage({Key key}) : super(key: key);
+  const AdminCategoriesCreatePage({Key? key}) : super(key: key);
   static String routeName = "/admin/categories/list";
 
   @override
@@ -19,7 +19,7 @@ class _AdminCategoriesCreatePageState extends State<AdminCategoriesCreatePage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }

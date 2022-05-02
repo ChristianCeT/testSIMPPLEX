@@ -4,77 +4,74 @@ import 'package:client_exhibideas/models/mercado_pago/mercado_pago_tax.dart';
 import 'package:client_exhibideas/models/mercado_pago/mercado_pago_transaction_detail.dart';
 
 class MercadoPagoPayment {
-  String id;
-  DateTime dateCreated;
-  DateTime dateApproved;
-  DateTime dateLastUpdated;
-  DateTime dateOfExpiration;
-  DateTime moneyReleaseDate;
-  String operationType;
-  String issuerId;
-  String paymentMethodId;
-  String paymentTypeId;
-  String status;
-  String statusDetail;
-  String currencyId;
-  String description;
-  bool liveMode;
-  String sponsorId;
-  String authorizationCode;
-  String moneyReleaseSchema;
-  double taxesAmount;
-  String counterCurrency;
-  double shippingAmount;
-  String posId;
-  String storeId;
-  String integratorId;
-  String platformId;
-  String corporationId;
-  String collectorId;
-  MercadoPagoCustomer payer;
-  String marketplaceOwner;
+  String? id;
+  DateTime? dateCreated;
+  DateTime? dateApproved;
+  DateTime? dateLastUpdated;
+  DateTime? dateOfExpiration;
+  DateTime? moneyReleaseDate;
+  String? operationType;
+  String? issuerId;
+  String? paymentMethodId;
+  String? paymentTypeId;
+  String? status;
+  String? statusDetail;
+  String? currencyId;
+  String? description;
+  bool? liveMode;
+  String? sponsorId;
+  String? authorizationCode;
+  String? moneyReleaseSchema;
+  double? taxesAmount;
+  String? counterCurrency;
+  double? shippingAmount;
+  String? posId;
+  String? storeId;
+  String? integratorId;
+  String? platformId;
+  String? corporationId;
+  String? collectorId;
+  MercadoPagoCustomer? payer;
+  String? marketplaceOwner;
   dynamic metadata;
-  String availableBalance;
-  String nsuProcessadora;
+  String? availableBalance;
+  String? nsuProcessadora;
   dynamic order;
-  String externalReference;
-  double transactionAmount;
-  double netAmount;
-  List<MercadoPagoTax> taxes;
-  double transactionAmountRefunded;
-  double couponAmount;
-  String differentialPricingId;
-  String deductionSchema;
-  String callBackUrl;
-  MercadoPagoTransactionDetail transactionDetails;
-  List<dynamic> feeDetails;
-  bool captured;
-  bool binaryMode;
-  String callForAuthorizeId;
-  String statementDescriptor;
-  int installments;
-  MercadoPagoCreditCard card;
-  String notificationUrl;
-  List<dynamic> refunds;
-  String processingMode;
-  String merchantAccountId;
-  String acquirer;
-  String merchantNumber;
-  List<dynamic> acquirerReconciliation;
+  String? externalReference;
+  double? transactionAmount;
+  double? netAmount;
+  List<MercadoPagoTax>? taxes;
+  double? transactionAmountRefunded;
+  double? couponAmount;
+  String? differentialPricingId;
+  String? deductionSchema;
+  String? callBackUrl;
+  MercadoPagoTransactionDetail? transactionDetails;
+  List<dynamic>? feeDetails;
+  bool? captured;
+  bool? binaryMode;
+  String? callForAuthorizeId;
+  String? statementDescriptor;
+  int? installments;
+  MercadoPagoCreditCard? card;
+  String? notificationUrl;
+  List<dynamic>? refunds;
+  String? processingMode;
+  String? merchantAccountId;
+  String? acquirer;
+  String? merchantNumber;
+  List<dynamic>? acquirerReconciliation;
 
-  List<MercadoPagoPayment> creditPaymentList = new List();
+  List<MercadoPagoPayment> creditPaymentList = [];
 
   MercadoPagoPayment(
       {this.id, this.status, this.transactionDetails, this.callBackUrl});
 
   MercadoPagoPayment.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) {
-      return;
-    }
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       final chat = MercadoPagoPayment.fromJsonMap(item);
       creditPaymentList.add(chat);
-    });
+    }
   }
 
   MercadoPagoPayment.fromJsonMap(Map<String, dynamic> json) {
@@ -211,14 +208,14 @@ class MercadoPagoPayment {
         'differential_princing_id': differentialPricingId,
         'deduction_schema': deductionSchema,
         'callback_url': callBackUrl,
-        'transaction_details': transactionDetails.toJson(),
+        'transaction_details': transactionDetails?.toJson(),
         'fee_details': feeDetails,
         'captured': captured,
         'binary_mode': binaryMode,
         'call_for_authorized_id': callForAuthorizeId,
         'statement_descriptor': statementDescriptor,
         'installments': installments.toString(),
-        'card': card.toJson(),
+        'card': card?.toJson(),
         'notification_url': notificationUrl,
         'refunds': refunds,
         'processing_mode': processingMode,

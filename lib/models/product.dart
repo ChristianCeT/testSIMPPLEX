@@ -5,16 +5,16 @@ Product productFromJson(String str) => Product.fromJson(json.decode(str));
 String productToJson(Product data) => json.encode(data.toJson());
 
 class Product {
-  String id;
-  String nombre;
-  String descripcion;
-  String image1;
-  String image2;
-  String image3;
-  String categoria;
-  String linkRA;
-  double precio;
-  int cantidad;
+  String? id;
+  String? nombre;
+  String? descripcion;
+  String? image1;
+  String? image2;
+  String? image3;
+  String? categoria;
+  String? linkRA;
+  double? precio;
+  int? cantidad;
   List<Product> toList = [];
 
   Product({
@@ -49,11 +49,10 @@ class Product {
 
   //transformar la data que viene en json en un arreglo list
   Product.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) return;
-    jsonList.forEach((element) {
+    for (var element in jsonList) {
       Product product = Product.fromJson(element);
       toList.add(product);
-    });
+    }
   }
 
   Map<String, dynamic> toJson() => {

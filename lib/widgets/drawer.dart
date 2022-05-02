@@ -9,13 +9,13 @@ class DrawerMenu extends StatelessWidget {
   final String telefono;
   final Widget items;
   const DrawerMenu(
-      {Key key,
-      this.image,
-      this.nombre,
-      this.apellido,
-      this.correo,
-      this.telefono,
-      this.items})
+      {Key? key,
+      required this.image,
+      required this.nombre,
+      required this.apellido,
+      required this.correo,
+      required this.telefono,
+      required this.items})
       : super(key: key);
 
   @override
@@ -40,9 +40,9 @@ class DrawerMenu extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: FadeInImage(
-                    image: image != null
+                    image: image.isEmpty
                         ? NetworkImage(image)
-                        : const AssetImage("assets/image/no-avatar.png"),
+                        : const AssetImage("assets/image/no-avatar.png") as ImageProvider,
                     fit: BoxFit.cover,
                     fadeInDuration: const Duration(milliseconds: 50),
                     placeholder:
@@ -92,7 +92,7 @@ class DrawerMenu extends StatelessWidget {
 
 class MenuIconDrawer extends StatelessWidget {
   final Function() openDrawer;
-  const MenuIconDrawer({ Key key, this.openDrawer }) : super(key: key);
+  const MenuIconDrawer({ Key? key, required this.openDrawer }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class DeliveryOrdersListPage extends StatefulWidget {
-  DeliveryOrdersListPage({Key key}) : super(key: key);
+  const DeliveryOrdersListPage({Key? key}) : super(key: key);
   static String routeName = "/delivery/orders/list";
 
   @override
@@ -15,12 +15,12 @@ class DeliveryOrdersListPage extends StatefulWidget {
 }
 
 class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
-  DeliveryOrdersListController _con = new DeliveryOrdersListController();
+  final DeliveryOrdersListController _con =  DeliveryOrdersListController();
 
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -28,7 +28,7 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: _con.status?.length,
+      length: _con.status.length,
       child: Scaffold(
         drawer: DrawerMenu(
           apellido: _con.user?.apellido ?? "",
@@ -80,13 +80,13 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
                 future: _con.getOrders(status),
                 builder: (context, AsyncSnapshot<List<Order>> snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.length > 0) {
+                    if (snapshot.data!.length > 0) {
                       return ListView.builder(
                           padding:
                               EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
-                            return _cardOrder(snapshot.data[index]);
+                            return _cardOrder(snapshot.data![index]);
                           });
                     } else {
                       return NoDataWidget(

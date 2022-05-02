@@ -1,49 +1,48 @@
 class MercadoPagoDocumentType {
-
   //IDENTIFICADOR DEL TIPO DE IDENTIFICACION
-  String id;
+  String? id;
 
   //OMBRE DEL TIPO DE IDENTIFICACION
-  String name;
+  String? name;
 
   //TIPO DE DATO DEL NUMERO DE IDENTIFICACION
-  String type;
+  String? type;
 
   //MINIMA LONGITUD DEL NUMERO DE IDENTIFICACION
-  int minLength;
+  int? minLength;
 
   //MAXIMA LONGITUD DEL NUMERO DE IDENTIFICACION
-  int maxLength;
+  int? maxLength;
 
-  List<MercadoPagoDocumentType> documentTypeList = new List();
+  List<MercadoPagoDocumentType> documentTypeList = [];
 
   MercadoPagoDocumentType();
 
-  MercadoPagoDocumentType.fromJsonList( List<dynamic> jsonList  ){
-    if ( jsonList == null ) {
-      return;
-    }
-    jsonList.forEach((item) {
+  MercadoPagoDocumentType.fromJsonList(List<dynamic> jsonList) {
+    for (var item in jsonList) {
       final chat = MercadoPagoDocumentType.fromJsonMap(item);
       documentTypeList.add(chat);
-    });
+    }
   }
 
-  MercadoPagoDocumentType.fromJsonMap( Map<String, dynamic> json ) {
+  MercadoPagoDocumentType.fromJsonMap(Map<String, dynamic> json) {
     print('EL JSON ES $json');
-    id            = json['id'];
-    name          = json['name'];
-    type          = json['type'];
-    minLength     = (json['min_length'] != null) ? int.parse(json['min_length'].toString()) : 0;
-    maxLength     = (json['max_length'] != null) ? int.parse(json['max_length'].toString()) : 0;
+    id = json['id'];
+    name = json['name'];
+    type = json['type'];
+    minLength = (json['min_length'] != null)
+        ? int.parse(json['min_length'].toString())
+        : 0;
+    maxLength = (json['max_length'] != null)
+        ? int.parse(json['max_length'].toString())
+        : 0;
   }
 
-  Map<String, dynamic> toJson() =>
-      {
-        'id'          : id,
-        'name'        : name,
-        'type'        : type,
-        'min_length'  : minLength,
-        'max_length'  : maxLength
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'type': type,
+        'min_length': minLength,
+        'max_length': maxLength
       };
 }

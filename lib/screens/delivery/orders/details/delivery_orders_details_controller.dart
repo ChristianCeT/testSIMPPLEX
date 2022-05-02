@@ -10,21 +10,21 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class DeliveryOrdersDetailsController {
-  BuildContext context;
-  Function refresh;
-  Product product;
+  late BuildContext context;
+  late Function refresh;
+  late Product product;
   int counter = 1;
-  double productPrice;
+  late double productPrice;
 
-  SharedPref _sharedPref = new SharedPref();
+  SharedPref _sharedPref = SharedPref();
 
   double total = 0;
-  Order order;
-  User user;
+  late Order order;
+  late User user;
   List<User> users = [];
-  UsersProvider _usersProvider = new UsersProvider();
+  UsersProvider _usersProvider = UsersProvider();
   OrdersProvider _ordersProvider = new OrdersProvider();
-  String idDelivery;
+  late String idDelivery;
 
   Future init(BuildContext context, Function refresh, Order order) async {
     this.context = context;
@@ -40,11 +40,12 @@ class DeliveryOrdersDetailsController {
 
   void updateOrder() async {
     if (order.estado == "DESPACHADO") {
-      ResponseApi responseApi =
+      ResponseApi? responseApi =
           await _ordersProvider.updateToOrderOnTheWay(order);
+      if (responseApi == null) return;
       Fluttertoast.showToast(
-          msg: responseApi.message, toastLength: Toast.LENGTH_LONG);
-      if (responseApi.success) {
+          msg: responseApi.message!, toastLength: Toast.LENGTH_LONG);
+      if (responseApi.success!) {
         Navigator.pushNamed(context, DeliveryOrdersMapPage.routeName,
             arguments: order.toJson());
       }
@@ -55,7 +56,7 @@ class DeliveryOrdersDetailsController {
   }
 
   void getUsers() async {
-    users = await _usersProvider.getDeliveryUser();
+    users = (await _usersProvider.getDeliveryUser())!;
 
     refresh();
   }
@@ -63,8 +64,8 @@ class DeliveryOrdersDetailsController {
   void getTotal() {
     total = 0;
     // ignore: sdk_version_set_literal
-    order.producto.forEach(
-        (product) => {total = total + (product.precio * product.cantidad)});
+    order.producto?.forEach(
+        (product) => {total = total + (product.precio! * product.cantidad!)});
     refresh();
   }
 }

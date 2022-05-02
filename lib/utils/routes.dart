@@ -25,7 +25,7 @@ import 'package:flutter/material.dart';
 
 // Rutas
 final Map<String, WidgetBuilder> routes = {
-  SplashScreen1.routeName: (context) => const SplashScreen1(),
+  SplashScreen1.routeName: (context) => SplashScreen1(),
   LoginPage.routeName: (context) => LoginPage(),
   RegisterPage.routeName: (context) => RegisterPage(),
   ClientProductsListPage.routeName: (context) => ClientProductsListPage(),

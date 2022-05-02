@@ -5,9 +5,9 @@ Category categoryFromJson(String str) => Category.fromJson(json.decode(str));
 String categoryToJson(Category data) => json.encode(data.toJson());
 
 class Category {
-  String id;
-  String nombre;
-  String descripcion;
+  String? id;
+  String? nombre;
+  String? descripcion;
   List<Category> toList = [];
 
   Category({
@@ -24,11 +24,10 @@ class Category {
 
 //transformar la data que viene en json en un arreglo list
   Category.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) return;
-    jsonList.forEach((element) {
+    for (var element in jsonList) {
       Category category = Category.fromJson(element);
       toList.add(category);
-    });
+    }
   }
 
   Map<String, dynamic> toJson() => {

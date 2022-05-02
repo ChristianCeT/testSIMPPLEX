@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DeliveryOrdersMapPage extends StatefulWidget {
-  DeliveryOrdersMapPage({Key key}) : super(key: key);
+  const DeliveryOrdersMapPage({Key? key}) : super(key: key);
 
   static String routeName = "/delivery/orders/map";
 
@@ -19,7 +19,7 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -30,6 +30,7 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
     _con.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(

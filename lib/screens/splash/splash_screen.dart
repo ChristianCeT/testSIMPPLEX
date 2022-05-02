@@ -3,7 +3,7 @@ import 'package:client_exhibideas/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen1 extends StatelessWidget {
-  const SplashScreen1({Key key}) : super(key: key);
+  const SplashScreen1({Key? key}) : super(key: key);
   static String routeName = "/splash";
   @override
   Widget build(BuildContext context) {

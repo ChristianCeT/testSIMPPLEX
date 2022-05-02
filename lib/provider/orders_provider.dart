@@ -10,19 +10,19 @@ import 'package:fluttertoast/fluttertoast.dart';
 import "package:http/http.dart" as http;
 
 class OrdersProvider {
-  String _url = Enviroment.API_DELIVERY;
-  String _agregar = "/crearPedido";
-  String _pedidoEstado = "/pedidoDetalle";
-  String _pedidoActualizado = "/pedidoUpdate";
-  String _pedidoDeliveryEstado = "/pedidoRepartidor";
-  String _pedidoActualizarEnCamino = "/pedidoUpdateEnCamino";
-  String _pedidoActualizarEntregado = "/pedidoUpdateEntregado";
-  String _pedidoClientEstado = "/pedidoCliente";
-  String _pedidoUpdateLatLong = "/pedidoUpdateLatLong";
-  BuildContext context;
-  User sessionUser;
+  final String _url = Enviroment.API_DELIVERY;
+  final String _agregar = "/crearPedido";
+  final String _pedidoEstado = "/pedidoDetalle";
+  final String _pedidoActualizado = "/pedidoUpdate";
+  final String _pedidoDeliveryEstado = "/pedidoRepartidor";
+  final String _pedidoActualizarEnCamino = "/pedidoUpdateEnCamino";
+  final String _pedidoActualizarEntregado = "/pedidoUpdateEntregado";
+  final String _pedidoClientEstado = "/pedidoCliente";
+  final String _pedidoUpdateLatLong = "/pedidoUpdateLatLong";
+  late BuildContext context;
+  late User sessionUser;
 
-  Future init(BuildContext context, User sessionUser) {
+  Future init(BuildContext context, User sessionUser) async {
     this.context = context;
     this.sessionUser = sessionUser;
   }
@@ -33,13 +33,13 @@ class OrdersProvider {
       print(url);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.get(url, headers: headers);
 
       if (res.statusCode == 403) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body); // categorias
       print(data);
@@ -62,13 +62,13 @@ class OrdersProvider {
       print(url);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.get(url, headers: headers);
 
       if (res.statusCode == 403) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body); // categorias
       print(data);
@@ -90,13 +90,13 @@ class OrdersProvider {
       print(url);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.get(url, headers: headers);
 
       if (res.statusCode == 403) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body); // categorias
       print(data);
@@ -112,7 +112,7 @@ class OrdersProvider {
     }
   }
 
-  Future<ResponseApi> create(Order order) async {
+  Future<ResponseApi?> create(Order order) async {
     try {
       //authority url de la peticion
       Uri url = Uri.https(_url, "$_agregar");
@@ -120,13 +120,13 @@ class OrdersProvider {
       String bodyParams = json.encode(order);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.post(url, headers: headers, body: bodyParams);
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body);
       //espera mapa de valores
@@ -138,7 +138,7 @@ class OrdersProvider {
     }
   }
 
-  Future<ResponseApi> updateToOrder(Order order) async {
+  Future<ResponseApi?> updateToOrder(Order order) async {
     try {
       //authority url de la peticion
       Uri url = Uri.https(_url, "$_pedidoActualizado/${order.id}");
@@ -146,13 +146,13 @@ class OrdersProvider {
       String bodyParams = json.encode(order);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.put(url, headers: headers, body: bodyParams);
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body);
       //espera mapa de valores
@@ -164,7 +164,7 @@ class OrdersProvider {
     }
   }
 
-  Future<ResponseApi> updateToOrderOnTheWay(Order order) async {
+  Future<ResponseApi?> updateToOrderOnTheWay(Order order) async {
     try {
       //authority url de la peticion
       Uri url = Uri.https(_url, "$_pedidoActualizarEnCamino/${order.id}");
@@ -172,13 +172,13 @@ class OrdersProvider {
       String bodyParams = json.encode(order);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.put(url, headers: headers, body: bodyParams);
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        new SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body);
       //espera mapa de valores
@@ -190,7 +190,7 @@ class OrdersProvider {
     }
   }
 
-  Future<ResponseApi> updateToDelivered(Order order) async {
+  Future<ResponseApi?> updateToDelivered(Order order) async {
     try {
       //authority url de la peticion
       Uri url = Uri.https(_url, "$_pedidoActualizarEntregado/${order.id}");
@@ -198,13 +198,13 @@ class OrdersProvider {
       String bodyParams = json.encode(order);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.put(url, headers: headers, body: bodyParams);
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body);
       //espera mapa de valores
@@ -216,7 +216,7 @@ class OrdersProvider {
     }
   }
 
-  Future<ResponseApi> updateLatLong(Order order) async {
+  Future<ResponseApi?> updateLatLong(Order order) async {
     try {
       //authority url de la peticion
       Uri url = Uri.https(_url, "$_pedidoUpdateLatLong/${order.id}");
@@ -224,13 +224,13 @@ class OrdersProvider {
       String bodyParams = json.encode(order);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.put(url, headers: headers, body: bodyParams);
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body);
       //espera mapa de valores

@@ -3,44 +3,41 @@ import 'package:client_exhibideas/models/mercado_pago/mercado_pago_issuer.dart';
 
 class MercadoPagoPaymentMethod {
   //IDENTIFICADOR DEL MEDIO DE PAGO
-  String id;
+  String? id;
 
   //OMBRE DEL MEDIO DE PAGO
-  String name;
+  String? name;
 
-  String paymentTypeId;
-  String status;
-  String secureThumbnail;
-  String thumbnail;
-  String deferredCapture;
+  String? paymentTypeId;
+  String? status;
+  String? secureThumbnail;
+  String? thumbnail;
+  String? deferredCapture;
 
-  MercadoPagoIssuer issuer = MercadoPagoIssuer();
+  MercadoPagoIssuer? issuer = MercadoPagoIssuer();
 
   //SETTINGS
-  int cardNumberLength;
-  String binPattern;
-  String binExclusionPattern;
-  int securityCodeLength;
+  int? cardNumberLength;
+  String? binPattern;
+  String? binExclusionPattern;
+  int? securityCodeLength;
 
-  List<dynamic> additionalInfoNeeded = [];
-  double minAllowedAmount;
-  double maxAllowedAmount;
-  double accreditationTime;
-  List<MercadoPagoFinancialInstitution> financialInstitutions;
+  List<dynamic>? additionalInfoNeeded = [];
+  double? minAllowedAmount;
+  double? maxAllowedAmount;
+  double? accreditationTime;
+  List<MercadoPagoFinancialInstitution>? financialInstitutions;
 
   List<MercadoPagoPaymentMethod> paymentMenthodList = [];
 
   MercadoPagoPaymentMethod({this.id});
 
   MercadoPagoPaymentMethod.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) {
-      return;
-    }
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       final chat = MercadoPagoPaymentMethod.fromJsonMap(item);
       paymentMenthodList.add(chat);
       print('SE DICIONO METODO');
-    });
+    }
   }
 
   MercadoPagoPaymentMethod.fromJsonMap(Map<String, dynamic> json) {

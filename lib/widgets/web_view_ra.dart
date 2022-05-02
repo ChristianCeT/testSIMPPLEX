@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewRa extends StatefulWidget {
-  const WebViewRa({Key key}) : super(key: key);
+  const WebViewRa({Key? key}) : super(key: key);
 
   static String routeName = "/client/products/webar_view";
 
@@ -21,7 +21,7 @@ class _WebViewRaState extends State<WebViewRa> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context).settings.arguments as String;
+    final args = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         title: const Text("WebViewRa"),

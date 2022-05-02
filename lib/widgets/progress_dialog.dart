@@ -4,7 +4,7 @@ import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class ProgressDialogWidget extends StatelessWidget {
   final String message;
-  const ProgressDialogWidget({Key key, this.message}) : super(key: key);
+  const ProgressDialogWidget({Key? key, required this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class ProgressDialogWidget extends StatelessWidget {
       msg: message,
       progressBgColor: MyColors.primaryColor,
       msgColor: MyColors.primaryColor,
-      progressValueColor: Colors.grey[300],
+      progressValueColor: Colors.grey[300] ?? Colors.grey,
     );
   }
 }

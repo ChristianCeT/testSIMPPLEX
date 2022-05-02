@@ -7,7 +7,7 @@ import 'package:client_exhibideas/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key key}) : super(key: key);
+  const Body({Key? key}) : super(key: key);
 
   @override
   _BodyState createState() => _BodyState();
@@ -47,8 +47,8 @@ class _BodyState extends State<Body> {
                     },
                     itemCount: splashData.length,
                     itemBuilder: (context, index) => SplashContent(
-                          image: splashData[index]["image"],
-                          text: splashData[index]["text"],
+                          image: splashData[index]["image"]!,
+                          text: splashData[index]["text"]!,
                         ))),
             Expanded(
                 flex: 2,

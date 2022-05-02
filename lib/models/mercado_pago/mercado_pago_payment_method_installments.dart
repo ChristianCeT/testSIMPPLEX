@@ -2,32 +2,29 @@ import 'package:client_exhibideas/models/mercado_pago/mercado_pago_installment.d
 import 'package:client_exhibideas/models/mercado_pago/mercado_pago_issuer.dart';
 
 class MercadoPagoPaymentMethodInstallments {
-  String paymentMethodId;
+  String? paymentMethodId;
 
-  String paymentTypeId;
+  String? paymentTypeId;
 
-  MercadoPagoIssuer issuer;
+  MercadoPagoIssuer? issuer;
 
-  String processingMode;
+  String? processingMode;
 
-  String merchantAccountId;
+  String? merchantAccountId;
 
-  List<MercadoPagoInstallment> payerCosts = [];
+  List<MercadoPagoInstallment>? payerCosts = [];
 
-  String aggreements;
+  String? aggreements;
 
   List<MercadoPagoPaymentMethodInstallments> installmentList = [];
 
   MercadoPagoPaymentMethodInstallments();
 
   MercadoPagoPaymentMethodInstallments.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) {
-      return;
-    }
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       final chat = MercadoPagoPaymentMethodInstallments.fromJsonMap(item);
       installmentList.add(chat);
-    });
+    }
   }
 
   MercadoPagoPaymentMethodInstallments.fromJsonMap(Map<String, dynamic> json) {
@@ -48,7 +45,7 @@ class MercadoPagoPaymentMethodInstallments {
   Map<String, dynamic> toJson() => {
         'payment_method_id': paymentMethodId,
         'payment_type_id': paymentTypeId,
-        'issuer': (issuer != null) ? issuer.toJson() : null,
+        'issuer': (issuer != null) ? issuer?.toJson() : null,
         'processing_mode': processingMode,
         'merchant_account_id': merchantAccountId,
         'payer_costs': (payerCosts != null) ? payerCosts : null,

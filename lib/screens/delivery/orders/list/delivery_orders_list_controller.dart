@@ -10,16 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class DeliveryOrdersListController {
-  BuildContext context;
-  Function refresh;
-  User user;
+  late BuildContext context;
+   late Function refresh;
+  late User user;
   SharedPref sharedPref = new SharedPref();
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
 
   List<String> status = ["DESPACHADO", "EN CAMINO", "ENTREGADO"];
   OrdersProvider _ordersProvider = new OrdersProvider();
 
-  bool isUpdated;
+bool? isUpdated;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -31,7 +31,7 @@ class DeliveryOrdersListController {
   }
 
   Future<List<Order>> getOrders(String status) async {
-    return await _ordersProvider.getByDeliveryStatus(user?.id, status);
+    return await _ordersProvider.getByDeliveryStatus(user.id!, status);
   }
 
   void openBottomSheet(Order order) async {
@@ -47,11 +47,11 @@ class DeliveryOrdersListController {
   }
 
   logout() {
-    sharedPref.logout(context, user.id);
+    sharedPref.logout(context, user.id!);
   }
 
   void openDrawer() {
-    key.currentState.openDrawer();
+    key.currentState?.openDrawer();
   }
 
   void goToRoles() {

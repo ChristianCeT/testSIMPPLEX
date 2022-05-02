@@ -1,30 +1,27 @@
 class MercadoPagoTransactionDetail {
 
-  String paymentMethodReferenceId;
-  double netReceivedAmount;
-  double totalPaidAmount;
-  double overpaidAmount;
-  String externalResourceUrl;
-  double installmentAmount;
-  String financialInstitution;
-  String payableDeferralPeriod;
-  String acquirerReference;
-  String bankTransferId;
+  String? paymentMethodReferenceId;
+  double? netReceivedAmount;
+  double? totalPaidAmount;
+  double? overpaidAmount;
+  String? externalResourceUrl;
+  double? installmentAmount;
+  String? financialInstitution;
+  String? payableDeferralPeriod;
+  String? acquirerReference;
+  String? bankTransferId;
 
-  List<MercadoPagoTransactionDetail> taxList = new List();
+  List<MercadoPagoTransactionDetail> taxList = [];
 
   MercadoPagoTransactionDetail({
     this.externalResourceUrl
   });
 
   MercadoPagoTransactionDetail.fromJsonList( List<dynamic> jsonList  ){
-    if ( jsonList == null ) {
-      return;
-    }
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       final chat = MercadoPagoTransactionDetail.fromJsonMap(item);
       taxList.add(chat);
-    });
+    }
   }
 
   MercadoPagoTransactionDetail.fromJsonMap( Map<String, dynamic> json ) {

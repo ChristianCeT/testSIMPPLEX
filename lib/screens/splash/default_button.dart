@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class DefaultButton extends StatelessWidget {
   const DefaultButton({
-    Key key,
-    this.text,
-    this.press,
+    Key? key,
+    required this.text,
+    required this.press,
   }) : super(key: key);
   final String text;
   final Function press;
@@ -22,7 +22,7 @@ class DefaultButton extends StatelessWidget {
               backgroundColor: MyColors.primaryColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20))),
-          onPressed: press,
+          onPressed: press(),
           child: Text(
             text,
             style: TextStyle(

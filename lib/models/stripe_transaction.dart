@@ -2,5 +2,5 @@ class StripeTransactionResponse {
   String message;
   bool success;
 
-  StripeTransactionResponse({this.message, this.success});
+  StripeTransactionResponse({required this.message, required this.success});
 }

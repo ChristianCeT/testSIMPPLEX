@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
   static String routeName = "/Login";
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       _con.init(context);
     });
   }

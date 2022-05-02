@@ -17,15 +17,15 @@ class MercadoPagoProvider {
 
   final _mercadoPagoCredentials = Enviroment.mercadoPagoCredentials;
 
-  User user;
-  BuildContext context;
+  late User user;
+  late BuildContext context;
 
-  Future init(BuildContext context, User user) {
+  Future init(BuildContext context, User user) async {
     this.context = context;
     this.user = user;
   }
 
-  Future<List<MercadoPagoDocumentType>> getIdentificacionTtpes() async {
+  Future<List<MercadoPagoDocumentType>?> getIdentificacionTtpes() async {
     try {
       final url = Uri.https(_urlMercadoPago, '/v1/identification_types', {
         'access_token': _mercadoPagoCredentials.accessToken,
@@ -45,18 +45,18 @@ class MercadoPagoProvider {
     }
   }
 
-  Future<http.Response> createPayment({
-    @required String cardId,
-    @required double transactionAmount,
-    @required int installments,
-    @required String paymentMethodId,
-    @required String paymentTypeId,
-    @required String issuerId,
-    @required String emailCustomer,
-    @required String cardToken,
-    @required String identificationType,
-    @required String identificationNumber,
-    @required Order order,
+  Future<http.Response?> createPayment({
+    required String cardId,
+    required double transactionAmount,
+    required int installments,
+    required String paymentMethodId,
+    required String paymentTypeId,
+    required String issuerId,
+    required String emailCustomer,
+    required String cardToken,
+    required String identificationType,
+    required String identificationNumber,
+    required Order order,
   }) async {
     try {
       Uri url = Uri.https(_url, _urlGuardarOrden, {
@@ -87,14 +87,14 @@ class MercadoPagoProvider {
       String bodyParams = json.encode(body);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": user.sessionToken
+        "Authorization": user.sessionToken!
       };
 
       final res = await http.post(url, headers: headers, body: bodyParams);
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        SharedPref().logout(context, user.id);
+        SharedPref().logout(context, user.id!);
       }
 
       return res;
@@ -103,7 +103,7 @@ class MercadoPagoProvider {
     }
   }
 
-  Future<MercadoPagoPaymentMethodInstallments> getInstallments(
+  Future<MercadoPagoPaymentMethodInstallments?> getInstallments(
       String bin, double amount) async {
     try {
       final url =
@@ -125,14 +125,14 @@ class MercadoPagoProvider {
     }
   }
 
-  Future<http.Response> createCardToken({
-    String cvv,
-    String expirationYear,
-    int expirationMonth,
-    String cardNumber,
-    String documentNumber,
-    String documentId,
-    String cardHolderName,
+  Future<http.Response?> createCardToken({
+    required String cvv,
+    required String expirationYear,
+    required int expirationMonth,
+    required String cardNumber,
+    required String documentNumber,
+    required String documentId,
+    required String cardHolderName,
   }) async {
     try {
       final url = Uri.https(_urlMercadoPago, '/v1/card_tokens', {

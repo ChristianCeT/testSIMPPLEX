@@ -6,10 +6,10 @@ String rolToJson(Rol data) => json.encode(data.toJson());
 
 class Rol {
     Rol({
-        this.id,
-        this.nombre,
-        this.route,
-        this.imagen,
+        required this.id,
+        required this.nombre,
+        required this.route,
+        required this.imagen,
     });
 
     String id;

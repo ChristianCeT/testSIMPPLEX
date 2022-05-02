@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BackgroundWidget extends StatelessWidget {
   final Widget child;
   final String page;
-  const BackgroundWidget({Key key, this.child, this.page}) : super(key: key);
+  const BackgroundWidget({Key? key, required this.child, required this.page}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,8 @@ class BackgroundWidget extends StatelessWidget {
 class _HeaderWidget extends StatelessWidget {
   final String page;
   const _HeaderWidget({
-    Key key,
-    this.page,
+    Key? key,
+    required this.page,
   }) : super(key: key);
 
   @override
@@ -47,7 +47,7 @@ class _HeaderWidget extends StatelessWidget {
 }
 
 class _PurpleBox extends StatelessWidget {
-  const _PurpleBox({Key key}) : super(key: key);
+  const _PurpleBox({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _PurpleBox extends StatelessWidget {
 }
 
 class _Bubble extends StatelessWidget {
-  const _Bubble({Key key}) : super(key: key);
+  const _Bubble({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

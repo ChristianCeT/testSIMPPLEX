@@ -2,40 +2,37 @@ import 'package:client_exhibideas/models/mercado_pago/mercado_pago_credit_cart.d
 
 class MercadoPagoCustomer {
   //IDENTIFICADOR DEL USUARIO EN MERCADO PAGO
-  String id;
-  String email;
-  String firstName;
-  String lastName;
-  String phoneArea;
-  String phoneNumber;
-  String identificationType;
-  String identificationNumber;
-  String addressId;
-  String addressZip;
-  String addressStreetName;
-  String addressStreetNumber;
-  DateTime dateRegistered;
-  String description;
-  DateTime dateCreated;
-  DateTime dateLastUpdated;
-  List<dynamic> metadata;
-  String defaultCardId;
-  String defaultAddressId;
-  List<MercadoPagoCreditCard> customerCardList = new List();
-  bool liveMode;
+  String? id;
+  String? email;
+  String? firstName;
+  String? lastName;
+  String? phoneArea;
+  String? phoneNumber;
+  String? identificationType;
+  String? identificationNumber;
+  String? addressId;
+  String? addressZip;
+  String? addressStreetName;
+  String? addressStreetNumber;
+  DateTime? dateRegistered;
+  String? description;
+  DateTime? dateCreated;
+  DateTime? dateLastUpdated;
+  List<dynamic>? metadata;
+  String? defaultCardId;
+  String? defaultAddressId;
+  List<MercadoPagoCreditCard> customerCardList = [];
+  bool? liveMode;
 
-  List<MercadoPagoCustomer> customerList = new List();
+  List<MercadoPagoCustomer> customerList = [];
 
   MercadoPagoCustomer();
 
   MercadoPagoCustomer.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) {
-      return;
-    }
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       final customer = MercadoPagoCustomer.fromJsonMap(item);
       customerList.add(customer);
-    });
+    }
   }
 
   MercadoPagoCustomer.fromJsonMap(Map<String, dynamic> json) {

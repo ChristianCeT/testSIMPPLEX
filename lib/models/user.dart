@@ -6,16 +6,16 @@ User userFromJson(String str) => User.fromJson(json.decode(str));
 String userToJson(User data) => json.encode(data.toJson());
 
 class User {
-  String id;
-  String nombre;
-  String apellido;
-  String correo;
-  String telefono;
-  String password;
-  String image;
-  String sessionToken;
-  String refreshToken;
-  List<Rol> roles = [];
+  String? id;
+  String? nombre;
+  String? apellido;
+  String? correo;
+  String? telefono;
+  String? password;
+  String? image;
+  String? sessionToken;
+  String? refreshToken;
+  List<Rol>? roles = [];
   List<User> toList = [];
 
   User({
@@ -32,29 +32,25 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["_id"],
-        nombre: json["nombre"],
-        apellido: json["apellido"],
-        correo: json["correo"],
-        telefono: json["telefono"],
-        password: json["password"],
-        image: json["image"],
-        sessionToken: json["sessionToken"],
-        refreshToken: json["refreshToken"],
-        roles: json["roles"] == null
-            ? []
-            : List<Rol>.from(
-                    json["roles"].map((model) => Rol.fromJson(model))) ??
-                [],
-      );
+      id: json["_id"],
+      nombre: json["nombre"],
+      apellido: json["apellido"],
+      correo: json["correo"],
+      telefono: json["telefono"],
+      password: json["password"],
+      image: json["image"],
+      sessionToken: json["sessionToken"],
+      refreshToken: json["refreshToken"],
+      roles: json["roles"] == null
+          ? []
+          : List<Rol>.from(json["roles"].map((model) => Rol.fromJson(model))));
 
   //transformar la data que viene en json en un arreglo list
   User.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) return;
-    jsonList.forEach((element) {
+    for (var element in jsonList) {
       User user = User.fromJson(element);
       toList.add(user);
-    });
+    }
   }
 
   Map<String, dynamic> toJson() => {

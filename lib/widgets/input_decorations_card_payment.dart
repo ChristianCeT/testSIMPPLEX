@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class InputDecorationsPayment {
   static InputDecoration paymentInputDecoration({
-    String hintText,
-    String labelText,
-    IconData prefixIcon,
+    required String hintText,
+    required String labelText,
+    IconData? prefixIcon,
   }) {
     return InputDecoration(
       enabledBorder: OutlineInputBorder(

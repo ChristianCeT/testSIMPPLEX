@@ -5,42 +5,42 @@ import 'package:client_exhibideas/models/mercado_pago/mercado_pago_security_code
 
 class MercadoPagoCreditCard {
   //IDENTIFICADOR DE LA TARJETA
-  String id;
+  String? id;
 
   //IDENTIFICADOR DEL CLIENTE
-  String customerId;
+  String? customerId;
 
-  String userId;
+  String? userId;
 
   //MES DE EXPIRACIÓN DE LA TARJETA
-  int expirationMonth;
+  int? expirationMonth;
 
   //AÑO DE EXPOIRACION DE LA TARJETA
-  int expirationYear;
+  int? expirationYear;
 
   //PRIMEROS SEIS DIGITOS DE LA TARJETA
-  String firstSixDigits;
+  String? firstSixDigits;
 
   //ULTIMOS CUATRO DIGITOS DE LA TARJETA
-  String lastFourDigits;
+  String? lastFourDigits;
 
   //INFORMACION DE LOS MEDIOS DE PAGO
-  MercadoPagoPaymentMethod paymentMethod = new MercadoPagoPaymentMethod();
+  MercadoPagoPaymentMethod? paymentMethod = MercadoPagoPaymentMethod();
 
   //INFORMACION DEL CODIGO DE SEGURIDAD
-  MercadoPagoSecurityCode securityCode = new MercadoPagoSecurityCode();
+  MercadoPagoSecurityCode? securityCode = MercadoPagoSecurityCode();
 
   //INFORMACION DEL EMISOR
-  MercadoPagoIssuer issuer = new MercadoPagoIssuer();
+  MercadoPagoIssuer? issuer = MercadoPagoIssuer();
 
   //INFORMACION DEL DUEÑO DE LA TARJETA
-  MercadoPagoCardHolder cardHolder = new MercadoPagoCardHolder();
+  MercadoPagoCardHolder? cardHolder = MercadoPagoCardHolder();
 
   //FECHA DE CREACION DE LA TARJETA
-  DateTime dateCreated;
+  DateTime? dateCreated;
 
   //ULTIMA FECHA DE ACTUALIZACION DE LA TARJETA
-  DateTime dateLastUpdate;
+  DateTime? dateLastUpdate;
 
   List<MercadoPagoCreditCard> creditCardList = [];
 
@@ -61,13 +61,10 @@ class MercadoPagoCreditCard {
   });
 
   MercadoPagoCreditCard.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) {
-      return;
-    }
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       final chat = MercadoPagoCreditCard.fromJsonMap(item);
       creditCardList.add(chat);
-    });
+    }
   }
 
   MercadoPagoCreditCard.fromJsonMap(Map<String, dynamic> json) {
@@ -115,10 +112,10 @@ class MercadoPagoCreditCard {
         'first_six_digits': firstSixDigits,
         'last_four_digits': lastFourDigits,
         'payment_method':
-            (paymentMethod != null) ? paymentMethod.toJson() : null,
-        'security_code': (securityCode != null) ? securityCode.toJson() : null,
-        'issuer': (issuer != null) ? issuer.toJson() : null,
-        'cardholder': (cardHolder != null) ? cardHolder.toJson() : null,
+            (paymentMethod != null) ? paymentMethod?.toJson() : null,
+        'security_code': (securityCode != null) ? securityCode?.toJson() : null,
+        'issuer': (issuer != null) ? issuer?.toJson() : null,
+        'cardholder': (cardHolder != null) ? cardHolder?.toJson() : null,
         'date_created': dateCreated,
         'date_laste_updated': dateLastUpdate
       };

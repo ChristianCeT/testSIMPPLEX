@@ -3,9 +3,9 @@ import 'package:client_exhibideas/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 
 class RolesController {
-  BuildContext context;
-  Function refresh;
-  User user;
+  late BuildContext context;
+  late Function refresh;
+  late User user;
   SharedPref sharedPref = SharedPref();
 
   Future init(BuildContext context, Function refresh) async {

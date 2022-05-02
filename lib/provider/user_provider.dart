@@ -11,35 +11,35 @@ import "package:http/http.dart" as http;
 import "package:path/path.dart";
 
 class UsersProvider {
-  String _url = Enviroment.API_DELIVERY;
-  String _crear = "/crearUsuario";
-  String _login = "/login";
-  String _update = "/actualizarUsuario";
-  String _usuarioUnico = "/usuario";
-  String _logout = "/logout";
-  String _usuarioRol = "/usuarioRol";
+  final String _url = Enviroment.API_DELIVERY;
+  final String _crear = "/crearUsuario";
+  final String _login = "/login";
+  final String _update = "/actualizarUsuario";
+  final String _usuarioUnico = "/usuario";
+  final String _logout = "/logout";
+  final String _usuarioRol = "/usuarioRol";
 
-  BuildContext context;
-  User sessionUser;
+  late BuildContext context;
+  late User sessionUser;
 //parametro opcional {String token}
-  Future init(BuildContext context, {User sessionUser}) {
+  Future init(BuildContext context, {User? sessionUser}) async {
     this.context = context;
-    this.sessionUser = sessionUser;
+    this.sessionUser = sessionUser!;
   }
 
-  Future<ResponseApi> getById(String id) async {
+  Future<ResponseApi?> getById(String id) async {
     try {
       Uri url = Uri.https(_url, "$_usuarioUnico/$id");
       print(url);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.get(url, headers: headers);
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Tu sesión expiró");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body);
       ResponseApi responseApi = ResponseApi.fromJson(data);
@@ -50,19 +50,19 @@ class UsersProvider {
     }
   }
 
-  Future<List<User>> getDeliveryUser() async {
+  Future<List<User>?> getDeliveryUser() async {
     try {
       Uri url = Uri.https(_url, "$_usuarioRol");
       print(url);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
       final res = await http.get(url, headers: headers);
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Tu sesión expiró");
-        new SharedPref().logout(context, sessionUser.id);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body);
       User user = User.fromJsonList(data);
@@ -73,25 +73,23 @@ class UsersProvider {
     }
   }
 
-  Future<Stream> createWithImage(User user, File image) async {
+  Future<Stream?> createWithImage(User user, File image) async {
     try {
-      Uri url = Uri.https(_url, "$_crear");
+      Uri url = Uri.https(_url, _crear);
       final request = http.MultipartRequest("POST", url);
       Map<String, String> headers = {"Content-type": "application/json"};
 
-      if (image != null) {
-        request.files.add(http.MultipartFile("image",
-            http.ByteStream(image.openRead().cast()), await image.length(),
-            filename: basename(image.path)));
-      }
+      request.files.add(http.MultipartFile("image",
+          http.ByteStream(image.openRead().cast()), await image.length(),
+          filename: basename(image.path)));
 
       request.headers.addAll(headers);
       request.fields["user"] = json.encode(user);
-      request.fields["nombre"] = user.nombre;
-      request.fields["apellido"] = user.apellido;
-      request.fields["correo"] = user.correo;
-      request.fields["password"] = user.password;
-      request.fields["telefono"] = user.telefono;
+      request.fields["nombre"] = user.nombre!;
+      request.fields["apellido"] = user.apellido!;
+      request.fields["correo"] = user.correo!;
+      request.fields["password"] = user.password!;
+      request.fields["telefono"] = user.telefono!;
 
       final response = await request.send();
 
@@ -102,35 +100,33 @@ class UsersProvider {
     }
   }
 
-  Future<Stream> updateWithImage(User user, File image) async {
+  Future<Stream?> updateWithImage(User user, File image) async {
     try {
       Uri url = Uri.https(_url, "$_update/${user.id}");
       print(url);
       final request = http.MultipartRequest("PUT", url);
       Map<String, String> headers = {
         "Content-type": "application/json",
-        "Authorization": sessionUser.sessionToken
+        "Authorization": sessionUser.sessionToken!
       };
 
-      if (image != null) {
-        request.files.add(http.MultipartFile("image",
-            http.ByteStream(image.openRead().cast()), await image.length(),
-            filename: basename(image.path)));
-      }
+      request.files.add(http.MultipartFile("image",
+          http.ByteStream(image.openRead().cast()), await image.length(),
+          filename: basename(image.path)));
 
       request.headers.addAll(headers);
       request.fields["user"] = json.encode(user);
-      request.fields["nombre"] = user.nombre;
-      request.fields["correo"] = user.correo;
-      request.fields["apellido"] = user.apellido;
-      request.fields["telefono"] = user.telefono;
-      request.fields["password"] = user.password;
+      request.fields["nombre"] = user.nombre!;
+      request.fields["correo"] = user.correo!;
+      request.fields["apellido"] = user.apellido!;
+      request.fields["telefono"] = user.telefono!;
+      request.fields["password"] = user.password!;
 
       final response = await request.send();
 
       if (response.statusCode == 404) {
         Fluttertoast.showToast(msg: "Tu sesión expiró");
-        new SharedPref().logout(context, sessionUser.id);
+       SharedPref().logout(context, sessionUser.id!);
       }
 
       return response.stream.transform(utf8.decoder);
@@ -140,7 +136,7 @@ class UsersProvider {
     }
   }
 
-  Future<ResponseApi> logout(String idUser) async {
+  Future<ResponseApi?> logout(String idUser) async {
     try {
       //authority url de la peticion
       Uri url = Uri.https(_url, "$_logout/$idUser");
@@ -158,10 +154,10 @@ class UsersProvider {
     }
   }
 
-  Future<ResponseApi> create(User user) async {
+  Future<ResponseApi?> create(User user) async {
     try {
       //authority url de la peticion
-      Uri url = Uri.https(_url, "$_crear");
+      Uri url = Uri.https(_url, _crear);
       String bodyParams = json.encode(user);
       Map<String, String> headers = {"Content-type": "application/json"};
 
@@ -176,10 +172,10 @@ class UsersProvider {
     }
   }
 
-  Future<ResponseApi> login(String correo, String password) async {
+  Future<ResponseApi?> login(String correo, String password) async {
     try {
       //authority url de la peticion
-      Uri url = Uri.https(_url, "$_login");
+      Uri url = Uri.https(_url, _login);
       String bodyParams = json.encode({"correo": correo, "password": password});
       Map<String, String> headers = {"Content-type": "application/json"};
 

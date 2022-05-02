@@ -9,7 +9,7 @@ import 'package:client_exhibideas/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 
 class LoginController {
-  BuildContext context;
+  late BuildContext context;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -24,15 +24,15 @@ class LoginController {
     //nombre de la llave
     User user = User.fromJson(await _sharedPref.read("user") ?? {});
 
-    if (user?.sessionToken != null) {
-      if (user.roles.length > 1) {
+    if (user.sessionToken != null) {
+      if (user.roles!.length > 1) {
         //sirve para que despues de esa pantalla ya no existe nada
         Navigator.pushNamedAndRemoveUntil(
             context, RolesPage.routeName, (route) => false);
       } else {
         //sirve para que despues de esa pantalla ya no existe nada
         Navigator.pushNamedAndRemoveUntil(
-            context, user.roles[0].route, (route) => false);
+            context, user.roles![0].route, (route) => false);
       }
     }
   }
@@ -46,9 +46,11 @@ class LoginController {
     //trim sirve para eliminar espacios en blanco
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
-    ResponseApi responseApi = await usersProvider.login(email, password);
+    ResponseApi? responseApi = await usersProvider.login(email, password);
+    
+    if(responseApi == null) return;
 
-    if (responseApi.success) {
+    if (responseApi.success!) {
       //retorno de mapa de valores
       // se obtiene el usuario
       User user = User.fromJson(responseApi.data);
@@ -57,7 +59,7 @@ class LoginController {
 
       print("USUARIO LOGEADO: ${user.toJson()}");
 
-      if (user.roles.length > 1) {
+      if (user.roles!.length > 1) {
         //sirve para que despues de esa pantalla ya no existe nada
         Navigator.pushNamedAndRemoveUntil(
             context, RolesPage.routeName, (route) => false);
@@ -67,11 +69,11 @@ class LoginController {
             context, ClienteProductsMenu.routeName, (route) => false);
       }
     } else {
-      MySnackBar.show(context, responseApi.message);
+      MySnackBar.show(context, responseApi.message!);
     }
 
     print("respuesta: ${responseApi.toJson()}");
-    MySnackBar.show(context, responseApi.message);
+    MySnackBar.show(context, responseApi.message!);
 
     print("EMAIL: $email");
     print("PASSOWRD: $password");

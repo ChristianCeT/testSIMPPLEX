@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientProductsListPage extends StatefulWidget {
-  const ClientProductsListPage({Key key}) : super(key: key);
+  const ClientProductsListPage({Key? key}) : super(key: key);
 
   static String routeName = "/client/products/list";
 
@@ -23,7 +23,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) async {
       await _con.init(context, refresh);
     });
   }
@@ -31,7 +31,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: _con.categories?.length,
+      length: _con.categories.length,
       child: Scaffold(
         drawer: DrawerMenu(
           apellido: _con.user?.apellido ?? "",
@@ -85,10 +85,10 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
         body: TabBarView(
           children: _con.categories.map((Category category) {
             return FutureBuilder(
-                future: _con.getProducts(category.id, _con.productName),
+                future: _con.getProducts(category.id!, _con.productName),
                 builder: (context, AsyncSnapshot<List<Product>> snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.isNotEmpty) {
+                    if (snapshot.data!.isNotEmpty) {
                       return GridView.builder(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 5, vertical: 10),
@@ -99,7 +99,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                           ),
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
-                            return _cardProducts(snapshot.data[index]);
+                            return _cardProducts(snapshot.data![index]);
                           });
                     } else {
                       return NoDataWidget(
@@ -159,8 +159,8 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                     padding: const EdgeInsets.all(20),
                     child: FadeInImage(
                       image: product.image1 != null
-                          ? NetworkImage(product.image1)
-                          : const AssetImage("assets/images/noImagen.png"),
+                          ? NetworkImage(product.image1!)
+                          : const AssetImage("assets/images/noImagen.png") as ImageProvider,
                       fit: BoxFit.contain,
                       fadeInDuration: const Duration(milliseconds: 50),
                       placeholder:
@@ -238,10 +238,10 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
               hintStyle: TextStyle(fontSize: 17, color: Colors.grey[500]),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.grey[300])),
+                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.2))),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.grey[300], width: 2)),
+                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.1), width: 2)),
               contentPadding: const EdgeInsets.all(15))),
     );
   }
@@ -266,7 +266,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
           ),
         ),
         _con.user != null
-            ? _con.user.roles.length > 1
+            ? _con.user!.roles!.length > 1
                 ? ListTile(
                     onTap: _con.goToRoles,
                     title: const Text("Seleccionar rol"),

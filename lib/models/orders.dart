@@ -8,17 +8,17 @@ Order orderFromJson(String str) => Order.fromJson(json.decode(str));
 String orderToJson(Order data) => json.encode(data.toJson());
 
 class Order {
-  String id;
-  User deliveryList;
-  String estado;
-  String idDelivery;
-  int fecha;
-  List<Product> producto = [];
+  String? id;
+  User? deliveryList;
+  String? estado;
+  String? idDelivery;
+  int? fecha;
+  List<Product>? producto = [];
   List<Order> toList = [];
-  User cliente;
-  Address direccion;
-  double latitud;
-  double longitud;
+  User? cliente;
+  Address? direccion;
+  double? latitud;
+  double? longitud;
 
   Order(
       {this.id,
@@ -48,15 +48,14 @@ class Order {
       deliveryList: json["detalle_repartidor"] == null
           ? json["detalle_repartidor"]
           : json["detalle_repartidor"] is String
-              ? userFromJson(json["detalle_repartidor" ?? {}])
+              ? userFromJson(json["detalle_repartidor"])
               : json["detalle_repartidor"] is User
                   ? json["detalle_repartidor"]
-                  : User.fromJson(json["detalle_repartidor" ?? {}]),
+                  : User.fromJson(json["detalle_repartidor"]),
       estado: json["estado"],
       producto: json["producto"] != null
-          ? List<Product>.from(json["producto"].map((model) =>
-                  model is Product ? model : Product.fromJson(model))) ??
-              []
+          ? List<Product>.from(json["producto"].map(
+              (model) => model is Product ? model : Product.fromJson(model)))
           : [],
       fecha: json["horaOrden"],
       longitud: json["longitud"] is String
@@ -67,7 +66,6 @@ class Order {
           : json["latitud"].toDouble());
 
   Order.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) return;
     for (var element in jsonList) {
       Order order = Order.fromJson(element);
       toList.add(order);

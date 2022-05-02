@@ -1,44 +1,45 @@
 class MercadoPagoCardHolder {
-
   //NOMBRE
-  String name;
+  String? name;
 
   //NUMERO DE IDENTIFICACION
-  int number;
+  int? number;
 
   //SUBTIPO DE IDENTIFICACION
-  String subtype;
+  String? subtype;
 
   //TIPO DE IDENTIFICACION
-  String type;
+  String? type;
 
-
-  List<MercadoPagoCardHolder> cardHolderList = new List();
+  List<MercadoPagoCardHolder> cardHolderList = [];
 
   MercadoPagoCardHolder();
 
-  MercadoPagoCardHolder.fromJsonList( List<dynamic> jsonList  ){
-    if ( jsonList == null ) {
-      return;
-    }
-    jsonList.forEach((item) {
+  MercadoPagoCardHolder.fromJsonList(List<dynamic> jsonList) {
+    for (var item in jsonList) {
       final chat = MercadoPagoCardHolder.fromJsonMap(item);
       cardHolderList.add(chat);
-    });
+    }
   }
 
-  MercadoPagoCardHolder.fromJsonMap( Map<String, dynamic> json ) {
-    name             = json['name'];
-    number           = json['identification'] != null ? (json['identification']['number'] != null) ? int.parse(json['identification']['number'].toString()) : 0 : 0;
-    subtype          = json['identification'] != null ? json['identification']['subtype'] : null;
-    type             = json['identification'] != null ? json['identification']['type'] : null;
+  MercadoPagoCardHolder.fromJsonMap(Map<String, dynamic> json) {
+    name = json['name'];
+    number = json['identification'] != null
+        ? (json['identification']['number'] != null)
+            ? int.parse(json['identification']['number'].toString())
+            : 0
+        : 0;
+    subtype = json['identification'] != null
+        ? json['identification']['subtype']
+        : null;
+    type =
+        json['identification'] != null ? json['identification']['type'] : null;
   }
 
-  Map<String, dynamic> toJson() =>
-      {
-        'name'             : name,
-        'number'           : number,
-        'subtype'          : subtype,
-        'type'             : type,
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'number': number,
+        'subtype': subtype,
+        'type': type,
       };
 }

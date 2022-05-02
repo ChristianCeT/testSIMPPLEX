@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class RegisterController {
-  BuildContext context;
+  late BuildContext context;
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
@@ -20,11 +20,11 @@ class RegisterController {
 
   UsersProvider usersProvider = UsersProvider();
 
-  PickedFile pickedFile;
-  File imageFile;
-  Function refresh;
+  PickedFile? pickedFile;
+  File? imageFile;
+  late Function refresh;
 
-  ProgressDialog _progressDialog;
+  late ProgressDialog _progressDialog;
 
   bool isEnable = true;
 
@@ -80,9 +80,9 @@ class RegisterController {
       password: password,
     );
 
-    Stream stream = await usersProvider.createWithImage(user, imageFile);
+    Stream? stream = await usersProvider.createWithImage(user, imageFile!);
 
-    stream.listen((res) {
+    stream?.listen((res) {
       // devuelve un responseApi de user
       /* ResponseApi responseApi = await usersProvider.create(user); */
 
@@ -91,9 +91,9 @@ class RegisterController {
       ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
       print("RESPUESTA: ${responseApi.toJson()}");
 
-      MySnackBar.show(context, responseApi.message);
+      MySnackBar.show(context, responseApi.message!);
 
-      if (responseApi.success) {
+      if (responseApi.success!) {
         Future.delayed(const Duration(seconds: 2), () {
           Navigator.pushReplacementNamed(context, LoginPage.routeName);
         });
@@ -105,8 +105,9 @@ class RegisterController {
 
   Future selectedImage(ImageSource imageSource) async {
     pickedFile = await ImagePicker().getImage(source: imageSource);
+    
     if (pickedFile != null) {
-      imageFile = File(pickedFile?.path);
+      imageFile = File(pickedFile!.path);
     }
     Navigator.pop(context);
     refresh();

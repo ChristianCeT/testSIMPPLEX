@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 //se crea como static para no importar la instancia de la clase
 class InputDecorations {
   static InputDecoration authInputDecoration({
-    String hintText,
-    String labelText,
-    IconData prefixIcon,
+    required String hintText,
+    required String labelText,
+    IconData? prefixIcon,
   }) {
     return InputDecoration(
       
