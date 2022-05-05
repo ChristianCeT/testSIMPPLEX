@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientPaymentsInstallmentsPage extends StatefulWidget {
-  const ClientPaymentsInstallmentsPage({Key key}) : super(key: key);
+  const ClientPaymentsInstallmentsPage({Key? key}) : super(key: key);
 
   static String routeName = "/client/payments/installments";
 
@@ -22,7 +22,7 @@ class _ClientPaymentsInstallmentsPageState
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -69,7 +69,7 @@ class _ClientPaymentsInstallmentsPageState
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           Text(
-            '${_con?.totalPayment}',
+            '${_con.totalPayment}',
             style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           )
         ],
@@ -137,11 +137,11 @@ class _ClientPaymentsInstallmentsPageState
                   isExpanded: true,
                   hint: const Text("Seleccionar número de cuotas",
                       style: TextStyle(color: Colors.grey, fontSize: 16)),
-                  items: _dropDownItems(_con?.installmentsList),
-                  value: _con?.selectedInstallment,
-                  onChanged: (option) {
+                  items: _dropDownItems(_con.installmentsList!),
+                  value: _con.selectedInstallment,
+                  onChanged: (String? option) {
                     setState(() {
-                      _con?.selectedInstallment = option;
+                      _con.selectedInstallment = option!;
                     });
                   },
                 ),
@@ -158,8 +158,8 @@ class _ClientPaymentsInstallmentsPageState
     List<DropdownMenuItem<String>> list = [];
     for (var installment in installmentsList) {
       list.add(DropdownMenuItem(
-        child: Text('${installment?.installments}'),
-        value: '${installment?.installments}',
+        child: Text('${installment.installments}'),
+        value: '${installment.installments}',
       ));
     }
 

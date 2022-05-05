@@ -17,35 +17,35 @@ import "package:location/location.dart" as location;
 import 'package:url_launcher/url_launcher.dart';
 
 class DeliveryOrdersMapController {
-  BuildContext context;
-  Function refresh;
-  Position _position;
-  StreamSubscription _positionStream;
-  String addressName;
-  LatLng addressLaglng;
+  late BuildContext context;
+  late Function refresh;
+  Position? _position;
+  StreamSubscription? _positionStream;
+  String? addressName;
+  LatLng? addressLaglng;
 
-  CameraPosition initialPosition = const CameraPosition(
+  CameraPosition? initialPosition = const CameraPosition(
       target: LatLng(-11.991651, -77.0147332), zoom: 20); // zoom del 1 al 20
 
   final Completer<GoogleMapController> _mapController = Completer();
 
-  BitmapDescriptor deliveryMarker;
-  BitmapDescriptor homeMarker;
+  BitmapDescriptor? deliveryMarker;
+  BitmapDescriptor? homeMarker;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   final OrdersProvider _ordersProvider = OrdersProvider();
-  User user;
+  late User user;
   final SharedPref _sharedPref = SharedPref();
-  Order order;
-  double _distanceBetween;
+  Order? order;
+  double? _distanceBetween;
 
-  iosocket.Socket socket;
+  iosocket.Socket? socket;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    order = Order.fromJson(ModalRoute.of(context).settings.arguments
+    order = Order.fromJson(ModalRoute.of(context)!.settings.arguments
         as Map<String, dynamic>); // obtener datos de un argumento de la orden
     deliveryMarker =
         await createMarketFromAssets('assets/images/delivery3.png');
@@ -56,7 +56,7 @@ class DeliveryOrdersMapController {
       'transports': ['websocket'],
       'autoConnect': false,
     });
-    socket.connect();
+    socket?.connect();
 
     user = User.fromJson(await _sharedPref.read("user"));
     _ordersProvider.init(context, user);
@@ -66,30 +66,33 @@ class DeliveryOrdersMapController {
   }
 
   void saveLocation() async {
-    order.latitud = _position.latitude;
-    order.longitud = _position.longitude;
-    await _ordersProvider.updateLatLong(order);
+    order?.latitud = _position!.latitude;
+    order?.longitud = _position!.longitude;
+    await _ordersProvider.updateLatLong(order!);
   }
 
   void emitPosition() {
-    socket.emit('posicion', {
-      'id_order': order.id,
-      'latitud': _position.latitude,
-      'longitud': _position.longitude,
+    socket?.emit('posicion', {
+      'id_order': order?.id,
+      'latitud': _position!.latitude,
+      'longitud': _position!.longitude,
     });
   }
 
   void isCloseToDeliveredPosition() {
-    _distanceBetween = Geolocator.distanceBetween(_position.latitude,
-        _position.longitude, order.direccion.latitud, order.direccion.longitud);
+    _distanceBetween = Geolocator.distanceBetween(
+        _position!.latitude,
+        _position!.longitude,
+        order!.direccion!.latitud!,
+        order!.direccion!.longitud!);
     print("----Distancia ${_distanceBetween} ---------");
   }
 
   void launchWaze() async {
     var url =
-        'waze://?ll=${order.direccion.latitud.toString()},${order.direccion.longitud.toString()}';
+        'waze://?ll=${order?.direccion!.latitud.toString()},${order?.direccion!.longitud.toString()}';
     var fallbackUrl =
-        'https://waze.com/ul?ll=${order.direccion.latitud.toString()},${order.direccion.longitud.toString()}&navigate=yes';
+        'https://waze.com/ul?ll=${order?.direccion!.latitud.toString()},${order?.direccion!.longitud.toString()}&navigate=yes';
     try {
       bool launched =
           await launch(url, forceSafariVC: false, forceWebView: false);
@@ -103,9 +106,9 @@ class DeliveryOrdersMapController {
 
   void launchGoogleMaps() async {
     var url =
-        'google.navigation:q=${order.direccion.latitud.toString()},${order.direccion.longitud.toString()}';
+        'google.navigation:q=${order?.direccion!.latitud.toString()},${order?.direccion!.longitud.toString()}';
     var fallbackUrl =
-        'https://www.google.com/maps/search/?api=1&query=${order.direccion.latitud.toString()},${order.direccion.longitud.toString()}';
+        'https://www.google.com/maps/search/?api=1&query=${order?.direccion!.latitud.toString()},${order?.direccion!.longitud.toString()}';
     try {
       bool launched =
           await launch(url, forceSafariVC: false, forceWebView: false);
@@ -121,11 +124,13 @@ class DeliveryOrdersMapController {
     if (_distanceBetween == null) {
       return;
     }
-    if (_distanceBetween <= 200) {
-      ResponseApi responseApi = await _ordersProvider.updateToDelivered(order);
-      if (responseApi.success) {
+    if (_distanceBetween! <= 200) {
+      ResponseApi? responseApi =
+          await _ordersProvider.updateToDelivered(order!);
+      if (responseApi == null) return;
+      if (responseApi.success!) {
         Fluttertoast.showToast(
-            msg: responseApi.message, toastLength: Toast.LENGTH_LONG);
+            msg: responseApi.message!, toastLength: Toast.LENGTH_LONG);
         Navigator.pushNamedAndRemoveUntil(
             context, DeliveryOrdersListPage.routeName, (route) => false);
       }
@@ -153,8 +158,8 @@ class DeliveryOrdersMapController {
   void selectRefPoint() async {
     Map<String, dynamic> data = {
       "address": addressName,
-      "lat": addressLaglng.latitude,
-      "lng": addressLaglng.longitude,
+      "lat": addressLaglng!.latitude,
+      "lng": addressLaglng!.longitude,
     };
 // pasar la informacion al navigator cerrando la pestaña
     Navigator.pop(context, data);
@@ -169,16 +174,16 @@ class DeliveryOrdersMapController {
 
   Future<void> setLocationDraggableInfo() async {
     if (initialPosition != null) {
-      double lat = initialPosition.target.latitude;
-      double long = initialPosition.target.longitude;
+      double lat = initialPosition!.target.latitude;
+      double long = initialPosition!.target.longitude;
       List<Placemark> address = await placemarkFromCoordinates(lat, long);
 
       if (address != null) {
         if (address.isNotEmpty) {
-          String direction = address[0].thoroughfare;
-          String street = address[0].subThoroughfare;
-          String city = address[0].locality;
-          String deparment = address[0].administrativeArea;
+          String direction = address[0].thoroughfare!;
+          String street = address[0].subThoroughfare!;
+          String city = address[0].locality!;
+          String deparment = address[0].administrativeArea!;
           /* String country = address[0].country; */
           addressName = '$direction #$street, $city, $deparment';
           addressLaglng = LatLng(lat, long);
@@ -206,14 +211,14 @@ class DeliveryOrdersMapController {
       _position = await Geolocator
           .getLastKnownPosition(); // obtener la ultima posicion del dispositivo la latitud y longitud actual es lo que devuelve
       saveLocation();
-      animatedCameraToPosition(order.latitud, order.longitud);
-      addMarker("Delivery", order.latitud, order.longitud, "Tu posición", "",
-          deliveryMarker);
-      addMarker("Home", order.direccion.latitud, order.direccion.longitud,
-          "Lugar de entrega", "", homeMarker);
+      animatedCameraToPosition(order!.latitud!, order!.longitud!);
+      addMarker("Delivery", order!.latitud!, order!.longitud!, "Tu posición",
+          "", deliveryMarker!);
+      addMarker("Home", order!.direccion!.latitud!, order!.direccion!.longitud!,
+          "Lugar de entrega", "", homeMarker!);
 
       //setPolylines
-      animatedCameraToPosition(_position.latitude, _position.longitude);
+      animatedCameraToPosition(_position!.latitude, _position!.longitude);
       isCloseToDeliveredPosition();
       refresh();
     } catch (e) {

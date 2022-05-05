@@ -105,7 +105,7 @@ class RegisterController {
 
   Future selectedImage(ImageSource imageSource) async {
     pickedFile = await ImagePicker().getImage(source: imageSource);
-    
+
     if (pickedFile != null) {
       imageFile = File(pickedFile!.path);
     }

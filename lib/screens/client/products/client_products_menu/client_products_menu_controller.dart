@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import '../list/client_products_list_page.dart';
 
 class ClientProductMenu {
-  Function refresh;
-  BuildContext context;
-  User user;
+  late Function refresh;
+  late BuildContext context;
+  late User user;
   SharedPref sharedPref = SharedPref();
   int position = 0;
 

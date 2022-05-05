@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ClientAddressMapPage extends StatefulWidget {
-  const ClientAddressMapPage({Key key}) : super(key: key);
+  const ClientAddressMapPage({Key? key}) : super(key: key);
 
   static String routeName = "/client/address/map";
 
@@ -18,7 +18,7 @@ class _ClientAddressMapPageState extends State<ClientAddressMapPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -88,7 +88,7 @@ class _ClientAddressMapPageState extends State<ClientAddressMapPage> {
   Widget _googleMaps() {
     return GoogleMap(
       mapType: MapType.normal,
-      initialCameraPosition: _con.initialPosition,
+      initialCameraPosition: _con.initialPosition!,
       onMapCreated: _con.onMapCreate,
       myLocationButtonEnabled: false,
       myLocationEnabled: false,

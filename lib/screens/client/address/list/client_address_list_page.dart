@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientAddressListPage extends StatefulWidget {
-  const ClientAddressListPage({Key key}) : super(key: key);
+  const ClientAddressListPage({Key? key}) : super(key: key);
 
   static String routeName = "/client/address/list";
 
@@ -19,7 +19,7 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -82,13 +82,13 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
         future: _con.getAddress(),
         builder: (context, AsyncSnapshot<List<Address>> snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.isNotEmpty) {
+            if (snapshot.data!.isNotEmpty) {
               return ListView.builder(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                   itemCount: snapshot.data?.length ?? 0,
                   itemBuilder: (_, index) {
-                    return _radioSelectorAddress(snapshot.data[index], index);
+                    return _radioSelectorAddress(snapshot.data![index], index);
                   });
             } else {
               return _noAddress();
@@ -117,10 +117,10 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(address?.direccion ?? "",
+                  Text(address.direccion ?? "",
                       style: const TextStyle(
                           fontSize: 13, fontWeight: FontWeight.bold)),
-                  Text(address?.avenida ?? "",
+                  Text(address.avenida ?? "",
                       style: const TextStyle(
                         fontSize: 12,
                       )),
@@ -140,7 +140,8 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
     return Container(
       height: 50,
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: size.height * 0.07, horizontal: 30),
+      margin:
+          EdgeInsets.symmetric(vertical: size.height * 0.07, horizontal: 30),
       child: ElevatedButton(
         onPressed: _con.createOrder,
         child: const Text("PAGAR"),

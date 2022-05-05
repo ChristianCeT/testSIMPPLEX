@@ -157,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _textFieldLastName() {
     return TextField(
       autocorrect: false,
-      controller: _con.nameController,
+      controller: _con.lastnameController,
       keyboardType: TextInputType.text,
       decoration: InputDecorations.authInputDecoration(
         hintText: 'Doe Lore',
@@ -170,7 +170,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _textFieldPhone() {
     return TextField(
       autocorrect: false,
-      controller: _con.nameController,
+      controller: _con.phoneController,
       keyboardType: TextInputType.number,
       decoration: InputDecorations.authInputDecoration(
         hintText: '999666232',

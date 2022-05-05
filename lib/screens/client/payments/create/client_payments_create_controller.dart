@@ -11,8 +11,8 @@ import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:http/http.dart';
 
 class ClientPaymentsCreateController {
-  BuildContext context;
-  Function refresh;
+  late BuildContext context;
+  late Function refresh;
 
   GlobalKey<FormState> keyForm = GlobalKey();
 
@@ -26,13 +26,13 @@ class ClientPaymentsCreateController {
 
   List<MercadoPagoDocumentType> documentTypeList = [];
   final MercadoPagoProvider _mercadoPagoProvider = MercadoPagoProvider();
-  User user;
+  late User user;
   final SharedPref _sharedPref = SharedPref();
 
   String typesDocument = 'DNI';
-  String expirationYear;
-  int expirationMonth;
-  MercadoPagoCardToken cardToken;
+  late String expirationYear;
+  late int expirationMonth;
+  MercadoPagoCardToken? cardToken;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -43,7 +43,7 @@ class ClientPaymentsCreateController {
   }
 
   void getIdenteficationTypes() async {
-    documentTypeList = await _mercadoPagoProvider.getIdentificacionTtpes();
+    documentTypeList = (await _mercadoPagoProvider.getIdentificacionTtpes())!;
 
     for (var documentMercado in documentTypeList) {
       print("DOCUMENTO: ${documentMercado.toJson()}");
@@ -78,20 +78,15 @@ class ClientPaymentsCreateController {
       return;
     }
 
-    if (expireDate != null) {
-      List<String> list = expireDate.split('/');
-      if (list.length == 2) {
-        expirationMonth = int.parse(list[0]);
-        expirationYear = '20${list[1]}';
-      } else {
-        MySnackBar.show(
-            context, "Inserta el mes y el año de expiración de la tarjeta");
-      }
+    List<String> list = expireDate.split('/');
+    if (list.length == 2) {
+      expirationMonth = int.parse(list[0]);
+      expirationYear = '20${list[1]}';
+    } else {
+      MySnackBar.show(
+          context, "Inserta el mes y el año de expiración de la tarjeta");
     }
-    if (cardNumber != null) {
-      cardNumber = cardNumber.replaceAll(
-          RegExp(' '), ''); // reemplaza el espacio con nada
-    }
+    cardNumber = cardNumber.replaceAll(RegExp(' '), '');
 /*     print('CVV $cvvCode');
     print('Card Number $cardNumber');
     print('cardHolderName $cardHolderName');
@@ -100,7 +95,7 @@ class ClientPaymentsCreateController {
     print('expirationYear $expirationYear');
     print('expirationMonth $expirationMonth'); */
 
-    Response response = await _mercadoPagoProvider.createCardToken(
+    Response? response = await _mercadoPagoProvider.createCardToken(
       cvv: cvvCode,
       cardNumber: cardNumber,
       cardHolderName: cardHolderName,
@@ -120,11 +115,11 @@ class ClientPaymentsCreateController {
             arguments: {
               'identification_type': typesDocument,
               'identification_number': documentNumber,
-              'card_token': cardToken.toJson(),
+              'card_token': cardToken?.toJson(),
             });
       } else {
         print('Hubo un error generando el token');
-        int status = int.tryParse(data['cause'][0]['code'] ?? data['status']);
+        int? status = int.tryParse(data['cause'][0]['code'] ?? data['status']);
         String message = data['message'] ?? 'Erro al registrar la tarjeta';
         MySnackBar.show(context, "Status code $status - $message");
       }

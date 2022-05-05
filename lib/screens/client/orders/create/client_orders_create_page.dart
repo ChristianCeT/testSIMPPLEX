@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientOrderCreatePage extends StatefulWidget {
-  const ClientOrderCreatePage({Key key}) : super(key: key);
+  const ClientOrderCreatePage({Key? key}) : super(key: key);
   static String routeName = "/client/orders/create";
 
   @override
@@ -19,7 +19,7 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -109,7 +109,7 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(product?.nombre ?? "",
+              Text(product.nombre ?? "",
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(
                 height: 10,
@@ -163,7 +163,7 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
     return Container(
       margin: const EdgeInsets.only(top: 10),
       child: Text(
-        "S/${product.precio * product.cantidad}",
+        "S/${product.precio! * product.cantidad!}",
         style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
       ),
     );
@@ -177,8 +177,8 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: FadeInImage(
         image: product.image1 != null
-            ? NetworkImage(product.image1)
-            : const AssetImage("assets/images/noImagen.png"),
+            ? NetworkImage(product.image1!)
+            : const AssetImage("assets/images/noImagen.png") as ImageProvider,
         fit: BoxFit.contain,
         fadeInDuration: const Duration(milliseconds: 50),
         placeholder: const AssetImage("assets/images/noImagen.png"),
@@ -213,7 +213,7 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
           color: MyColors.primaryColor,
           child: Text(
-            "${product?.cantidad ?? 0}",
+            "${product.cantidad ?? 0}",
             style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold),
           ),

@@ -2,20 +2,22 @@ class MercadoPagoTax {
   double? value;
   String? type;
 
-  List<MercadoPagoTax> taxList = [];
+  List<MercadoPagoTax>? taxList = [];
 
   MercadoPagoTax();
 
-  MercadoPagoTax.fromJsonList(List<dynamic> jsonList) {
-    for (var item in jsonList) {
-      MercadoPagoTax tax;
-      if (item is MercadoPagoTax) {
-        tax = item;
-      } else {
-        tax = MercadoPagoTax.fromJsonMap(item);
-      }
+  MercadoPagoTax.fromJsonList(List<dynamic>? jsonList) {
+    if (jsonList != null) {
+      for (var item in jsonList) {
+        MercadoPagoTax tax;
+        if (item is MercadoPagoTax) {
+          tax = item;
+        } else {
+          tax = MercadoPagoTax.fromJsonMap(item);
+        }
 
-      taxList.add(tax);
+        taxList?.add(tax);
+      }
     }
   }
 

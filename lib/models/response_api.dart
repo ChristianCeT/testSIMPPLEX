@@ -31,5 +31,4 @@ class ResponseApi {
         "success": success,
         "user": data,
       };
-    
 }

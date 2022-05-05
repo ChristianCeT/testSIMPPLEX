@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class ClienteAccountController {
   late BuildContext context;
   late Function refresh;
-  late User user;
+  User? user;
   SharedPref sharedPref = SharedPref();
 
   Future init(BuildContext context, Function refresh) async {
@@ -20,7 +20,7 @@ class ClienteAccountController {
   }
 
   logout() {
-    sharedPref.logout(context, user.id!);
+    sharedPref.logout(context, user!.id!);
   }
 
   void goToOrdersList() {

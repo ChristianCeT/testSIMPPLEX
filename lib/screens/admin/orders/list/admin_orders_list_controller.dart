@@ -10,24 +10,24 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class AdminOrdersListController {
-  BuildContext context;
-  Function refresh;
-  User user;
+  late BuildContext context;
+  late Function refresh;
+  User? user;
   SharedPref sharedPref = SharedPref();
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
 
   List<String> status = ["PAGADO", "DESPACHADO", "EN CAMINO", "ENTREGADO"];
-  
+
   final OrdersProvider _ordersProvider = OrdersProvider();
 
-  bool isUpdated;
+  bool? isUpdated;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     user = User.fromJson(
         await sharedPref.read("user")); // PUEDE TARDAR UN TIEMPO EN OBTENER
-    _ordersProvider.init(context, user);
+    _ordersProvider.init(context, user!);
     refresh();
   }
 
@@ -48,11 +48,11 @@ class AdminOrdersListController {
   }
 
   logout() {
-    sharedPref.logout(context, user.id);
+    sharedPref.logout(context, user!.id!);
   }
 
   void openDrawer() {
-    key.currentState.openDrawer();
+    key.currentState?.openDrawer();
   }
 
   void goToRoles() {

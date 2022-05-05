@@ -178,7 +178,7 @@ class OrdersProvider {
 
       if (res.statusCode == 404) {
         Fluttertoast.showToast(msg: "Sesión expirada");
-        new SharedPref().logout(context, sessionUser.id!);
+        SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body);
       //espera mapa de valores

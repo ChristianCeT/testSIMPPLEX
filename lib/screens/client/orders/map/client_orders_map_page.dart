@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ClientOrdersMapPage extends StatefulWidget {
-  const ClientOrdersMapPage({Key key}) : super(key: key);
+  const ClientOrdersMapPage({Key? key}) : super(key: key);
 
   static String routeName = "/client/orders/map";
 
@@ -19,7 +19,7 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -69,9 +69,9 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
       child: Column(
         children: [
           _listTitleAddress(
-              _con.order?.direccion?.avenida, "Avenida", Icons.my_location),
+              _con.order.direccion!.avenida!, "Avenida", Icons.my_location),
           _listTitleAddress(
-              _con.order?.direccion?.direccion, "Dirección", Icons.location_on),
+              _con.order.direccion!.direccion!, "Dirección", Icons.location_on),
           Divider(color: MyColors.primaryColor, endIndent: 30, indent: 30),
           _clientInfo(),
         ],
@@ -88,9 +88,10 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
             height: 50,
             width: 50,
             child: FadeInImage(
-              image: _con.order?.deliveryList?.image != null
-                  ? NetworkImage(_con.order?.deliveryList?.image)
-                  : const AssetImage("assets/images/noImagen.png"),
+              image: _con.order.deliveryList!.image != null
+                  ? NetworkImage(_con.order.deliveryList!.image!)
+                  : const AssetImage("assets/images/noImagen.png")
+                      as ImageProvider,
               fit: BoxFit.cover,
               fadeInDuration: const Duration(milliseconds: 50),
               placeholder: const AssetImage("assets/images/noImagen.png"),
@@ -99,7 +100,7 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
           Container(
               margin: const EdgeInsets.only(left: 10),
               child: Text(
-                "${_con.order?.deliveryList?.nombre ?? ''} ${_con.order?.deliveryList?.apellido ?? ''} ",
+                "${_con.order.deliveryList?.nombre ?? ''} ${_con.order.deliveryList?.apellido ?? ''} ",
                 style: const TextStyle(color: Colors.black, fontSize: 16),
                 maxLines: 1,
               )),
@@ -122,7 +123,7 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30),
       child: ListTile(
-        title: Text(title ?? '', style: const TextStyle(fontSize: 13)),
+        title: Text(title, style: const TextStyle(fontSize: 13)),
         subtitle: const Text("Vecindario"),
         trailing: Icon(iconData),
       ),

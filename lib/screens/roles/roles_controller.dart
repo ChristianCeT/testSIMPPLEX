@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class RolesController {
   late BuildContext context;
   late Function refresh;
-  late User user;
+  User? user;
   SharedPref sharedPref = SharedPref();
 
   Future init(BuildContext context, Function refresh) async {

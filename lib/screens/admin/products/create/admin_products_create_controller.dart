@@ -9,36 +9,35 @@ import 'package:client_exhibideas/provider/products_provider.dart';
 import 'package:client_exhibideas/utils/my_snackbar.dart';
 import 'package:client_exhibideas/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class AdminProductsCreateController {
-  BuildContext context;
-  Function refresh;
+  late BuildContext context;
+  late Function refresh;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController linkRAController = TextEditingController();
-  MoneyMaskedTextController priceController =  MoneyMaskedTextController();
+  TextEditingController priceController = TextEditingController();
 
   final CategoriesProvider _categoriesProvider = CategoriesProvider();
   final ProductsProvider _productsProvider = ProductsProvider();
 
-  User user;
+  late User user;
 
   SharedPref sharedPref = SharedPref();
 
   List<Category> categories = [];
-  String idCategory; // almacena el id de la categoria seleccionada
+  String? idCategory; // almacena el id de la categoria seleccionada
 
   //imagenes
-  PickedFile pickedFile;
-  File imageFile1;
-  File imageFile2;
-  File imageFile3;
+  PickedFile? pickedFile;
+  File? imageFile1;
+  File? imageFile2;
+  File? imageFile3;
 
-  ProgressDialog _progressDialog;
+  ProgressDialog? _progressDialog;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -61,7 +60,8 @@ class AdminProductsCreateController {
     String name = nameController.text;
     String description = descriptionController.text;
     String linkRA = linkRAController.text;
-    double price = priceController.numberValue; // obtener valores enteros
+    double price =
+        double.parse(priceController.text); // obtener valores enteros
 
     if (name.isEmpty || description.isEmpty || price == 0 || linkRA.isEmpty) {
       MySnackBar.show(context, "Debe ingresar todos los campos");
@@ -87,20 +87,20 @@ class AdminProductsCreateController {
     );
 
     List<File> images = [];
-    images.add(imageFile1);
-    images.add(imageFile2);
-    images.add(imageFile3);
+    images.add(imageFile1!);
+    images.add(imageFile2!);
+    images.add(imageFile3!);
 
-    _progressDialog.show(max: 100, msg: "Espere un momento");
-    Stream stream = await _productsProvider.create(product, images);
+    _progressDialog!.show(max: 100, msg: "Espere un momento");
+    Stream? stream = await _productsProvider.create(product, images);
 
-    stream.listen((res) {
-      _progressDialog.close();
+    stream!.listen((res) {
+      _progressDialog!.close();
 
       ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
-      MySnackBar.show(context, responseApi.message);
+      MySnackBar.show(context, responseApi.message!);
 
-      if (responseApi.success) {
+      if (responseApi.success!) {
         resetValues();
       }
     });
@@ -124,11 +124,11 @@ class AdminProductsCreateController {
     pickedFile = await ImagePicker().getImage(source: imageSource);
     if (pickedFile != null) {
       if (numberFile == 1) {
-        imageFile1 = File(pickedFile?.path);
+        imageFile1 = File(pickedFile!.path);
       } else if (numberFile == 2) {
-        imageFile2 = File(pickedFile?.path);
+        imageFile2 = File(pickedFile!.path);
       } else if (numberFile == 3) {
-        imageFile3 = File(pickedFile?.path);
+        imageFile3 = File(pickedFile!.path);
       }
     }
     Navigator.pop(context);

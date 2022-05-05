@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 class ClientPaymentsStatusPage extends StatefulWidget {
-  const ClientPaymentsStatusPage({Key key}) : super(key: key);
+  const ClientPaymentsStatusPage({Key? key}) : super(key: key);
 
   static String routeName = "/client/payments/status";
 
@@ -20,7 +20,7 @@ class _ClientPaymentsStatusPageState extends State<ClientPaymentsStatusPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -54,7 +54,7 @@ class _ClientPaymentsStatusPageState extends State<ClientPaymentsStatusPage> {
         child: SafeArea(
           child: Column(
             children: [
-              _con?.mercadoPagoPayment?.status == "approved"
+              _con.mercadoPagoPayment?.status == "approved"
                   ? const Icon(
                       Icons.check_circle,
                       color: Colors.black,
@@ -66,7 +66,7 @@ class _ClientPaymentsStatusPageState extends State<ClientPaymentsStatusPage> {
                       size: 150,
                     ),
               Text(
-                _con?.mercadoPagoPayment?.status == "approved"
+                _con.mercadoPagoPayment?.status == "approved"
                     ? "Gracias por tu compra"
                     : "Error en la transacción",
                 style: const TextStyle(
@@ -84,7 +84,7 @@ class _ClientPaymentsStatusPageState extends State<ClientPaymentsStatusPage> {
   Widget _textCardDetail() {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-        child: _con?.mercadoPagoPayment?.status == "approved"
+        child: _con.mercadoPagoPayment?.status == "approved"
             ? Text(
                 "Tu orden fue procesada exitosamente usando (${_con.mercadoPagoPayment?.paymentMethodId?.toUpperCase() ?? ''} **** ${_con.mercadoPagoPayment?.card?.lastFourDigits ?? ''}",
                 style: const TextStyle(fontSize: 17),
@@ -96,7 +96,7 @@ class _ClientPaymentsStatusPageState extends State<ClientPaymentsStatusPage> {
   Widget _textCardMessageStatus() {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-        child: _con?.mercadoPagoPayment?.status == "approved"
+        child: _con.mercadoPagoPayment?.status == "approved"
             ? const Text(
                 "Mira el estado de tu compra en la sección de MIS PEDIDOS",
                 style: TextStyle(fontSize: 17),

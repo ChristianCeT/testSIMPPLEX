@@ -9,21 +9,21 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ClientOrdersDetailsController {
-  BuildContext context;
-  Function refresh;
-  Product product;
+  late BuildContext context;
+  late Function refresh;
+  Product? product;
   int counter = 1;
-  double productPrice;
+  double? productPrice;
 
   final SharedPref _sharedPref = SharedPref();
 
   double total = 0;
-  Order order;
-  User user;
+  late Order order;
+  late User user;
   List<User> users = [];
   final UsersProvider _usersProvider = UsersProvider();
   final OrdersProvider _ordersProvider = OrdersProvider();
-  String idDelivery;
+  late String idDelivery;
 
   Future init(BuildContext context, Function refresh, Order order) async {
     this.context = context;
@@ -43,15 +43,15 @@ class ClientOrdersDetailsController {
   }
 
   void getUsers() async {
-    users = await _usersProvider.getDeliveryUser();
+    users = (await _usersProvider.getDeliveryUser())!;
 
     refresh();
   }
 
   void getTotal() {
     total = 0;
-    for (var product in order.producto) {
-      total = total + (product.precio * product.cantidad);
+    for (var product in order.producto!) {
+      total = total + (product.precio! * product.cantidad!);
     }
     refresh();
   }

@@ -8,8 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientOrdersDetailsPage extends StatefulWidget {
-  Order order;
-  ClientOrdersDetailsPage({Key key, @required this.order}) : super(key: key);
+  final Order order;
+  const ClientOrdersDetailsPage({Key? key, required this.order})
+      : super(key: key);
 
   @override
   _ClientOrdersDetailsState createState() => _ClientOrdersDetailsState();
@@ -20,7 +21,7 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh, widget.order);
     });
   }
@@ -30,7 +31,7 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Pedido ${_con.order?.id ?? ''}",
+            "Pedido ${_con.order.id ?? ''}",
             maxLines: 2,
           ),
           actions: [
@@ -53,25 +54,23 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
                   indent: 30, // margen en la parte derecha
                 ),
                 _textData("Repartidor:",
-                    '${_con.order?.deliveryList?.nombre ?? 'No asignado '} ${_con.order?.deliveryList?.apellido ?? ''}'),
+                    '${_con.order.deliveryList?.nombre ?? 'No asignado '} ${_con.order.deliveryList?.apellido ?? ''}'),
                 _textData(
-                    "Entregar en:", _con.order?.direccion?.direccion ?? ''),
+                    "Entregar en:", _con.order.direccion?.direccion ?? ''),
                 _textData("Fecha de pedido:",
-                    RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
-                _con?.order?.estado == "EN CAMINO"
-                    ? _buttonNext()
-                    : Container(),
+                    RelativeTimeUtil.getRelativeTime(_con.order.fecha ?? 0)),
+                _con.order.estado == "EN CAMINO" ? _buttonNext() : Container(),
               ],
             ),
           ),
         ),
-        body: _con.order?.producto == null
+        body: _con.order.producto == null
             ? NoDataWidget(
                 text: "Tu carrito está vacío",
               )
-            : _con.order.producto.isNotEmpty
+            : _con.order.producto!.isNotEmpty
                 ? ListView(
-                    children: _con.order.producto.map((Product producto) {
+                    children: _con.order.producto!.map((Product producto) {
                     return _cardProduct(producto);
                   }).toList())
                 : NoDataWidget(
@@ -145,7 +144,7 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(producto?.nombre ?? "",
+              Text(producto.nombre ?? "",
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(
                 height: 10,
@@ -170,8 +169,8 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
       padding: const EdgeInsets.all(5),
       child: FadeInImage(
         image: producto.image1 != null
-            ? NetworkImage(producto.image1)
-            : const AssetImage("assets/images/noImagen.png"),
+            ? NetworkImage(producto.image1!)
+            : const AssetImage("assets/images/noImagen.png") as ImageProvider,
         fit: BoxFit.contain,
         fadeInDuration: const Duration(milliseconds: 50),
         placeholder: const AssetImage("assets/images/noImagen.png"),

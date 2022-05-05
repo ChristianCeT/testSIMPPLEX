@@ -2,7 +2,7 @@ import 'package:client_exhibideas/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 
 class DrawerMenu extends StatelessWidget {
-  final String image;
+  final String? image;
   final String nombre;
   final String apellido;
   final String correo;
@@ -10,7 +10,7 @@ class DrawerMenu extends StatelessWidget {
   final Widget items;
   const DrawerMenu(
       {Key? key,
-      required this.image,
+      this.image,
       required this.nombre,
       required this.apellido,
       required this.correo,
@@ -40,9 +40,10 @@ class DrawerMenu extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: FadeInImage(
-                    image: image.isEmpty
-                        ? NetworkImage(image)
-                        : const AssetImage("assets/image/no-avatar.png") as ImageProvider,
+                    image: image != null
+                        ? NetworkImage(image!)
+                        : const AssetImage("assets/image/no-avatar.png")
+                            as ImageProvider,
                     fit: BoxFit.cover,
                     fadeInDuration: const Duration(milliseconds: 50),
                     placeholder:
@@ -82,8 +83,7 @@ class DrawerMenu extends StatelessWidget {
               ],
             ),
           ),
-          (items != null) ? items
-          : Container(),
+          (items != null) ? items : Container(),
         ],
       ),
     );
@@ -92,7 +92,7 @@ class DrawerMenu extends StatelessWidget {
 
 class MenuIconDrawer extends StatelessWidget {
   final Function() openDrawer;
-  const MenuIconDrawer({ Key? key, required this.openDrawer }) : super(key: key);
+  const MenuIconDrawer({Key? key, required this.openDrawer}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

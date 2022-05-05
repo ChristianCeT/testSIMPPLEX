@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class ClientAddressListController {
-  BuildContext context;
-  Function refresh;
+  late BuildContext context;
+  late Function refresh;
 
   List<Address> address = [];
   List<Product> selectedProducts = [];
@@ -19,12 +19,12 @@ class ClientAddressListController {
   final AddressProvider _addressProvider = AddressProvider();
   final OrdersProvider _ordersProvider = OrdersProvider();
 /*   StripeProvider _stripeProvider = new StripeProvider(); */
-  ProgressDialog progressDialog;
+  ProgressDialog? progressDialog;
 
-  User user;
+  late User user;
   final SharedPref _sharedPref = SharedPref();
 
-  int radioValue = 0;
+  int? radioValue = 0;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -59,9 +59,9 @@ class ClientAddressListController {
     Navigator.pushNamed(context, ClientPaymentsCreatePage.routeName);
   }
 
-  void handleRadioValueChange(int value) async {
+  void handleRadioValueChange(int? value) async {
     radioValue = value;
-    _sharedPref.save('address', address[value]);
+    _sharedPref.save('address', address[value!]);
     refresh();
     print("Valor seleccionado: $radioValue");
   }
@@ -82,9 +82,7 @@ class ClientAddressListController {
     var result =
         await Navigator.pushNamed(context, ClientAddressCreatePage.routeName);
     if (result != null) {
-      if (result) {
-        refresh();
-      }
+      refresh();
     }
   }
 }

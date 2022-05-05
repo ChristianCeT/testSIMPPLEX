@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClienteProductsMenu extends StatefulWidget {
-  const ClienteProductsMenu({Key key}) : super(key: key);
+  const ClienteProductsMenu({Key? key}) : super(key: key);
 
   static String routeName = "/client/products/menu";
 
@@ -18,7 +18,7 @@ class _ClienteProductsMenuState extends State<ClienteProductsMenu> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -53,7 +53,7 @@ class _ClienteProductsMenuState extends State<ClienteProductsMenu> {
         selectedItemColor: MyColors.primaryColor,
         unselectedItemColor: const Color.fromRGBO(116, 117, 152, 1),
       ),
-    );    
+    );
   }
 
   void refresh() {

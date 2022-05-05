@@ -9,14 +9,16 @@ import 'package:flutter/scheduler.dart';
 
 class DeliveryOrdersDetailsPage extends StatefulWidget {
   final Order order;
-  const DeliveryOrdersDetailsPage({Key? key, required this.order}) : super(key: key);
+  const DeliveryOrdersDetailsPage({Key? key, required this.order})
+      : super(key: key);
 
   @override
   _DeliveryOrdersDetailsState createState() => _DeliveryOrdersDetailsState();
 }
 
 class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
-  DeliveryOrdersDetailsController _con = DeliveryOrdersDetailsController();
+  final DeliveryOrdersDetailsController _con =
+      DeliveryOrdersDetailsController();
   @override
   void initState() {
     super.initState();
@@ -30,7 +32,7 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Pedido ${_con.order.id ?? ''}",
+            "Pedido ${_con.order?.id ?? ''}",
             maxLines: 2,
           ),
           actions: [
@@ -54,11 +56,11 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
                   ),
                   _textData("Cliente:",
                       '${_con.order?.cliente?.nombre ?? ''} ${_con.order?.cliente?.apellido ?? ''}'),
-                  _textData("Entregar en:",
-                      _con.order.direccion?.direccion ?? ''),
+                  _textData(
+                      "Entregar en:", _con.order?.direccion?.direccion ?? ''),
                   _textData("Fecha de pedido:",
                       RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
-                  _con.order.estado != "ENTREGADO"
+                  _con.order?.estado != "ENTREGADO"
                       ? _buttonNext()
                       : Container(),
                 ],
@@ -67,15 +69,15 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
           ),
         ),
         body: _con.order?.producto == null
-            ? NoDataWidget(
+            ? const NoDataWidget(
                 text: "Tu carrito está vacío",
               )
-            : _con.order.producto!.isNotEmpty
+            : _con.order?.producto != null
                 ? ListView(
-                    children: _con.order.producto!.map((Product producto) {
+                    children: _con.order!.producto!.map((Product producto) {
                     return _cardProduct(producto);
                   }).toList())
-                : NoDataWidget(
+                : const NoDataWidget(
                     text: "Tu carrito está vacío",
                   ));
   }
@@ -98,9 +100,8 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
       child: ElevatedButton(
         onPressed: _con.updateOrder,
         style: ElevatedButton.styleFrom(
-            primary: _con?.order?.estado == "DESPACHADO"
-                ? Colors.blue
-                : Colors.green,
+            primary:
+                _con.order?.estado == "DESPACHADO" ? Colors.blue : Colors.green,
             padding: const EdgeInsets.symmetric(vertical: 2),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
@@ -112,7 +113,7 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
                 alignment: Alignment.center,
                 height: 40,
                 child: Text(
-                  _con?.order?.estado == "DESPACHADO"
+                  _con.order?.estado == "DESPACHADO"
                       ? "INICIAR ENTREGA"
                       : "IR AL MAPA",
                   style: const TextStyle(
@@ -150,7 +151,7 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(producto?.nombre ?? "",
+              Text(producto.nombre ?? "",
                   style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 10,

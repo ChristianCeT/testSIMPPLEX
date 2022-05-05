@@ -40,7 +40,7 @@ class MercadoPagoPayment {
   String? externalReference;
   double? transactionAmount;
   double? netAmount;
-  List<MercadoPagoTax>? taxes;
+  List<MercadoPagoTax>? taxes = [];
   double? transactionAmountRefunded;
   double? couponAmount;
   String? differentialPricingId;

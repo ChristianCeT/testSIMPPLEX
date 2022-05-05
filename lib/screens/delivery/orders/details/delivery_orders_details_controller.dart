@@ -19,7 +19,7 @@ class DeliveryOrdersDetailsController {
   SharedPref _sharedPref = SharedPref();
 
   double total = 0;
-  late Order order;
+  Order? order;
   late User user;
   List<User> users = [];
   UsersProvider _usersProvider = UsersProvider();
@@ -39,19 +39,19 @@ class DeliveryOrdersDetailsController {
   }
 
   void updateOrder() async {
-    if (order.estado == "DESPACHADO") {
+    if (order!.estado == "DESPACHADO") {
       ResponseApi? responseApi =
-          await _ordersProvider.updateToOrderOnTheWay(order);
+          await _ordersProvider.updateToOrderOnTheWay(order!);
       if (responseApi == null) return;
       Fluttertoast.showToast(
           msg: responseApi.message!, toastLength: Toast.LENGTH_LONG);
       if (responseApi.success!) {
         Navigator.pushNamed(context, DeliveryOrdersMapPage.routeName,
-            arguments: order.toJson());
+            arguments: order!.toJson());
       }
     } else {
       Navigator.pushNamed(context, DeliveryOrdersMapPage.routeName,
-          arguments: order.toJson());
+          arguments: order!.toJson());
     }
   }
 
@@ -64,7 +64,7 @@ class DeliveryOrdersDetailsController {
   void getTotal() {
     total = 0;
     // ignore: sdk_version_set_literal
-    order.producto?.forEach(
+    order!.producto?.forEach(
         (product) => {total = total + (product.precio! * product.cantidad!)});
     refresh();
   }

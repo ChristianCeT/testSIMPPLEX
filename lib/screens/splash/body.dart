@@ -66,9 +66,14 @@ class _BodyState extends State<Body> {
                       const Spacer(
                         flex: 3,
                       ),
-                      DefaultButton(
-                        text: "Continuar",
-                        press: () {
+                      MaterialButton(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 100, vertical: 20),
+                          child: Text("Continuar"),
+                        ),
+                        color: MyColors.primaryColor,
+                        onPressed: () {
                           Navigator.pushNamed(context, LoginPage.routeName);
                         },
                       ),

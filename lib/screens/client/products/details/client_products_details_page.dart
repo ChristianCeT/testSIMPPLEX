@@ -1,14 +1,13 @@
 import 'package:client_exhibideas/models/product.dart';
 import 'package:client_exhibideas/screens/client/products/details/client_products_details_controller.dart';
 import 'package:client_exhibideas/utils/my_colors.dart';
-import 'package:client_exhibideas/widgets/web_view_ra.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class ClientProductDetailsPage extends StatefulWidget {
-  Product product;
-  ClientProductDetailsPage({Key key, @required this.product})
+  final Product product;
+  const ClientProductDetailsPage({Key? key, required this.product})
       : super(key: key); //@required obligatorio
 
   @override
@@ -22,7 +21,7 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh, widget.product);
     });
   }
@@ -213,24 +212,27 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
           children: [
             FadeInImage(
               image: _con.product?.image1 != null
-                  ? NetworkImage(_con.product.image1)
-                  : const AssetImage("assets/images/noImagen.png"),
+                  ? NetworkImage(_con.product!.image1!)
+                  : const AssetImage("assets/images/noImagen.png")
+                      as ImageProvider,
               fit: BoxFit.cover,
               fadeInDuration: const Duration(milliseconds: 50),
               placeholder: const AssetImage("assets/images/noImagen.png"),
             ),
             FadeInImage(
               image: _con.product?.image2 != null
-                  ? NetworkImage(_con.product.image2)
-                  : const AssetImage("assets/images/noImagen.png"),
+                  ? NetworkImage(_con.product!.image2!)
+                  : const AssetImage("assets/images/noImagen.png")
+                      as ImageProvider,
               fit: BoxFit.cover,
               fadeInDuration: const Duration(milliseconds: 50),
               placeholder: const AssetImage("assets/images/noImagen.png"),
             ),
             FadeInImage(
               image: _con.product?.image3 != null
-                  ? NetworkImage(_con.product.image3)
-                  : const AssetImage("assets/images/noImagen.png"),
+                  ? NetworkImage(_con.product!.image3!)
+                  : const AssetImage("assets/images/noImagen.png")
+                      as ImageProvider,
               fit: BoxFit.cover,
               fadeInDuration: const Duration(milliseconds: 50),
               placeholder: const AssetImage("assets/images/noImagen.png"),

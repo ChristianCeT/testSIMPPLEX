@@ -71,7 +71,8 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
             ? FileImage(_con.imageFile!)
             : _con.user?.image != null
                 ? NetworkImage(_con.user!.image!)
-                : const AssetImage("assets/images/noAvatar2.png") as ImageProvider,
+                : const AssetImage("assets/images/noAvatar2.png")
+                    as ImageProvider,
         radius: 55,
         backgroundColor: Colors.grey[200],
       ),

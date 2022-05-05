@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class AdminOrdersListPage extends StatefulWidget {
-  const AdminOrdersListPage({Key key}) : super(key: key);
+  const AdminOrdersListPage({Key? key}) : super(key: key);
 
   static String routeName = "/admin/orders/list";
 
@@ -21,7 +21,7 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -68,7 +68,7 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
                 isScrollable: true,
                 tabs: List<Widget>.generate(_con.status.length, (index) {
                   return Tab(
-                    child: Text(_con.status[index] ?? ""),
+                    child: Text(_con.status[index]),
                   );
                 }),
               ),
@@ -81,13 +81,13 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
                 future: _con.getOrders(status),
                 builder: (context, AsyncSnapshot<List<Order>> snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.isNotEmpty) {
+                    if (snapshot.data!.isNotEmpty) {
                       return ListView.builder(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 5, vertical: 10),
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
-                            return _cardOrder(snapshot.data[index]);
+                            return _cardOrder(snapshot.data![index]);
                           });
                     } else {
                       return NoDataWidget(
@@ -202,7 +202,7 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
           ),
         ),
         _con.user != null
-            ? _con.user.roles.length > 1
+            ? _con.user!.roles!.length > 1
                 ? ListTile(
                     title: const Text("Seleccionar rol"),
                     onTap: _con.goToRoles,

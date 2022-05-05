@@ -26,7 +26,7 @@ class ClientUpdateController {
   PickedFile? pickedFile;
   File? imageFile;
   late Function refresh;
-  late ProgressDialog _progressDialog;
+  ProgressDialog? _progressDialog;
   bool isEnable = true;
   User? user;
   final SharedPref _sharedPref = SharedPref();
@@ -37,7 +37,6 @@ class ClientUpdateController {
     _progressDialog = ProgressDialog(context: context);
     user = User.fromJson(await _sharedPref.read("user"));
     usersProvider.init(context, sessionUser: user);
-    if (user == null) return;
     emailController.text = user!.correo!;
     nameController.text = user!.nombre!;
     lastnameController.text = user!.apellido!;
@@ -58,7 +57,7 @@ class ClientUpdateController {
       return;
     }
 
-    _progressDialog.show(
+    _progressDialog!.show(
         max: 100,
         msg: "Espere un momento....",
         progressBgColor: MyColors.primaryColor,
@@ -66,22 +65,22 @@ class ClientUpdateController {
     isEnable = false;
 
     User myUser = User(
-      id: user?.id,
+      id: user!.id,
       nombre: name,
       apellido: lastname,
       correo: email,
       telefono: phone,
-      image: user?.image,
+      image: user!.image,
       password: password,
     );
 
-    Stream? stream = await usersProvider.updateWithImage(myUser, imageFile!);
+    Stream? stream = await usersProvider.updateWithImage(myUser, imageFile);
 
     stream?.listen((res) async {
       // devuelve un responseApi de user
-      _progressDialog.close();
+      _progressDialog!.close();
 
-      ResponseApi? responseApi = ResponseApi.fromJson(json.decode(res));
+      ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
       Fluttertoast.showToast(msg: responseApi.message!);
 
       if (responseApi.success!) {
@@ -100,7 +99,10 @@ class ClientUpdateController {
 
   Future selectedImage(ImageSource imageSource) async {
     pickedFile = await ImagePicker().getImage(source: imageSource);
-    imageFile = File(pickedFile!.path);
+    if (pickedFile != null) {
+      imageFile = File(pickedFile!.path);
+      refresh();
+    }
     Navigator.pop(context);
     refresh();
   }

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientOrdersListPage extends StatefulWidget {
-  const ClientOrdersListPage({Key key}) : super(key: key);
+  const ClientOrdersListPage({Key? key}) : super(key: key);
   static String routeName = "/client/orders/list";
 
   @override
@@ -19,7 +19,7 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -27,7 +27,7 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: _con.status?.length,
+      length: _con.status.length,
       child: Scaffold(
         key: _con.key,
         appBar: PreferredSize(
@@ -42,7 +42,7 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
               isScrollable: true,
               tabs: List<Widget>.generate(_con.status.length, (index) {
                 return Tab(
-                  child: Text(_con.status[index] ?? ""),
+                  child: Text(_con.status[index]),
                 );
               }),
             ),
@@ -54,13 +54,13 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
                 future: _con.getOrders(status),
                 builder: (context, AsyncSnapshot<List<Order>> snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.isNotEmpty) {
+                    if (snapshot.data!.isNotEmpty) {
                       return ListView.builder(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 10),
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
-                            return _cardOrder(snapshot.data[index]);
+                            return _cardOrder(snapshot.data![index]);
                           });
                     } else {
                       return NoDataWidget(

@@ -11,27 +11,30 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class DeliveryOrdersListController {
   late BuildContext context;
-   late Function refresh;
-  late User user;
-  SharedPref sharedPref = new SharedPref();
-  GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
+  late Function refresh;
+  User? user;
+  SharedPref sharedPref = SharedPref();
+  GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
 
   List<String> status = ["DESPACHADO", "EN CAMINO", "ENTREGADO"];
-  OrdersProvider _ordersProvider = new OrdersProvider();
+  final OrdersProvider _ordersProvider = OrdersProvider();
 
-bool? isUpdated;
+  bool? isUpdated;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     user = User.fromJson(
         await sharedPref.read("user")); // PUEDE TARDAR UN TIEMPO EN OBTENER
-    _ordersProvider.init(context, user);
+    _ordersProvider.init(context, user!);
     refresh();
   }
 
   Future<List<Order>> getOrders(String status) async {
-    return await _ordersProvider.getByDeliveryStatus(user.id!, status);
+    if (user == null) {
+      return [];
+    }
+    return await _ordersProvider.getByDeliveryStatus(user!.id!, status);
   }
 
   void openBottomSheet(Order order) async {
@@ -47,7 +50,7 @@ bool? isUpdated;
   }
 
   logout() {
-    sharedPref.logout(context, user.id!);
+    sharedPref.logout(context, user!.id!);
   }
 
   void openDrawer() {

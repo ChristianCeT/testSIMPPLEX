@@ -8,7 +8,7 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 class ClientPaymentsCreatePage extends StatefulWidget {
-  const ClientPaymentsCreatePage({Key key}) : super(key: key);
+  const ClientPaymentsCreatePage({Key? key}) : super(key: key);
 
   static String routeName = "/client/payments/create";
 
@@ -23,7 +23,7 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -163,11 +163,11 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
                         isExpanded: true,
                         hint: const Text("Tipo doc",
                             style: TextStyle(color: Colors.grey, fontSize: 16)),
-                        items: _dropDownItems(_con?.documentTypeList),
-                        value: _con?.typesDocument,
-                        onChanged: (option) {
+                        items: _dropDownItems(_con.documentTypeList),
+                        value: _con.typesDocument,
+                        onChanged: (String? option) {
                           setState(() {
-                            _con?.typesDocument = option;
+                            _con.typesDocument = option!;
                           });
                         },
                       ),
@@ -201,8 +201,8 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
     List<DropdownMenuItem<String>> list = [];
     for (var mercadoDocument in mercadoDocumentType) {
       list.add(DropdownMenuItem(
-        child: Text(mercadoDocument?.name),
-        value: mercadoDocument?.id,
+        child: Text(mercadoDocument.name!),
+        value: mercadoDocument.id,
       ));
     }
 

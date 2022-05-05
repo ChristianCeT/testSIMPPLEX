@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class ClientAddressCreatePage extends StatefulWidget {
-  const ClientAddressCreatePage({Key key}) : super(key: key);
+  const ClientAddressCreatePage({Key? key}) : super(key: key);
 
   static String routeName = "/client/address/create";
 
@@ -19,7 +19,7 @@ class _ClientAddressCreatePageState extends State<ClientAddressCreatePage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }

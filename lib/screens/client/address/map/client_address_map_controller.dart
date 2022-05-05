@@ -6,13 +6,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import "package:location/location.dart" as location;
 
 class ClientAddressMapController {
-  BuildContext context;
-  Function refresh;
-  Position _position;
-  String addressName;
-  LatLng addressLaglng;
+  late BuildContext context;
+  late Function refresh;
+  Position? _position;
+  String? addressName;
+  late LatLng addressLaglng;
 
-  CameraPosition initialPosition = const CameraPosition(
+  CameraPosition? initialPosition = const CameraPosition(
       target: LatLng(-11.991651, -77.0147332), zoom: 1); // zoom del 1 al 20
 
   final Completer<GoogleMapController> _mapController = Completer();
@@ -37,16 +37,16 @@ class ClientAddressMapController {
 
   Future setLocationDraggableInfo() async {
     if (initialPosition != null) {
-      double lat = initialPosition.target.latitude;
-      double long = initialPosition.target.longitude;
+      double lat = initialPosition!.target.latitude;
+      double long = initialPosition!.target.longitude;
       List<Placemark> address = await placemarkFromCoordinates(lat, long);
 
       if (address != null) {
         if (address.isNotEmpty) {
-          String direction = address[0].thoroughfare;
-          String street = address[0].subThoroughfare;
-          String city = address[0].locality;
-          String deparment = address[0].administrativeArea;
+          String direction = address[0].thoroughfare!;
+          String street = address[0].subThoroughfare!;
+          String city = address[0].locality!;
+          String deparment = address[0].administrativeArea!;
           /* String country = address[0].country; */
           addressName = '$direction #$street, $city, $deparment';
           addressLaglng = LatLng(lat, long);
@@ -68,7 +68,7 @@ class ClientAddressMapController {
       await _determinePosition(); // OBTENER LA POSICIÓN ACTUAL Y SOLICITAR PERMISOS
       _position = await Geolocator
           .getLastKnownPosition(); // obtener la ultima posicion del dispositivo la latitud y longitud actual es lo que devuelve
-      animatedCameraToPosition(_position.latitude, _position.longitude);
+      animatedCameraToPosition(_position!.latitude, _position!.longitude);
     } catch (e) {
       print("ERROR $e");
     }

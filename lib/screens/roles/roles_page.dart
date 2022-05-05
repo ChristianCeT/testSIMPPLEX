@@ -32,9 +32,11 @@ class _RolesPageState extends State<RolesPage> {
       body: Container(
         margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.14),
         child: ListView(
-            children: _con.user.roles!.map((Rol rol) {
-          return _cardRol(rol, context);
-        }).toList()),
+            children: _con.user != null
+                ? _con.user!.roles!.map((Rol rol) {
+                    return _cardRol(rol, context);
+                  }).toList()
+                : []),
       ),
     );
   }

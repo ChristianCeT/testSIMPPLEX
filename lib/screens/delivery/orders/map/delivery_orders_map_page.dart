@@ -14,7 +14,7 @@ class DeliveryOrdersMapPage extends StatefulWidget {
 }
 
 class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
-  DeliveryOrdersMapController _con = new DeliveryOrdersMapController();
+  final DeliveryOrdersMapController _con = DeliveryOrdersMapController();
 
   @override
   void initState() {
@@ -70,10 +70,10 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
           ]),
       child: Column(
         children: [
-          _listTitleAddress(
-              _con.order?.direccion?.avenida, "Avenida", Icons.my_location),
-          _listTitleAddress(
-              _con.order?.direccion?.direccion, "Dirección", Icons.location_on),
+          _listTitleAddress(_con.order?.direccion?.avenida ?? "", "Avenida",
+              Icons.my_location),
+          _listTitleAddress(_con.order?.direccion?.direccion ?? "", "Dirección",
+              Icons.location_on),
           Divider(color: MyColors.primaryColor, endIndent: 30, indent: 30),
           _clientInfo(),
           _buttonNext()
@@ -92,8 +92,8 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
             width: 50,
             child: FadeInImage(
               image: _con.order?.cliente?.image != null
-                  ? NetworkImage(_con.order?.cliente?.image)
-                  : AssetImage("assets/images/noImagen.png"),
+                  ? NetworkImage(_con.order!.cliente!.image!)
+                  : AssetImage("assets/images/noImagen.png") as ImageProvider,
               fit: BoxFit.cover,
               fadeInDuration: Duration(milliseconds: 50),
               placeholder: AssetImage("assets/images/noImagen.png"),
@@ -139,7 +139,7 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       child: ListTile(
-        title: Text(title ?? '', style: TextStyle(fontSize: 13)),
+        title: Text(title, style: TextStyle(fontSize: 13)),
         subtitle: Text("Vecindario"),
         trailing: Icon(iconData),
       ),
@@ -214,7 +214,7 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
   Widget _googleMaps() {
     return GoogleMap(
       mapType: MapType.normal,
-      initialCameraPosition: _con.initialPosition,
+      initialCameraPosition: _con.initialPosition!,
       onMapCreated: _con.onMapCreate,
       myLocationButtonEnabled: false,
       myLocationEnabled: false,

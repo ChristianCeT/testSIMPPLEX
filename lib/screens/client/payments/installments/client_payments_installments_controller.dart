@@ -17,34 +17,34 @@ import 'package:http/http.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class ClientPaymentsInstallmentsController {
-  BuildContext context;
-  Function refresh;
+  late BuildContext context;
+  late Function refresh;
 
-  final MercadoPagoProvider _mercadoPagoProvider =  MercadoPagoProvider();
-  User user;
+  final MercadoPagoProvider _mercadoPagoProvider = MercadoPagoProvider();
+  late User user;
   final SharedPref _sharedPref = SharedPref();
   List<Product> selectedProducts = [];
 
   double totalPayment = 0;
 
-  MercadoPagoPaymentMethodInstallments installments;
-  MercadoPagoIssuer issuer; // contiene la informacion del banco emisor
-  MercadoPagoPayment creditCardPayment;
-  List<MercadoPagoInstallment> installmentsList = [];
-  MercadoPagoCardToken cardToken;
+  MercadoPagoPaymentMethodInstallments? installments;
+  MercadoPagoIssuer? issuer; // contiene la informacion del banco emisor
+  late MercadoPagoPayment creditCardPayment;
+  List<MercadoPagoInstallment>? installmentsList = [];
+  MercadoPagoCardToken? cardToken;
 
-  Address address;
+  late Address address;
 
-  ProgressDialog progressDialog;
-  String identificationType;
-  String identificationNumber;
-  String selectedInstallment;
+  late ProgressDialog progressDialog;
+  late String identificationType;
+  late String identificationNumber;
+  String? selectedInstallment;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     Map<String, dynamic> arguments =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
     cardToken = MercadoPagoCardToken.fromJsonMap(await arguments['card_token']);
     identificationType = arguments['identification_type'];
@@ -75,7 +75,7 @@ class ClientPaymentsInstallmentsController {
 
   void getTotalPayment() {
     for (var product in selectedProducts) {
-      totalPayment = totalPayment + (product.cantidad * product.precio);
+      totalPayment = totalPayment + (product.cantidad! * product.precio!);
     }
     refresh();
   }
@@ -92,16 +92,16 @@ class ClientPaymentsInstallmentsController {
       estado: "PAGADO",
     );
     progressDialog.show(max: 100, msg: "Realizando transacción");
-
-    Response response = await _mercadoPagoProvider.createPayment(
-        cardId: cardToken.cardId,
+    //TODO: error en el cardID
+    Response? response = await _mercadoPagoProvider.createPayment(
+        cardId: cardToken?.cardId,
         transactionAmount: totalPayment,
-        installments: int.parse(selectedInstallment),
-        paymentMethodId: installments.paymentMethodId,
-        paymentTypeId: installments.paymentTypeId,
-        issuerId: installments.issuer.id,
-        emailCustomer: user.correo,
-        cardToken: cardToken.id,
+        installments: int.parse(selectedInstallment!),
+        paymentMethodId: installments!.paymentMethodId!,
+        paymentTypeId: installments!.paymentTypeId!,
+        issuerId: installments!.issuer!.id!,
+        emailCustomer: user.correo!,
+        cardToken: cardToken!.id!,
         identificationType: identificationType,
         identificationNumber: identificationNumber,
         order: order);
@@ -117,12 +117,11 @@ class ClientPaymentsInstallmentsController {
         Navigator.pushNamedAndRemoveUntil(
             context, ClientPaymentsStatusPage.routeName, (route) => false,
             arguments: creditCardPayment.toJson());
-            
       } else if (response.statusCode == 501) {
         if (data['err']['status'] == 400) {
           badRequestProcess(data);
         } else {
-          badTokenProcess(data['status'], installments);
+          badTokenProcess(data['status'], installments!);
         }
       }
     }
@@ -155,7 +154,7 @@ class ClientPaymentsInstallmentsController {
 
     if (paymentErrorCodeMap.containsKey('${data['err']['cause'][0]['code']}')) {
       print('ENTRO IF');
-      errorMessage = paymentErrorCodeMap['${data['err']['cause'][0]['code']}'];
+      errorMessage = paymentErrorCodeMap['${data['err']['cause'][0]['code']}']!;
     } else {
       errorMessage = 'No pudimos procesar tu pago';
     }
@@ -183,7 +182,7 @@ class ClientPaymentsInstallmentsController {
     };
     String errorMessage;
     if (badTokenErrorCodeMap.containsKey(status.toString())) {
-      errorMessage = badTokenErrorCodeMap[status];
+      errorMessage = badTokenErrorCodeMap[status]!;
     } else {
       errorMessage = 'No pudimos procesar tu pago';
     }

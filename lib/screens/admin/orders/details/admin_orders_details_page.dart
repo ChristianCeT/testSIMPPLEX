@@ -124,9 +124,9 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
                     style: TextStyle(color: Colors.grey, fontSize: 16)),
                 items: _dropDownItems(users),
                 value: _con.idDelivery,
-                onChanged: (option) {
+                onChanged: (String? option) {
                   setState(() {
-                    _con.idDelivery = option as String?;
+                    _con.idDelivery = option;
                   });
                 },
               ),
@@ -187,10 +187,10 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
             SizedBox(
               width: 5,
             ),
-            Text('${user?.nombre ?? ''} ${user?.apellido ?? ''}')
+            Text('${user.nombre ?? ''} ${user.apellido ?? ''}')
           ],
         ),
-        value: user?.id,
+        value: user.id,
       ));
     }
 
@@ -263,7 +263,7 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(producto?.nombre ?? "",
+              Text(producto.nombre ?? "",
                   style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 10,

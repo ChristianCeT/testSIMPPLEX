@@ -20,10 +20,12 @@ class MercadoPagoCardToken {
   MercadoPagoCardHolder? cardHolder;
   List<MercadoPagoCardToken> cardTokenList = [];
 
-  
   MercadoPagoCardToken();
 
-  MercadoPagoCardToken.fromJsonList(List<dynamic> jsonList) {
+  MercadoPagoCardToken.fromJsonList(List<dynamic>? jsonList) {
+    if (jsonList == null) {
+      return;
+    }
     for (var item in jsonList) {
       final chat = MercadoPagoCardToken.fromJsonMap(item);
       cardTokenList.add(chat);
@@ -79,7 +81,7 @@ class MercadoPagoCardToken {
         'expiration_year': expirationYear,
         'date_last_updated': dateLastUpdated,
         'date_due': dateDue,
-        'cardholder': cardHolder!.toJson(),
+        'cardholder': cardHolder?.toJson(),
         'live_mode': liveMode
       };
 }

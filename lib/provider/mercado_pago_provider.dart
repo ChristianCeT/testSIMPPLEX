@@ -46,7 +46,7 @@ class MercadoPagoProvider {
   }
 
   Future<http.Response?> createPayment({
-    required String cardId,
+    String? cardId,
     required double transactionAmount,
     required int installments,
     required String paymentMethodId,
@@ -68,7 +68,7 @@ class MercadoPagoProvider {
       Map<String, dynamic> body = {
         'order': order,
         'card_id': cardId,
-        'description': 'Flutter EXHIBIDEAS',
+        'description': 'SIMPPLEX PAYMENT',
         'transaction_amount': transactionAmount,
         'installments': installments,
         'payment_method_id': paymentMethodId,
@@ -104,7 +104,7 @@ class MercadoPagoProvider {
   }
 
   Future<MercadoPagoPaymentMethodInstallments?> getInstallments(
-      String bin, double amount) async {
+      String? bin, double amount) async {
     try {
       final url =
           Uri.https(_urlMercadoPago, '/v1/payment_methods/installments', {

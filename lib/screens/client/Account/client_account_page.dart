@@ -58,8 +58,8 @@ class _ClientAcountPageState extends State<ClientAcountPage> {
                           child: FadeInImage(
                             placeholder:
                                 const AssetImage("assets/images/no-avatar.png"),
-                            image: _con.user.image != null
-                                ? NetworkImage(_con.user.image!)
+                            image: _con.user != null
+                                ? NetworkImage(_con.user!.image!)
                                 : const AssetImage(
                                         "assets/images/no-avatar.png")
                                     as ImageProvider,
@@ -140,7 +140,7 @@ class _ClientAcountPageState extends State<ClientAcountPage> {
                   ),
                   const Divider(),
                   _con.user != null
-                      ? _con.user.roles!.length > 1
+                      ? _con.user!.roles!.length > 1
                           ? ListTile(
                               title: const Text(
                                 "Cambiar de rol",

@@ -10,17 +10,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ClientAddressCreateController {
-  BuildContext context;
-  Function refresh;
+  late BuildContext context;
+  late Function refresh;
 
-  TextEditingController refPointController =  TextEditingController();
+  TextEditingController refPointController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController neighborhoodController = TextEditingController();
 
-  Map<String, dynamic> refPoint;
+  Map<String, dynamic>? refPoint;
 
   final AddressProvider _addressProvider = AddressProvider();
-  User user;
+  late User user;
   final SharedPref _sharedPref = SharedPref();
 
   Future init(BuildContext context, Function refresh) async {
@@ -33,8 +33,8 @@ class ClientAddressCreateController {
   void createAddress() async {
     String addressName = addressController.text;
     String neighborhood = neighborhoodController.text;
-    double lat = refPoint["lat"] ?? 0;
-    double lng = refPoint["lng"] ?? 0;
+    double lat = refPoint!["lat"] ?? 0;
+    double lng = refPoint!["lng"] ?? 0;
 
     if (addressName.isEmpty || neighborhood.isEmpty || lat == 0 || lng == 0) {
       MySnackBar.show(context, "Completa todos los campos");
@@ -49,11 +49,12 @@ class ClientAddressCreateController {
       usuario: user.id,
     );
 
-    ResponseApi responseApi = await _addressProvider.create(address);
+    ResponseApi? responseApi = await _addressProvider.create(address);
+    if (responseApi == null) return;
 
-    if (responseApi.success) {
+    if (responseApi.success!) {
       address.id = responseApi.data;
-      Fluttertoast.showToast(msg: responseApi.message);
+      Fluttertoast.showToast(msg: responseApi.message!);
       Navigator.pop(context, true);
     }
   }
@@ -65,7 +66,7 @@ class ClientAddressCreateController {
         context: context,
         builder: (context) => ClientAddressMapPage());
     if (refPoint != null) {
-      refPointController.text = refPoint["address"];
+      refPointController.text = refPoint!["address"];
       refresh();
     }
   }

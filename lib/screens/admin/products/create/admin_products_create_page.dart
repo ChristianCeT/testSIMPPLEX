@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class AdminProductsCreatePage extends StatefulWidget {
-  const AdminProductsCreatePage({Key key}) : super(key: key);
+  const AdminProductsCreatePage({Key? key}) : super(key: key);
   static String routeName = "/admin/products/create";
 
   @override
@@ -20,7 +20,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -62,7 +62,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
       padding: const EdgeInsets.all(10),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
-      color: MyColors.primaryColor.withOpacity(0.2),
+        color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -87,7 +87,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
       padding: EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
-       color: MyColors.primaryColor.withOpacity(0.2),
+        color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -111,7 +111,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
       padding: EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
-       color: MyColors.primaryColor.withOpacity(0.2),
+        color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -172,7 +172,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
                       style: TextStyle(color: Colors.grey, fontSize: 16)),
                   items: _dropDownItems(categories),
                   value: _con.idCategory,
-                  onChanged: (option) {
+                  onChanged: (String? option) {
                     setState(() {
                       print("Categoria seleccionada $option");
                       _con.idCategory = option;
@@ -191,7 +191,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
     List<DropdownMenuItem<String>> list = [];
     for (var category in categories) {
       list.add(DropdownMenuItem(
-        child: Text(category.nombre),
+        child: Text(category.nombre!),
         value: category.id,
       ));
     }
@@ -223,7 +223,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
     );
   }
 
-  Widget _cardImage(File imageFile, int numberFile) {
+  Widget _cardImage(File? imageFile, int numberFile) {
     return GestureDetector(
       onTap: () {
         _con.showAlertDialog(numberFile);

@@ -15,7 +15,7 @@ class DeliveryOrdersListPage extends StatefulWidget {
 }
 
 class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
-  final DeliveryOrdersListController _con =  DeliveryOrdersListController();
+  final DeliveryOrdersListController _con = DeliveryOrdersListController();
 
   @override
   void initState() {
@@ -67,7 +67,7 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
                 isScrollable: true,
                 tabs: List<Widget>.generate(_con.status.length, (index) {
                   return Tab(
-                    child: Text(_con.status[index] ?? ""),
+                    child: Text(_con.status[index]),
                   );
                 }),
               ),

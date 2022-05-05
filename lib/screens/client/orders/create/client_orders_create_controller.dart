@@ -4,12 +4,12 @@ import 'package:client_exhibideas/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 
 class ClientOrdersCreateController {
-  BuildContext context;
-  Function refresh;
-  Product product;
+  late BuildContext context;
+  late Function refresh;
+  Product? product;
 
   int counter = 1;
-  double productPrice;
+  double? productPrice;
 
   final SharedPref _sharedPref = SharedPref();
 
@@ -19,8 +19,9 @@ class ClientOrdersCreateController {
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
+
     selectedProducts =
-        Product.fromJsonList(await _sharedPref.read("order")).toList;
+        Product.fromJsonList(await _sharedPref.read("order") ?? []).toList;
     getTotal();
     refresh();
   }
@@ -28,7 +29,7 @@ class ClientOrdersCreateController {
   void getTotal() {
     total = 0;
     for (var product in selectedProducts) {
-      total = total + (product.cantidad * product.precio);
+      total = total + (product.cantidad! * product.precio!);
     }
     refresh();
   }
@@ -37,18 +38,18 @@ class ClientOrdersCreateController {
     int index = selectedProducts.indexWhere((p) =>
         p.id ==
         product.id); // para saber si elemento existe y que modifico en la lista
-    selectedProducts[index].cantidad = selectedProducts[index].cantidad + 1;
+    selectedProducts[index].cantidad = selectedProducts[index].cantidad! + 1;
     _sharedPref.save("order", selectedProducts);
     getTotal();
   }
 
   void removeItem(Product product) {
-    if (product.cantidad > 1) {
+    if (product.cantidad! > 1) {
       int index = selectedProducts.indexWhere((p) =>
           p.id ==
           product
               .id); // para saber si elemento existe y que modifico en la lista
-      selectedProducts[index].cantidad = selectedProducts[index].cantidad - 1;
+      selectedProducts[index].cantidad = selectedProducts[index].cantidad! - 1;
       _sharedPref.save("order", selectedProducts);
       getTotal();
     }

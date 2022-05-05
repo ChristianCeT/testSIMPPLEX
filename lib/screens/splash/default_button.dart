@@ -1,4 +1,3 @@
-import 'package:client_exhibideas/utils/constants.dart';
 import 'package:client_exhibideas/utils/my_colors.dart';
 import 'package:client_exhibideas/utils/size_config.dart';
 import 'package:flutter/material.dart';
