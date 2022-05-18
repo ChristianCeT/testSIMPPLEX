@@ -92,7 +92,7 @@ class ClientPaymentsInstallmentsController {
       estado: "PAGADO",
     );
     progressDialog.show(max: 100, msg: "Realizando transacción");
-    //TODO: error en el cardID
+
     Response? response = await _mercadoPagoProvider.createPayment(
         cardId: cardToken?.cardId,
         transactionAmount: totalPayment,

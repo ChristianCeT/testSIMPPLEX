@@ -10,7 +10,6 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-
     return MaterialApp(
       title: "SIMPPLEX",
       debugShowCheckedModeBanner: false,

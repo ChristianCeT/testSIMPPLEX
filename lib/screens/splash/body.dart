@@ -67,6 +67,7 @@ class _BodyState extends State<Body> {
                         flex: 3,
                       ),
                       MaterialButton(
+                        key: const Key("buttonSplash"),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 100, vertical: 20),

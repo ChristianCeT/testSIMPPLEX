@@ -30,7 +30,7 @@ class UsersProvider {
   Future<ResponseApi?> getById(String id) async {
     try {
       Uri url = Uri.https(_url, "$_usuarioUnico/$id");
-      print(url);
+
       Map<String, String> headers = {
         "Content-type": "application/json",
         "Authorization": sessionUser!.sessionToken!
@@ -45,7 +45,6 @@ class UsersProvider {
       ResponseApi responseApi = ResponseApi.fromJson(data);
       return responseApi;
     } catch (e) {
-      print("ERROR $e");
       return null;
     }
   }
@@ -93,7 +92,6 @@ class UsersProvider {
 
       return response.stream.transform(utf8.decoder);
     } catch (e) {
-      print("Error $e");
       return null;
     }
   }
@@ -130,7 +128,6 @@ class UsersProvider {
 
       return response.stream.transform(utf8.decoder);
     } catch (e) {
-      print("Error $e");
       return null;
     }
   }
@@ -139,7 +136,7 @@ class UsersProvider {
     try {
       //authority url de la peticion
       Uri url = Uri.https(_url, "$_logout/$idUser");
-      print(url);
+
       Map<String, String> headers = {"Content-type": "application/json"};
 
       final res = await http.post(url, headers: headers);
@@ -148,7 +145,6 @@ class UsersProvider {
       ResponseApi responseApi = ResponseApi.fromJson(data);
       return responseApi;
     } catch (e) {
-      print("Error: $e");
       return null;
     }
   }
@@ -166,7 +162,6 @@ class UsersProvider {
       ResponseApi responseApi = ResponseApi.fromJson(data);
       return responseApi;
     } catch (e) {
-      print("Error: $e");
       return null;
     }
   }
@@ -184,7 +179,6 @@ class UsersProvider {
       ResponseApi responseApi = ResponseApi.fromJson(data);
       return responseApi;
     } catch (e) {
-      print("Error: $e");
       return null;
     }
   }

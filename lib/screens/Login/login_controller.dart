@@ -47,8 +47,8 @@ class LoginController {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
     ResponseApi? responseApi = await usersProvider.login(email, password);
-    
-    if(responseApi == null) return;
+
+    if (responseApi == null) return;
 
     if (responseApi.success!) {
       //retorno de mapa de valores
@@ -72,11 +72,7 @@ class LoginController {
       MySnackBar.show(context, responseApi.message!);
     }
 
-    print("respuesta: ${responseApi.toJson()}");
     MySnackBar.show(context, responseApi.message!);
-
-    print("EMAIL: $email");
-    print("PASSOWRD: $password");
   }
 
   // NULL SAFETY ninguna variable puede ser nulla

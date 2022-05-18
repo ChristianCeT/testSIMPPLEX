@@ -7,7 +7,7 @@ class DrawerMenu extends StatelessWidget {
   final String apellido;
   final String correo;
   final String telefono;
-  final Widget items;
+  final Widget? items;
   const DrawerMenu(
       {Key? key,
       this.image,
@@ -15,7 +15,7 @@ class DrawerMenu extends StatelessWidget {
       required this.apellido,
       required this.correo,
       required this.telefono,
-      required this.items})
+      this.items})
       : super(key: key);
 
   @override
@@ -83,7 +83,11 @@ class DrawerMenu extends StatelessWidget {
               ],
             ),
           ),
-          (items != null) ? items : Container(),
+          (items != null)
+              ? Container(
+                  child: items,
+                )
+              : Container(),
         ],
       ),
     );

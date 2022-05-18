@@ -94,8 +94,8 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
               return _noAddress();
             }
           } else {
-            return NoDataWidget(
-              text: "No hay productos",
+            return const NoDataWidget(
+              text: "No hay direcciones",
             );
           }
         });

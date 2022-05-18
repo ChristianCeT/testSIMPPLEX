@@ -25,7 +25,7 @@ class CategoriesProvider {
   Future<List<Category>> getAll() async {
     try {
       Uri url = Uri.https(_url, _categorias);
-      print(url);
+
       Map<String, String> headers = {
         "Content-type": "application/json",
         "Authorization": sessionUser.sessionToken!
@@ -37,7 +37,7 @@ class CategoriesProvider {
         SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body); // categorias
-      print(data);
+
       Category category = Category.fromJsonList(data);
 
       print(category.toList); // recibe la data que viene de la api
@@ -45,7 +45,6 @@ class CategoriesProvider {
       return category.toList; // se retorna la lista de categorías
 
     } catch (e) {
-      print("Error: $e");
       return [];
     }
   }
@@ -70,7 +69,6 @@ class CategoriesProvider {
       ResponseApi responseApi = ResponseApi.fromJson(data);
       return responseApi;
     } catch (e) {
-      print("Error: $e");
       return null;
     }
   }

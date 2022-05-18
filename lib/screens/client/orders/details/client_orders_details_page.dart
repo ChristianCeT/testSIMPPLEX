@@ -31,7 +31,7 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Pedido ${_con.order.id ?? ''}",
+            "Pedido ${_con.order?.id ?? ''}",
             maxLines: 2,
           ),
           actions: [
@@ -54,23 +54,23 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
                   indent: 30, // margen en la parte derecha
                 ),
                 _textData("Repartidor:",
-                    '${_con.order.deliveryList?.nombre ?? 'No asignado '} ${_con.order.deliveryList?.apellido ?? ''}'),
+                    '${_con.order?.deliveryList?.nombre ?? 'No asignado '} ${_con.order?.deliveryList?.apellido ?? ''}'),
                 _textData(
-                    "Entregar en:", _con.order.direccion?.direccion ?? ''),
+                    "Entregar en:", _con.order?.direccion?.direccion ?? ''),
                 _textData("Fecha de pedido:",
-                    RelativeTimeUtil.getRelativeTime(_con.order.fecha ?? 0)),
-                _con.order.estado == "EN CAMINO" ? _buttonNext() : Container(),
+                    RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
+                _con.order?.estado == "EN CAMINO" ? _buttonNext() : Container(),
               ],
             ),
           ),
         ),
-        body: _con.order.producto == null
+        body: _con.order?.producto == null
             ? NoDataWidget(
                 text: "Tu carrito está vacío",
               )
-            : _con.order.producto!.isNotEmpty
+            : _con.order!.producto!.isNotEmpty
                 ? ListView(
-                    children: _con.order.producto!.map((Product producto) {
+                    children: _con.order!.producto!.map((Product producto) {
                     return _cardProduct(producto);
                   }).toList())
                 : NoDataWidget(

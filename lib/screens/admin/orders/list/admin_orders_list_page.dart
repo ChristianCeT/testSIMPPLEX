@@ -1,6 +1,7 @@
 import 'package:client_exhibideas/models/orders.dart';
 import 'package:client_exhibideas/screens/admin/orders/list/admin_orders_list_controller.dart';
 import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:client_exhibideas/utils/relative_time_util.dart';
 import 'package:client_exhibideas/widgets/drawer.dart';
 import 'package:client_exhibideas/widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
@@ -90,12 +91,12 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
                             return _cardOrder(snapshot.data![index]);
                           });
                     } else {
-                      return NoDataWidget(
+                      return const NoDataWidget(
                         text: "No hay ordenes",
                       );
                     }
                   } else {
-                    return NoDataWidget(
+                    return const NoDataWidget(
                       text: "No hay ordenes",
                     );
                   }
@@ -148,9 +149,9 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
                         margin: const EdgeInsets.symmetric(vertical: 5),
                         alignment: Alignment.centerLeft,
                         width: double.infinity,
-                        child: const Text(
-                          "Pedido: 2015-05-23",
-                          style: TextStyle(fontSize: 13),
+                        child: Text(
+                          "Fecha: ${RelativeTimeUtil.getRelativeTime(order.fecha ?? 0)}",
+                          style: const TextStyle(fontSize: 13),
                         ),
                       ),
                       Container(

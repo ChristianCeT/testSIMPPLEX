@@ -85,7 +85,6 @@ class DeliveryOrdersMapController {
         _position!.longitude,
         order!.direccion!.latitud!,
         order!.direccion!.longitud!);
-    print("----Distancia ${_distanceBetween} ---------");
   }
 
   void launchWaze() async {

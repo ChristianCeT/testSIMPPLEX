@@ -6,7 +6,6 @@ import 'package:client_exhibideas/provider/user_provider.dart';
 import 'package:client_exhibideas/screens/client/orders/map/client_orders_map_page.dart';
 import 'package:client_exhibideas/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ClientOrdersDetailsController {
   late BuildContext context;
@@ -18,7 +17,7 @@ class ClientOrdersDetailsController {
   final SharedPref _sharedPref = SharedPref();
 
   double total = 0;
-  late Order order;
+  Order? order;
   late User user;
   List<User> users = [];
   final UsersProvider _usersProvider = UsersProvider();
@@ -39,7 +38,7 @@ class ClientOrdersDetailsController {
 
   void updateOrder() async {
     Navigator.pushNamed(context, ClientOrdersMapPage.routeName,
-        arguments: order.toJson());
+        arguments: order?.toJson());
   }
 
   void getUsers() async {
@@ -50,7 +49,7 @@ class ClientOrdersDetailsController {
 
   void getTotal() {
     total = 0;
-    for (var product in order.producto!) {
+    for (var product in order!.producto!) {
       total = total + (product.precio! * product.cantidad!);
     }
     refresh();

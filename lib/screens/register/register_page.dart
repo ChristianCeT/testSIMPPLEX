@@ -19,7 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -109,6 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _textFieldConfirmPassword(),
         const SizedBox(height: 15),
         MaterialButton(
+          key: const Key("buttonRegister"),
           onPressed: _con.isEnable ? _con.register : null,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -143,6 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _textFieldName() {
     return TextField(
+      key: const Key("textFieldName"),
       autocorrect: false,
       controller: _con.nameController,
       keyboardType: TextInputType.text,
@@ -182,6 +184,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _textFieldPassword() {
     return TextField(
+      key: const Key("password"),
       controller: _con.passwordController,
       obscureText: true,
       autocorrect: false,

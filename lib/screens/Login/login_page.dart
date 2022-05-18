@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
       _con.init(context);
     });
   }
@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                         const Text("¿Aún no tienes cuenta?"),
                         TextButton(
                           onPressed: _con.goToRegisterPage,
-                          child:  Text(
+                          child: Text(
                             "Click aquí",
                             style: TextStyle(
                                 decoration: TextDecoration.underline,
@@ -82,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
         _textFieldPassword(),
         const SizedBox(height: 30),
         MaterialButton(
+          key: const Key("buttonLogin"),
           onPressed: _con.login,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -103,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _textFieldEmail() {
     return TextField(
+      key: const Key('inputEmail'),
       autocorrect: false,
       controller: _con.emailController,
       keyboardType: TextInputType.emailAddress,
@@ -116,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _textFieldPassword() {
     return TextField(
+      key: const Key('inputPassword'),
       controller: _con.passwordController,
       obscureText: true,
       autocorrect: false,

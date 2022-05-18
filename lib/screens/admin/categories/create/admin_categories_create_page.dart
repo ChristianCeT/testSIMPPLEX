@@ -72,7 +72,7 @@ class _AdminCategoriesCreatePageState extends State<AdminCategoriesCreatePage> {
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
-       color: MyColors.primaryColor.withOpacity(0.2),
+        color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(

@@ -30,8 +30,6 @@ class MercadoPagoProvider {
       final url = Uri.https(_urlMercadoPago, '/v1/identification_types', {
         'access_token': _mercadoPagoCredentials.accessToken,
       });
-      // ignore: avoid_print
-      print("URL $url");
 
       final res = await http.get(url);
 

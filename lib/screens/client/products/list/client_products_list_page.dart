@@ -160,7 +160,8 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                     child: FadeInImage(
                       image: product.image1 != null
                           ? NetworkImage(product.image1!)
-                          : const AssetImage("assets/images/noImagen.png") as ImageProvider,
+                          : const AssetImage("assets/images/noImagen.png")
+                              as ImageProvider,
                       fit: BoxFit.contain,
                       fadeInDuration: const Duration(milliseconds: 50),
                       placeholder:
@@ -241,11 +242,11 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                   borderSide: BorderSide(color: Colors.grey.withOpacity(0.2))),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.1), width: 2)),
+                  borderSide: BorderSide(
+                      color: Colors.grey.withOpacity(0.1), width: 2)),
               contentPadding: const EdgeInsets.all(15))),
     );
   }
-
 
   Widget _itemsDrawer() {
     return Column(

@@ -56,7 +56,7 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
                 children: _con.selectedProducts.map((Product product) {
                 return _cardProduct(product);
               }).toList())
-            : NoDataWidget(
+            : const NoDataWidget(
                 text: "Tu carrito está vacío",
               ));
   }
