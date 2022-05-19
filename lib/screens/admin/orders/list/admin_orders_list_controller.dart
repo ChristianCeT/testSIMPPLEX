@@ -4,6 +4,7 @@ import 'package:simpplex_app/provider/orders_provider.dart';
 import 'package:simpplex_app/screens/admin/categories/create/admin_categories_create_page.dart';
 import 'package:simpplex_app/screens/admin/orders/details/admin_orders_details_page.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
+import 'package:simpplex_app/screens/admin/users/list_users.dart';
 import 'package:simpplex_app/screens/roles/roles_page.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class AdminOrdersListController {
     this.refresh = refresh;
     user = User.fromJson(
         await sharedPref.read("user")); // PUEDE TARDAR UN TIEMPO EN OBTENER
-    _ordersProvider.init(context, user!);
+    _ordersProvider.init(context, user! );
     refresh();
   }
 
@@ -66,5 +67,9 @@ class AdminOrdersListController {
 
   void goToProductCreate() {
     Navigator.pushNamed(context, AdminProductsCreatePage.routeName);
+  }
+
+  void goToUsers() {
+    Navigator.pushNamed(context, UserScreen.routeName);
   }
 }

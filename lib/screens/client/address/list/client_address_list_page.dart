@@ -42,7 +42,7 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
           ),
           Container(
               margin: EdgeInsets.only(top: size.height * 0.08),
-              child: _listAddress())
+              child: _listAddress()),
         ],
       ),
       bottomNavigationBar: _buttonAccept(size),

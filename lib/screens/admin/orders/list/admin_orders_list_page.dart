@@ -215,6 +215,14 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
                 : Container()
             : Container(),
         ListTile(
+          onTap: _con.goToUsers,
+          title: const Text("Usuarios"),
+          trailing: Icon(
+            Icons.person_add_outlined,
+            color: MyColors.primaryColor,
+          ),
+        ),
+        ListTile(
           onTap: _con.logout,
           title: const Text("Cerrar sesión"),
           trailing: Icon(

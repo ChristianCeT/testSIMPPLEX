@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:simpplex_app/api/enviroment.dart';
 import 'package:simpplex_app/models/response_api.dart';
 import 'package:simpplex_app/models/user.dart';
@@ -21,7 +20,7 @@ class UsersProvider {
 
   late BuildContext context;
   User? sessionUser;
-//parametro opcional {String token}
+
   Future init(BuildContext context, {User? sessionUser}) async {
     this.context = context;
     this.sessionUser = sessionUser;
@@ -178,6 +177,23 @@ class UsersProvider {
       //espera mapa de valores
       ResponseApi responseApi = ResponseApi.fromJson(data);
       return responseApi;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<User>?> getUsers() async {
+    try {
+      Uri url = Uri.https(_url, "/usuarios");
+      Map<String, String>? headers = {
+        "Content-Type": "application/json",
+        "Authorization": sessionUser!.sessionToken!
+      };
+      final res = await http.get(url, headers: headers);
+      final data = json.decode(res.body);
+
+      User user = User.fromJsonList(data["users"]);
+      return user.toList;
     } catch (e) {
       return null;
     }

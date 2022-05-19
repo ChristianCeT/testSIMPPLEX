@@ -2,6 +2,7 @@ import 'package:simpplex_app/screens/Login/login_page.dart';
 import 'package:simpplex_app/screens/admin/categories/create/admin_categories_create_page.dart';
 import 'package:simpplex_app/screens/admin/orders/list/admin_orders_list_page.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
+import 'package:simpplex_app/screens/admin/users/list_users.dart';
 import 'package:simpplex_app/screens/client/Account/client_account_page.dart';
 import 'package:simpplex_app/screens/client/address/create/client_address_create_page.dart';
 import 'package:simpplex_app/screens/client/address/list/client_address_list_page.dart';
@@ -20,7 +21,6 @@ import 'package:simpplex_app/screens/delivery/orders/map/delivery_orders_map_pag
 import 'package:simpplex_app/screens/register/register_page.dart';
 import 'package:simpplex_app/screens/roles/roles_page.dart';
 import 'package:simpplex_app/screens/splash/splash_screen.dart';
-import 'package:simpplex_app/widgets/web_view_ra.dart';
 import 'package:flutter/material.dart';
 
 // Rutas
@@ -48,5 +48,6 @@ final Map<String, WidgetBuilder> routes = {
   ClientPaymentsInstallmentsPage.routeName: (context) =>
       ClientPaymentsInstallmentsPage(),
   ClientPaymentsStatusPage.routeName: (context) => ClientPaymentsStatusPage(),
-  WebViewRa.routeName: (context) => const WebViewRa(),
+  UserScreen.routeName: (context) => const UserScreen(),
+
 };
