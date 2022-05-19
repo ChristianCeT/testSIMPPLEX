@@ -1,4 +1,4 @@
-name: client_exhibideas
+name: simpplex_app
 description: A new Flutter project.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -33,7 +33,7 @@ dependencies:
   fluttertoast: ^8.0.8
   modal_bottom_sheet: ^2.0.0
   flutter_image_slideshow: ^0.1.2
-  google_maps_flutter: ^2.1.1
+  google_maps_flutter: ^2.1.5
   geolocator: ^7.7.1
   location: ^4.3.0
   geocoding: ^2.0.1

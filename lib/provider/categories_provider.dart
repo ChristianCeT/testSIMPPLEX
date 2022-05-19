@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:client_exhibideas/api/enviroment.dart';
-import 'package:client_exhibideas/models/category.dart';
-import 'package:client_exhibideas/models/response_api.dart';
-import 'package:client_exhibideas/models/user.dart';
-import 'package:client_exhibideas/utils/share_preferences.dart';
+import 'package:simpplex_app/api/enviroment.dart';
+import 'package:simpplex_app/models/category.dart';
+import 'package:simpplex_app/models/response_api.dart';
+import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import "package:http/http.dart" as http;

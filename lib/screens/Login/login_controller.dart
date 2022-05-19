@@ -1,11 +1,11 @@
-import 'package:client_exhibideas/models/response_api.dart';
-import 'package:client_exhibideas/models/user.dart';
-import 'package:client_exhibideas/provider/user_provider.dart';
-import 'package:client_exhibideas/screens/client/products/client_products_menu/client_products_menu.dart';
-import 'package:client_exhibideas/screens/register/register_page.dart';
-import 'package:client_exhibideas/screens/roles/roles_page.dart';
-import 'package:client_exhibideas/utils/my_snackbar.dart';
-import 'package:client_exhibideas/utils/share_preferences.dart';
+import 'package:simpplex_app/models/response_api.dart';
+import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/provider/user_provider.dart';
+import 'package:simpplex_app/screens/client/products/client_products_menu/client_products_menu.dart';
+import 'package:simpplex_app/screens/register/register_page.dart';
+import 'package:simpplex_app/screens/roles/roles_page.dart';
+import 'package:simpplex_app/utils/my_snackbar.dart';
+import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 
 class LoginController {

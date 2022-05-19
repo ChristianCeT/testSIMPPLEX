@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:client_exhibideas/models/category.dart';
-import 'package:client_exhibideas/screens/admin/products/create/admin_products_create_controller.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:simpplex_app/models/category.dart';
+import 'package:simpplex_app/screens/admin/products/create/admin_products_create_controller.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 

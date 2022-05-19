@@ -1,5 +1,5 @@
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_installment.dart';
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_issuer.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_installment.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_issuer.dart';
 
 class MercadoPagoPaymentMethodInstallments {
   String? paymentMethodId;

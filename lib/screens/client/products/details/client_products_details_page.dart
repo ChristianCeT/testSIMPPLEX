@@ -1,6 +1,6 @@
-import 'package:client_exhibideas/models/product.dart';
-import 'package:client_exhibideas/screens/client/products/details/client_products_details_controller.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/screens/client/products/details/client_products_details_controller.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';

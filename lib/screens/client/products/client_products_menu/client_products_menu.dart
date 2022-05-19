@@ -1,5 +1,5 @@
-import 'package:client_exhibideas/screens/client/products/client_products_menu/client_products_menu_controller.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:simpplex_app/screens/client/products/client_products_menu/client_products_menu_controller.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 

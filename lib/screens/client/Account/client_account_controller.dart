@@ -1,8 +1,8 @@
-import 'package:client_exhibideas/models/user.dart';
-import 'package:client_exhibideas/screens/client/orders/list/client_orders_list_page.dart';
-import 'package:client_exhibideas/screens/client/update/client_update_page.dart';
-import 'package:client_exhibideas/screens/roles/roles_page.dart';
-import 'package:client_exhibideas/utils/share_preferences.dart';
+import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/screens/client/orders/list/client_orders_list_page.dart';
+import 'package:simpplex_app/screens/client/update/client_update_page.dart';
+import 'package:simpplex_app/screens/roles/roles_page.dart';
+import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 
 class ClienteAccountController {

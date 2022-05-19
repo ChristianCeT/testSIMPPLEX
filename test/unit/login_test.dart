@@ -1,6 +1,6 @@
-import 'package:client_exhibideas/models/response_api.dart';
-import 'package:client_exhibideas/provider/user_provider.dart';
-import 'package:client_exhibideas/screens/register/register_page.dart';
+import 'package:simpplex_app/models/response_api.dart';
+import 'package:simpplex_app/provider/user_provider.dart';
+import 'package:simpplex_app/screens/register/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

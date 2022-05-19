@@ -1,7 +1,7 @@
-import 'package:client_exhibideas/models/user.dart';
-import 'package:client_exhibideas/screens/client/Account/client_account_page.dart';
-import 'package:client_exhibideas/screens/client/orders/create/client_orders_create_page.dart';
-import 'package:client_exhibideas/utils/share_preferences.dart';
+import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/screens/client/Account/client_account_page.dart';
+import 'package:simpplex_app/screens/client/orders/create/client_orders_create_page.dart';
+import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import '../list/client_products_list_page.dart';
 

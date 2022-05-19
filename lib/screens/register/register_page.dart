@@ -1,6 +1,6 @@
-import 'package:client_exhibideas/screens/register/register_controller.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
-import 'package:client_exhibideas/widgets/widgets.dart';
+import 'package:simpplex_app/screens/register/register_controller.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import '../../widgets/input_decorations.dart';

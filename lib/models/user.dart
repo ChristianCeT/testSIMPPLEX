@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:client_exhibideas/models/rol.dart';
+import 'package:simpplex_app/models/rol.dart';
 
 User userFromJson(String str) => User.fromJson(json.decode(str));
 

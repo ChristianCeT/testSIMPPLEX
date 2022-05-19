@@ -1,14 +1,14 @@
 import 'dart:async';
-import 'package:client_exhibideas/models/category.dart';
-import 'package:client_exhibideas/models/product.dart';
-import 'package:client_exhibideas/models/user.dart';
-import 'package:client_exhibideas/provider/categories_provider.dart';
-import 'package:client_exhibideas/provider/products_provider.dart';
-import 'package:client_exhibideas/screens/client/orders/create/client_orders_create_page.dart';
-import 'package:client_exhibideas/screens/client/orders/list/client_orders_list_page.dart';
-import 'package:client_exhibideas/screens/client/products/details/client_products_details_page.dart';
-import 'package:client_exhibideas/screens/roles/roles_page.dart';
-import 'package:client_exhibideas/utils/share_preferences.dart';
+import 'package:simpplex_app/models/category.dart';
+import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/provider/categories_provider.dart';
+import 'package:simpplex_app/provider/products_provider.dart';
+import 'package:simpplex_app/screens/client/orders/create/client_orders_create_page.dart';
+import 'package:simpplex_app/screens/client/orders/list/client_orders_list_page.dart';
+import 'package:simpplex_app/screens/client/products/details/client_products_details_page.dart';
+import 'package:simpplex_app/screens/roles/roles_page.dart';
+import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 

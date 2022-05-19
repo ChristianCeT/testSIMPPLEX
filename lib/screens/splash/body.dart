@@ -1,9 +1,9 @@
-import 'package:client_exhibideas/screens/Login/login_page.dart';
-import 'package:client_exhibideas/screens/splash/default_button.dart';
-import 'package:client_exhibideas/screens/splash/splash_content.dart';
-import 'package:client_exhibideas/utils/constants.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
-import 'package:client_exhibideas/utils/size_config.dart';
+import 'package:simpplex_app/screens/Login/login_page.dart';
+import 'package:simpplex_app/screens/splash/default_button.dart';
+import 'package:simpplex_app/screens/splash/splash_content.dart';
+import 'package:simpplex_app/utils/constants.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter_driver/driver_extension.dart';
-import 'package:client_exhibideas/main.dart' as app;
+import 'package:simpplex_app/main.dart' as app;
 
 void main() {
   // Esta línea permite la extensión

@@ -1,4 +1,4 @@
-export 'package:client_exhibideas/widgets/background.dart';
-export 'package:client_exhibideas/widgets/no_data_widget.dart';
-export 'package:client_exhibideas/widgets/card_container.dart';
-export 'package:client_exhibideas/widgets/progress_dialog.dart';
+export 'package:simpplex_app/widgets/background.dart';
+export 'package:simpplex_app/widgets/no_data_widget.dart';
+export 'package:simpplex_app/widgets/card_container.dart';
+export 'package:simpplex_app/widgets/progress_dialog.dart';

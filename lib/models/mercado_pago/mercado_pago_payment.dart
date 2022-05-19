@@ -1,7 +1,7 @@
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_credit_cart.dart';
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_customer.dart';
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_tax.dart';
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_transaction_detail.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_credit_cart.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_customer.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_tax.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_transaction_detail.dart';
 
 class MercadoPagoPayment {
   String? id;

@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:client_exhibideas/provider/user_provider.dart';
-import 'package:client_exhibideas/screens/Login/login_page.dart';
+import 'package:simpplex_app/provider/user_provider.dart';
+import 'package:simpplex_app/screens/Login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

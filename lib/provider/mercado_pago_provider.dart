@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:client_exhibideas/api/enviroment.dart';
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_document_type.dart';
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_payment_method_installments.dart';
-import 'package:client_exhibideas/models/orders.dart';
-import 'package:client_exhibideas/models/user.dart';
-import 'package:client_exhibideas/utils/share_preferences.dart';
+import 'package:simpplex_app/api/enviroment.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_document_type.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_payment_method_installments.dart';
+import 'package:simpplex_app/models/orders.dart';
+import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;

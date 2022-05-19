@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:client_exhibideas/models/address.dart';
-import 'package:client_exhibideas/models/product.dart';
-import 'package:client_exhibideas/models/user.dart';
+import 'package:simpplex_app/models/address.dart';
+import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/models/user.dart';
 
 Order orderFromJson(String str) => Order.fromJson(json.decode(str));
 

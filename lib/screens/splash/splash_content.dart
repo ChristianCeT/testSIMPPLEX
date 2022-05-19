@@ -1,4 +1,4 @@
-import 'package:client_exhibideas/utils/size_config.dart';
+import 'package:simpplex_app/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class SplashContent extends StatelessWidget {

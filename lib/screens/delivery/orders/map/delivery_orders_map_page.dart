@@ -1,5 +1,5 @@
-import 'package:client_exhibideas/screens/delivery/orders/map/delivery_orders_map_controller.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:simpplex_app/screens/delivery/orders/map/delivery_orders_map_controller.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -223,7 +223,6 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
   }
 
   void refresh() {
-    if (!mounted) return;
     setState(() {});
   }
 }

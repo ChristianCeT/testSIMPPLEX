@@ -1,7 +1,7 @@
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_card_holder.dart';
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_issuer.dart';
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_payment_method.dart';
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_security_code.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_card_holder.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_issuer.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_payment_method.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_security_code.dart';
 
 class MercadoPagoCreditCard {
   //IDENTIFICADOR DE LA TARJETA

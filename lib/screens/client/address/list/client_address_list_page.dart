@@ -1,7 +1,7 @@
-import 'package:client_exhibideas/models/address.dart';
-import 'package:client_exhibideas/screens/client/address/list/client_address_list_controller.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
-import 'package:client_exhibideas/widgets/no_data_widget.dart';
+import 'package:simpplex_app/models/address.dart';
+import 'package:simpplex_app/screens/client/address/list/client_address_list_controller.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 

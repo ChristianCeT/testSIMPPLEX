@@ -1,5 +1,5 @@
-import 'package:client_exhibideas/screens/client/orders/map/client_orders_map_controller.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:simpplex_app/screens/client/orders/map/client_orders_map_controller.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -69,9 +69,9 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
       child: Column(
         children: [
           _listTitleAddress(
-              _con.order.direccion!.avenida!, "Avenida", Icons.my_location),
-          _listTitleAddress(
-              _con.order.direccion!.direccion!, "Dirección", Icons.location_on),
+              _con.order?.direccion?.avenida, "Avenida", Icons.my_location),
+          _listTitleAddress(_con.order?.direccion?.direccion!, "Dirección",
+              Icons.location_on),
           Divider(color: MyColors.primaryColor, endIndent: 30, indent: 30),
           _clientInfo(),
         ],
@@ -88,8 +88,8 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
             height: 50,
             width: 50,
             child: FadeInImage(
-              image: _con.order.deliveryList!.image != null
-                  ? NetworkImage(_con.order.deliveryList!.image!)
+              image: _con.order?.cliente?.image != null
+                  ? NetworkImage(_con.order!.cliente!.image!)
                   : const AssetImage("assets/images/noImagen.png")
                       as ImageProvider,
               fit: BoxFit.cover,
@@ -100,7 +100,7 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
           Container(
               margin: const EdgeInsets.only(left: 10),
               child: Text(
-                "${_con.order.deliveryList?.nombre ?? ''} ${_con.order.deliveryList?.apellido ?? ''} ",
+                "${_con.order?.deliveryList?.nombre ?? ''} ${_con.order?.deliveryList?.apellido ?? ''} ",
                 style: const TextStyle(color: Colors.black, fontSize: 16),
                 maxLines: 1,
               )),
@@ -119,11 +119,11 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
     );
   }
 
-  Widget _listTitleAddress(String title, String subtitle, IconData iconData) {
+  Widget _listTitleAddress(String? title, String subtitle, IconData iconData) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30),
       child: ListTile(
-        title: Text(title, style: const TextStyle(fontSize: 13)),
+        title: Text(title ?? '', style: const TextStyle(fontSize: 13)),
         subtitle: const Text("Vecindario"),
         trailing: Icon(iconData),
       ),
@@ -156,7 +156,7 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
   Widget _googleMaps() {
     return GoogleMap(
       mapType: MapType.normal,
-      initialCameraPosition: _con.initialPosition,
+      initialCameraPosition: _con.initialPosition!,
       onMapCreated: _con.onMapCreate,
       myLocationButtonEnabled: false,
       myLocationEnabled: false,
@@ -165,7 +165,6 @@ class _ClientOrdersMapPageState extends State<ClientOrdersMapPage> {
   }
 
   void refresh() {
-    if (!mounted) return;
     setState(() {});
   }
 }

@@ -1,6 +1,6 @@
-import 'package:client_exhibideas/models/product.dart';
-import 'package:client_exhibideas/screens/client/address/list/client_address_list_page.dart';
-import 'package:client_exhibideas/utils/share_preferences.dart';
+import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/screens/client/address/list/client_address_list_page.dart';
+import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 
 class ClientOrdersCreateController {

@@ -1,10 +1,10 @@
-import 'package:client_exhibideas/models/orders.dart';
-import 'package:client_exhibideas/models/product.dart';
-import 'package:client_exhibideas/models/user.dart';
-import 'package:client_exhibideas/provider/orders_provider.dart';
-import 'package:client_exhibideas/provider/user_provider.dart';
-import 'package:client_exhibideas/screens/client/orders/map/client_orders_map_page.dart';
-import 'package:client_exhibideas/utils/share_preferences.dart';
+import 'package:simpplex_app/models/orders.dart';
+import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/provider/orders_provider.dart';
+import 'package:simpplex_app/provider/user_provider.dart';
+import 'package:simpplex_app/screens/client/orders/map/client_orders_map_page.dart';
+import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 
 class ClientOrdersDetailsController {

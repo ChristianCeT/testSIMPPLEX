@@ -1,4 +1,4 @@
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_card_holder.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_card_holder.dart';
 
 class MercadoPagoCardToken {
   String? id;

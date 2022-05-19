@@ -1,9 +1,9 @@
-import 'package:client_exhibideas/models/category.dart';
-import 'package:client_exhibideas/models/product.dart';
-import 'package:client_exhibideas/screens/client/products/list/client_products_list_controller.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
-import 'package:client_exhibideas/widgets/drawer.dart';
-import 'package:client_exhibideas/widgets/no_data_widget.dart';
+import 'package:simpplex_app/models/category.dart';
+import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/screens/client/products/list/client_products_list_controller.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/widgets/drawer.dart';
+import 'package:simpplex_app/widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 

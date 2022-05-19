@@ -1,4 +1,4 @@
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_credit_cart.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_credit_cart.dart';
 
 class MercadoPagoCustomer {
   //IDENTIFICADOR DEL USUARIO EN MERCADO PAGO

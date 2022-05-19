@@ -1,6 +1,6 @@
-import 'package:client_exhibideas/screens/client/update/client_update_controller.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
-import 'package:client_exhibideas/widgets/input_decorations.dart';
+import 'package:simpplex_app/screens/client/update/client_update_controller.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/widgets/input_decorations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 

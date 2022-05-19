@@ -1,5 +1,5 @@
-import 'package:client_exhibideas/screens/splash/body.dart';
-import 'package:client_exhibideas/utils/size_config.dart';
+import 'package:simpplex_app/screens/splash/body.dart';
+import 'package:simpplex_app/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen1 extends StatelessWidget {

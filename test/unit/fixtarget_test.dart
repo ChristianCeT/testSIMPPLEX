@@ -1,6 +1,6 @@
-import 'package:client_exhibideas/models/orders.dart';
-import 'package:client_exhibideas/provider/mercado_pago_provider.dart';
-import 'package:client_exhibideas/screens/client/payments/create/client_payments_create_controller.dart';
+import 'package:simpplex_app/models/orders.dart';
+import 'package:simpplex_app/provider/mercado_pago_provider.dart';
+import 'package:simpplex_app/screens/client/payments/create/client_payments_create_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 

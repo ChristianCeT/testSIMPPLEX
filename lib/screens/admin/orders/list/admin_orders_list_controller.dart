@@ -1,11 +1,11 @@
-import 'package:client_exhibideas/models/orders.dart';
-import 'package:client_exhibideas/models/user.dart';
-import 'package:client_exhibideas/provider/orders_provider.dart';
-import 'package:client_exhibideas/screens/admin/categories/create/admin_categories_create_page.dart';
-import 'package:client_exhibideas/screens/admin/orders/details/admin_orders_details_page.dart';
-import 'package:client_exhibideas/screens/admin/products/create/admin_products_create_page.dart';
-import 'package:client_exhibideas/screens/roles/roles_page.dart';
-import 'package:client_exhibideas/utils/share_preferences.dart';
+import 'package:simpplex_app/models/orders.dart';
+import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/provider/orders_provider.dart';
+import 'package:simpplex_app/screens/admin/categories/create/admin_categories_create_page.dart';
+import 'package:simpplex_app/screens/admin/orders/details/admin_orders_details_page.dart';
+import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
+import 'package:simpplex_app/screens/roles/roles_page.dart';
+import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 

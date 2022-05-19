@@ -1,10 +1,10 @@
-import 'package:client_exhibideas/models/address.dart';
-import 'package:client_exhibideas/models/response_api.dart';
-import 'package:client_exhibideas/models/user.dart';
-import 'package:client_exhibideas/provider/address_provider.dart';
-import 'package:client_exhibideas/screens/client/address/map/client_address_map_page.dart';
-import 'package:client_exhibideas/utils/my_snackbar.dart';
-import 'package:client_exhibideas/utils/share_preferences.dart';
+import 'package:simpplex_app/models/address.dart';
+import 'package:simpplex_app/models/response_api.dart';
+import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/provider/address_provider.dart';
+import 'package:simpplex_app/screens/client/address/map/client_address_map_page.dart';
+import 'package:simpplex_app/utils/my_snackbar.dart';
+import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';

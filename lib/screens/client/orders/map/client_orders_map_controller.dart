@@ -1,47 +1,45 @@
 import 'dart:async';
-import 'package:client_exhibideas/api/enviroment.dart';
-import 'package:client_exhibideas/models/orders.dart';
-import 'package:client_exhibideas/models/user.dart';
-import 'package:client_exhibideas/provider/orders_provider.dart';
-import 'package:client_exhibideas/utils/share_preferences.dart';
+import 'package:simpplex_app/api/enviroment.dart';
+import 'package:simpplex_app/models/orders.dart';
+import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/provider/orders_provider.dart';
+import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import "package:location/location.dart" as location;
 import 'package:url_launcher/url_launcher.dart';
-
-// ignore: library_prefixes
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ClientOrdersMapController {
   late BuildContext context;
   late Function refresh;
-  late Position _position;
+  Position? _position;
   String? addressName;
-  LatLng? addressLaglng;
+  late LatLng addressLaglng;
 
-  CameraPosition initialPosition = const CameraPosition(
-      target: LatLng(-11.991651, -77.0147332), zoom: 14); // zoom del 1 al 20
+  CameraPosition? initialPosition = const CameraPosition(
+      target: LatLng(-11.991651, -77.0147332), zoom: 20); // zoom del 1 al 20
 
   final Completer<GoogleMapController> _mapController = Completer();
 
-  late BitmapDescriptor deliveryMarker;
-  late BitmapDescriptor homeMarker;
+  BitmapDescriptor? deliveryMarker;
+  BitmapDescriptor? homeMarker;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  final OrdersProvider _ordersProvider = OrdersProvider();
+  final OrdersProvider _ordersProvider =  OrdersProvider();
   late User user;
   final SharedPref _sharedPref = SharedPref();
-  late Order order;
-  late double _distanceBetween;
-  late IO.Socket socket;
+  Order? order;
+  double? _distanceBetween;
+  IO.Socket? socket;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    order = Order.fromJson(ModalRoute.of(context)!.settings.arguments
+    order = Order.fromJson(ModalRoute.of(context)?.settings.arguments
         as Map<String, dynamic>); // obtener datos de un argumento de la orden
     deliveryMarker =
         await createMarketFromAssets('assets/images/delivery3.png');
@@ -52,28 +50,25 @@ class ClientOrdersMapController {
       'transports': ['websocket'],
       'autoConnect': false,
     });
-    socket.connect();
+    socket?.connect();
 
-    socket.on('posicion/${order.id}', (data) {
+    socket?.on('posicion/${order?.id}', (data) {
       print(data);
-      addMarker("Delivery", data["latitud"], data["longitud"], "Tu repartidor",
-          "", deliveryMarker);
+      addMarker("Delivery", data["latitud"], data["longitud"],
+          "Tu repartidor", "", deliveryMarker!);
     }); // leer info de socket io
 
     user = User.fromJson(await _sharedPref.read("user"));
     _ordersProvider.init(context, user);
-    print("ORDEN: ${order.toJson()}");
+    print("ORDEN: ${order?.toJson()}");
     checkGPS();
   }
 
   void isCloseToDeliveredPosition() {
-    _distanceBetween = Geolocator.distanceBetween(
-        _position.latitude,
-        _position.longitude,
-        order.direccion!.latitud!,
-        order.direccion!.longitud!);
+    _distanceBetween = Geolocator.distanceBetween(_position!.latitude,
+        _position!.longitude, order!.direccion!.latitud!, order!.direccion!.longitud!);
 
-    print("----Distancia $_distanceBetween ---------");
+    print("----Distancia ${_distanceBetween} ---------");
   }
 
   void addMarker(String markerId, double lat, double long, String title,
@@ -94,11 +89,12 @@ class ClientOrdersMapController {
   void selectRefPoint() async {
     Map<String, dynamic> data = {
       "address": addressName,
-      "lat": addressLaglng!.latitude,
-      "lng": addressLaglng!.longitude,
+      "lat": addressLaglng.latitude,
+      "lng": addressLaglng.longitude,
     };
 // pasar la informacion al navigator cerrando la pestaña
     Navigator.pop(context, data);
+    
   }
 
   Future<BitmapDescriptor> createMarketFromAssets(String path) async {
@@ -108,10 +104,10 @@ class ClientOrdersMapController {
     return descriptor;
   }
 
-  Future setLocationDraggableInfo() async {
+  Future<void> setLocationDraggableInfo() async {
     if (initialPosition != null) {
-      double lat = initialPosition.target.latitude;
-      double long = initialPosition.target.longitude;
+      double lat = initialPosition!.target.latitude;
+      double long = initialPosition!.target.longitude;
       List<Placemark> address = await placemarkFromCoordinates(lat, long);
 
       if (address != null) {
@@ -137,23 +133,24 @@ class ClientOrdersMapController {
   }
 
   void dispose() {
-    socket.disconnect();
+    socket?.disconnect();
   }
 
   void updateLocation() async {
     try {
       await _determinePosition(); // OBTENER LA POSICIÓN ACTUAL Y SOLICITAR PERMISOS
-
-      animatedCameraToPosition(_position.latitude, _position.longitude);
-      /*  addMarker("Delivery", _position.latitude, _position.longitude,
+      _position = await Geolocator
+          .getLastKnownPosition(); // obtener la ultima posicion del dispositivo la latitud y longitud actual es lo que devuelve
+      animatedCameraToPosition(_position!.latitude, _position!.longitude);
+     /*  addMarker("Delivery", _position.latitude, _position.longitude,
           "Tu posición", "", deliveryMarker); */
-      addMarker("Home", order.direccion!.latitud!, order.direccion!.longitud!,
-          "Lugar de entrega", "", homeMarker);
+      addMarker("Home", order!.direccion!.latitud!, order!.direccion!.longitud!,
+          "Lugar de entrega", "", homeMarker!);
 
       //setPolylines
       refresh();
 
-      animatedCameraToPosition(_position.latitude, _position.longitude);
+      animatedCameraToPosition(_position!.latitude, _position!.longitude);
       isCloseToDeliveredPosition();
       refresh();
     } catch (e) {
@@ -162,7 +159,7 @@ class ClientOrdersMapController {
   }
 
   void call() {
-    launch("tel://${order.cliente?.telefono}");
+    launch("tel://${order?.cliente?.telefono}");
   }
 
   void checkGPS() async {

@@ -1,6 +1,6 @@
-import 'package:client_exhibideas/screens/splash/splash_screen.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
-import 'package:client_exhibideas/utils/routes.dart';
+import 'package:simpplex_app/screens/splash/splash_screen.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

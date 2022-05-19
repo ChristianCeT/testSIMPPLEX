@@ -1,5 +1,5 @@
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_financial_institution.dart';
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_issuer.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_financial_institution.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_issuer.dart';
 
 class MercadoPagoPaymentMethod {
   //IDENTIFICADOR DEL MEDIO DE PAGO

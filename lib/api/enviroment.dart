@@ -1,4 +1,4 @@
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_credentials.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_credentials.dart';
 
 class Enviroment {
   /* static const String API_DELIVERY = "192.168.1.64:3006"; */

@@ -1,6 +1,6 @@
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_installment.dart';
-import 'package:client_exhibideas/screens/client/payments/installments/client_payments_installments_controller.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_installment.dart';
+import 'package:simpplex_app/screens/client/payments/installments/client_payments_installments_controller.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 

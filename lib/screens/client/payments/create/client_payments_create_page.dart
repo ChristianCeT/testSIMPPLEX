@@ -1,7 +1,7 @@
-import 'package:client_exhibideas/models/mercado_pago/mercado_pago_document_type.dart';
-import 'package:client_exhibideas/screens/client/payments/create/client_payments_create_controller.dart';
-import 'package:client_exhibideas/utils/my_colors.dart';
-import 'package:client_exhibideas/widgets/input_decorations_card_payment.dart';
+import 'package:simpplex_app/models/mercado_pago/mercado_pago_document_type.dart';
+import 'package:simpplex_app/screens/client/payments/create/client_payments_create_controller.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/widgets/input_decorations_card_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';

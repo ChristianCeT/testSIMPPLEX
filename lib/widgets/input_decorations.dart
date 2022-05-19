@@ -1,4 +1,4 @@
-import 'package:client_exhibideas/utils/my_colors.dart';
+import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 
 //se crea como static para no importar la instancia de la clase
