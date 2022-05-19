@@ -24,7 +24,7 @@ class ClientAddressListController {
   late User user;
   final SharedPref _sharedPref = SharedPref();
 
-  int? radioValue = 0;
+  int radioValue = 0;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -60,8 +60,8 @@ class ClientAddressListController {
   }
 
   void handleRadioValueChange(int? value) async {
-    radioValue = value;
-    _sharedPref.save('address', address[value!]);
+    radioValue = value!;
+    _sharedPref.save('address', address[value]);
     refresh();
     print("Valor seleccionado: $radioValue");
   }

@@ -174,6 +174,8 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
   }
 
   void refresh() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 }

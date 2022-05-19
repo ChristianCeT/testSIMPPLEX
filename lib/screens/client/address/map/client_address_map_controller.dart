@@ -39,7 +39,7 @@ class ClientAddressMapController {
     if (initialPosition != null) {
       double lat = initialPosition!.target.latitude;
       double long = initialPosition!.target.longitude;
-      List<Placemark> address = await placemarkFromCoordinates(lat, long);
+      List<Placemark>? address = await placemarkFromCoordinates(lat, long);
 
       if (address != null) {
         if (address.isNotEmpty) {
