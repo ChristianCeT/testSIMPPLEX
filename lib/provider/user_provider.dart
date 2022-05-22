@@ -11,6 +11,7 @@ import "package:path/path.dart";
 
 class UsersProvider {
   final String _url = Enviroment.API_DELIVERY;
+  final String _urlDev = Enviroment.apiDev;
   final String _crear = "/crearUsuario";
   final String _login = "/login";
   final String _update = "/actualizarUsuario";
@@ -194,6 +195,44 @@ class UsersProvider {
 
       User user = User.fromJsonList(data["users"]);
       return user.toList;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<User>?> getUsersByRolDynamic(String rol) async {
+    try {
+      Uri url = Uri.https(_url, "/usuarioDynamic/$rol");
+
+      Map<String, String>? headers = {
+        "Content-Type": "application/json",
+        "Authorization": sessionUser!.sessionToken!
+      };
+
+      final res = await http.get(url, headers: headers);
+      final data = json.decode(res.body);
+
+      User user = User.fromJsonList(data);
+
+      return user.toList;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<String?> deleteUserById(String id) async {
+    try {
+      Uri url = Uri.https(_url, "/eliminarUsuario/$id");
+
+      Map<String, String>? headers = {
+        "Content-Type": "application/json",
+        "Authorization": sessionUser!.sessionToken!
+      };
+
+      final res = await http.delete(url, headers: headers);
+      final data = json.decode(res.body);
+
+      return data["mensaje"];
     } catch (e) {
       return null;
     }

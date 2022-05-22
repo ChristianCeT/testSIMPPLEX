@@ -42,7 +42,7 @@ class DrawerMenu extends StatelessWidget {
                   child: FadeInImage(
                     image: image != null
                         ? NetworkImage(image!)
-                        : const AssetImage("assets/image/no-avatar.png")
+                        : const AssetImage("assets/images/no-avatar.png")
                             as ImageProvider,
                     fit: BoxFit.cover,
                     fadeInDuration: const Duration(milliseconds: 50),

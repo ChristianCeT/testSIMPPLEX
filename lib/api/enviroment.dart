@@ -1,7 +1,7 @@
 import 'package:simpplex_app/models/mercado_pago/mercado_pago_credentials.dart';
 
 class Enviroment {
-  /* static const String API_DELIVERY = "192.168.1.64:3006"; */
+  static const String apiDev = "localhost:3006";
   static const String API_DELIVERY = "exhibideas-flutter-v1.herokuapp.com";
   static MercadoPagoCredentials mercadoPagoCredentials = MercadoPagoCredentials(
       publicKey: 'TEST-f12c2b6b-6121-4949-a885-b90802152ebb',

@@ -3,6 +3,8 @@ import 'package:simpplex_app/screens/admin/categories/create/admin_categories_cr
 import 'package:simpplex_app/screens/admin/orders/list/admin_orders_list_page.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
 import 'package:simpplex_app/screens/admin/users/list_users.dart';
+import 'package:simpplex_app/screens/admin/users/menu_users/menu_users_screen.dart';
+import 'package:simpplex_app/screens/admin/users/user_details_screen.dart';
 import 'package:simpplex_app/screens/client/Account/client_account_page.dart';
 import 'package:simpplex_app/screens/client/address/create/client_address_create_page.dart';
 import 'package:simpplex_app/screens/client/address/list/client_address_list_page.dart';
@@ -47,7 +49,10 @@ final Map<String, WidgetBuilder> routes = {
   ClientPaymentsCreatePage.routeName: (context) => ClientPaymentsCreatePage(),
   ClientPaymentsInstallmentsPage.routeName: (context) =>
       ClientPaymentsInstallmentsPage(),
-  ClientPaymentsStatusPage.routeName: (context) => ClientPaymentsStatusPage(),
+      
+  ClientPaymentsStatusPage.routeName: (context) =>
+      const ClientPaymentsStatusPage(),
   UserScreen.routeName: (context) => const UserScreen(),
-
+  MenuUsersScreen.routeName: (context) => const MenuUsersScreen(),
+  AdminUserDetailsScreen.routeName: (context) => const AdminUserDetailsScreen(),
 };

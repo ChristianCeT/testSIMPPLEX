@@ -5,6 +5,7 @@ import 'package:simpplex_app/screens/admin/categories/create/admin_categories_cr
 import 'package:simpplex_app/screens/admin/orders/details/admin_orders_details_page.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
 import 'package:simpplex_app/screens/admin/users/list_users.dart';
+import 'package:simpplex_app/screens/admin/users/menu_users/menu_users_screen.dart';
 import 'package:simpplex_app/screens/roles/roles_page.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +71,6 @@ class AdminOrdersListController {
   }
 
   void goToUsers() {
-    Navigator.pushNamed(context, UserScreen.routeName);
+    Navigator.pushNamed(context, MenuUsersScreen.routeName);
   }
 }
