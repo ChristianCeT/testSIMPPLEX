@@ -79,11 +79,13 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
                   "REPARTIDOR:",
                   style: TextStyle(fontSize: 15),
                 ),
-                value: user.roles!.length > 1
-                    ? user.roles![1].nombre.isEmpty
-                        ? false
-                        : true
-                    : false,
+                value: user.roles!.length > 1 &&
+                        user.roles![1].nombre == "REPARTIDOR"
+                    ? true
+                    : user.roles!.length > 2 &&
+                            user.roles![2].nombre == "REPARTIDOR"
+                        ? true
+                        : false,
                 onChanged: (value) {},
               ),
               SwitchListTile.adaptive(
@@ -92,11 +94,12 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
                   "ADMINISTRADOR:",
                   style: TextStyle(fontSize: 15),
                 ),
-                value: user.roles!.length > 2
-                    ? user.roles![2].nombre.isEmpty
-                        ? false
-                        : true
-                    : false,
+                value: user.roles!.length > 1 &&
+                        user.roles![1].nombre == "ADMIN"
+                    ? true
+                    : user.roles!.length > 2 && user.roles![2].nombre == "ADMIN"
+                        ? true
+                        : false,
                 onChanged: (value) {},
               ),
             ],

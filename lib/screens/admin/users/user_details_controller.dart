@@ -32,4 +32,6 @@ class AdminUserDetailsController {
     _usersProvider.init(context, sessionUser: user);
     refresh();
   }
+
+ 
 }
