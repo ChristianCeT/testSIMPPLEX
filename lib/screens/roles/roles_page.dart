@@ -34,7 +34,11 @@ class _RolesPageState extends State<RolesPage> {
         child: ListView(
             children: _con.user != null
                 ? _con.user!.roles!.map((Rol rol) {
-                    return _cardRol(rol, context);
+                    if (rol.active) {
+                      return _cardRol(rol, context);
+                    } else {
+                      return Container();
+                    }
                   }).toList()
                 : []),
       ),

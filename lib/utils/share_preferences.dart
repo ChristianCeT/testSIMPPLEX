@@ -7,9 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPref {
   void save(String key, value) async {
     final prefs = await SharedPreferences.getInstance();
-
-    prefs.setString(key, json.encode(value));
-    print("USUARIO GUARDADO: $value $key");
+    await prefs.setString(key, json.encode(value));
   }
 
   Future<dynamic> read(String key) async {

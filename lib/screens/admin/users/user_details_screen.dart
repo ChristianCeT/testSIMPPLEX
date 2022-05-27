@@ -26,16 +26,20 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = ModalRoute.of(context)!.settings.arguments as User;
-    _con.userData = user;
+    List<dynamic> data = ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    _con.userData = data[0] as User;
+    _con.parameter = data[1] as String;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Usuario ${user.nombre}"),
+        title: Text("Usuario ${data[0].nombre}"),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _userForm(user),
+            const SizedBox(height: 10),
+            _imageUser(),
+            _userForm(data[0]),
           ],
         ),
       ),
@@ -43,9 +47,23 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.save_outlined),
         backgroundColor: MyColors.primaryColor,
-        onPressed: () {
-          print("GUARDAR DATOS ACTUALIZADOS");
-        },
+        onPressed: _con.updateUser,
+      ),
+    );
+  }
+
+  Widget _imageUser() {
+    return GestureDetector(
+      onTap: _con.showAlertDialog,
+      child: CircleAvatar(
+        backgroundImage: _con.imageFile != null
+            ? FileImage(_con.imageFile!)
+            : _con.userData?.image != null
+                ? NetworkImage(_con.userData!.image!)
+                : const AssetImage("assets/images/noAvatar2.png")
+                    as ImageProvider,
+        radius: 75,
+        backgroundColor: Colors.grey[200],
       ),
     );
   }
@@ -54,7 +72,9 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
         width: double.infinity,
         child: Column(children: [
           Column(
@@ -70,7 +90,7 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
                   "CLIENTE:",
                   style: TextStyle(fontSize: 15),
                 ),
-                value: user.roles?[0].nombre == null ? false : true,
+                value: user.roles![0].active,
                 onChanged: (value) {},
               ),
               SwitchListTile.adaptive(
@@ -79,14 +99,10 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
                   "REPARTIDOR:",
                   style: TextStyle(fontSize: 15),
                 ),
-                value: user.roles!.length > 1 &&
-                        user.roles![1].nombre == "REPARTIDOR"
-                    ? true
-                    : user.roles!.length > 2 &&
-                            user.roles![2].nombre == "REPARTIDOR"
-                        ? true
-                        : false,
-                onChanged: (value) {},
+                value: user.roles![1].active,
+                onChanged: (value) {
+                  _con.updateAvailableRolUser(value, 1);
+                },
               ),
               SwitchListTile.adaptive(
                 activeColor: MyColors.primaryColor,
@@ -94,13 +110,10 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
                   "ADMINISTRADOR:",
                   style: TextStyle(fontSize: 15),
                 ),
-                value: user.roles!.length > 1 &&
-                        user.roles![1].nombre == "ADMIN"
-                    ? true
-                    : user.roles!.length > 2 && user.roles![2].nombre == "ADMIN"
-                        ? true
-                        : false,
-                onChanged: (value) {},
+                value: user.roles![2].active,
+                onChanged: (value) {
+                  _con.updateAvailableRolUser(value, 2);
+                },
               ),
             ],
           )

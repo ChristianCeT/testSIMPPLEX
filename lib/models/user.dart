@@ -40,7 +40,7 @@ class User {
       password: json["password"],
       image: json["image"],
       sessionToken: json["sessionToken"],
-      refreshToken: json["refreshToken"],
+      refreshToken: json["refreshToken"] != null ? json["sessionToken"] : null,
       roles: json["roles"] == null
           ? []
           : List<Rol>.from(json["roles"].map((model) => Rol.fromJson(model))));

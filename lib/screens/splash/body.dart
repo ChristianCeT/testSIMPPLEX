@@ -1,5 +1,4 @@
 import 'package:simpplex_app/screens/Login/login_page.dart';
-import 'package:simpplex_app/screens/splash/default_button.dart';
 import 'package:simpplex_app/screens/splash/splash_content.dart';
 import 'package:simpplex_app/utils/constants.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
@@ -71,7 +70,7 @@ class _BodyState extends State<Body> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 100, vertical: 20),
-                          child: Text("Continuar"),
+                          child: const Text("Continuar",),
                         ),
                         color: MyColors.primaryColor,
                         onPressed: () {

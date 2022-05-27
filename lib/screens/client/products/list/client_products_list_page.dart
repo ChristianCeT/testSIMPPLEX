@@ -267,7 +267,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
           ),
         ),
         _con.user != null
-            ? _con.user!.roles!.length > 1
+            ? _con.user!.roles![1].active || _con.user!.roles![2].active
                 ? ListTile(
                     onTap: _con.goToRoles,
                     title: const Text("Seleccionar rol"),

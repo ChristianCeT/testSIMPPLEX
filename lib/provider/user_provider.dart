@@ -132,6 +132,47 @@ class UsersProvider {
     }
   }
 
+  Future<Stream?> updateUserWithImagev2(User user, File? image) async {
+    try {
+      Uri url = Uri.https(_url, "/actualizarUsuario2/${user.id}");
+      final request = http.MultipartRequest("PUT", url);
+      Map<String, String> headers = {
+        "Content-type": "application/json",
+        "Authorization": sessionUser!.sessionToken!
+      };
+      if (image != null) {
+        request.files.add(http.MultipartFile("image",
+            http.ByteStream(image.openRead().cast()), await image.length(),
+            filename: basename(image.path)));
+      }
+
+      request.headers.addAll(headers);
+
+      request.fields["user"] = json.encode(user);
+      request.fields["nombre"] = user.nombre!;
+      request.fields["correo"] = user.correo!;
+      request.fields["apellido"] = user.apellido!;
+      request.fields["telefono"] = user.telefono!;
+      request.fields["password"] = user.password!;
+      request.fields["rolCliente"] = user.roles![0].active == true ? "true" : "false";
+      request.fields["rolRepartidor"] = user.roles![1].active == true ? "true" : "false";
+      request.fields["rolAdmin"] = user.roles![2].active == true ? "true" : "false";
+
+      final response = await request.send();
+
+      print(response);
+
+      if (response.statusCode == 404) {
+        Fluttertoast.showToast(msg: "Tu sesión expiró");
+        SharedPref().logout(context, sessionUser!.id!);
+      }
+
+      return response.stream.transform(utf8.decoder);
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<ResponseApi?> logout(String idUser) async {
     try {
       //authority url de la peticion
@@ -170,13 +211,15 @@ class UsersProvider {
     try {
       //authority url de la peticion
       Uri url = Uri.https(_url, _login);
+
       String bodyParams = json.encode({"correo": correo, "password": password});
+
       Map<String, String> headers = {"Content-type": "application/json"};
 
       final res = await http.post(url, headers: headers, body: bodyParams);
       final data = json.decode(res.body);
       //espera mapa de valores
-      ResponseApi responseApi = ResponseApi.fromJson(data);
+      ResponseApi responseApi = ResponseApi.fromJson(await data);
       return responseApi;
     } catch (e) {
       return null;

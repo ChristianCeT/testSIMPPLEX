@@ -47,7 +47,6 @@ class _UserScreenState extends State<UserScreen> {
                 if (users.isNotEmpty) {
                   return Expanded(
                     child: ListView.builder(
-
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: users.length,
@@ -87,11 +86,9 @@ class _UserScreenState extends State<UserScreen> {
                               color: MyColors.primaryColor,
                             ),
                             onTap: () {
-                              Navigator.pushNamed(
+                              Navigator.pushReplacementNamed(
                                   context, AdminUserDetailsScreen.routeName,
-                                  arguments: user);
-                              // ignore: avoid_print
-                              print("USUARIO ${user.id}");
+                                  arguments: [user, parameter]);
                             },
                           ),
                         );
