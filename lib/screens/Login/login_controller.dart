@@ -57,13 +57,8 @@ class LoginController {
       // se obtiene el usuario
       User user = User.fromJson(responseApi.data);
 
-      print("${user.toJson()}");
-      
-
       //se almacena el usuario en el dispositivo
       _sharedPref.save('user', user.toJson());
-
-     
 
       if (user.roles![1].active || user.roles![2].active) {
         //sirve para que despues de esa pantalla ya no existe nada

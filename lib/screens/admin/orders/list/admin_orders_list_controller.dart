@@ -1,10 +1,11 @@
 import 'package:simpplex_app/models/orders.dart';
 import 'package:simpplex_app/models/user.dart';
 import 'package:simpplex_app/provider/orders_provider.dart';
-import 'package:simpplex_app/screens/admin/categories/create/admin_categories_create_page.dart';
+import 'package:simpplex_app/screens/admin/categories/create_update/admin_categories_create_page.dart';
+import 'package:simpplex_app/screens/admin/categories/list_categories/list_categories.dart';
 import 'package:simpplex_app/screens/admin/orders/details/admin_orders_details_page.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
-import 'package:simpplex_app/screens/admin/users/list_users.dart';
+import 'package:simpplex_app/screens/admin/products/list_products/list_products.dart';
 import 'package:simpplex_app/screens/admin/users/menu_users/menu_users_screen.dart';
 import 'package:simpplex_app/screens/roles/roles_page.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
@@ -63,14 +64,18 @@ class AdminOrdersListController {
   }
 
   void goToCaterogyCreate() {
-    Navigator.pushNamed(context, AdminCategoriesCreatePage.routeName);
+    Navigator.pushNamed(context, AdminCategoriesCreateUpdatePage.routeName);
   }
 
   void goToProductCreate() {
-    Navigator.pushNamed(context, AdminProductsCreatePage.routeName);
+    Navigator.pushNamed(context, ListProductsScreen.routeName);
   }
 
   void goToUsers() {
     Navigator.pushNamed(context, MenuUsersScreen.routeName);
+  }
+
+  void goToCategories() {
+    Navigator.pushNamed(context, CategoriesScreen.routeName);
   }
 }

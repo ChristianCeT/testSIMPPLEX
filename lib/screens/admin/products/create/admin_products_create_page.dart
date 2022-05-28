@@ -60,7 +60,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
   Widget _textFieldProductName() {
     return Container(
       padding: const EdgeInsets.all(10),
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
         color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
@@ -71,7 +71,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
         maxLength: 180,
         decoration: InputDecoration(
             hintText: "Nombre del producto",
-            hintStyle: TextStyle(color: Colors.black),
+            hintStyle: const TextStyle(color: Colors.black),
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(15),
             suffixIcon: Icon(

@@ -1,7 +1,7 @@
 import 'package:simpplex_app/models/orders.dart';
 import 'package:simpplex_app/models/user.dart';
 import 'package:simpplex_app/provider/orders_provider.dart';
-import 'package:simpplex_app/screens/admin/categories/create/admin_categories_create_page.dart';
+import 'package:simpplex_app/screens/admin/categories/create_update/admin_categories_create_page.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
 import 'package:simpplex_app/screens/client/orders/details/client_orders_details_page.dart';
 import 'package:simpplex_app/screens/roles/roles_page.dart';
@@ -61,7 +61,7 @@ class ClientOrdersListController {
   }
 
   void goToCaterogyCreate() {
-    Navigator.pushNamed(context, AdminCategoriesCreatePage.routeName);
+    Navigator.pushNamed(context, AdminCategoriesCreateUpdatePage.routeName);
   }
 
   void goToProductCreate() {

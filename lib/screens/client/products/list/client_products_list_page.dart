@@ -102,7 +102,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                             return _cardProducts(snapshot.data![index]);
                           });
                     } else {
-                      return NoDataWidget(
+                      return const NoDataWidget(
                         text: "No hay productos",
                       );
                     }

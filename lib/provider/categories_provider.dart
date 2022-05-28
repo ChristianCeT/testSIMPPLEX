@@ -22,7 +22,7 @@ class CategoriesProvider {
     this.sessionUser = sessionUser;
   }
 
-  Future<List<Category>> getAll() async {
+  Future<List<Category>> getCategories() async {
     try {
       Uri url = Uri.https(_url, _categorias);
 
@@ -67,6 +67,51 @@ class CategoriesProvider {
       final data = json.decode(res.body);
       //espera mapa de valores
       ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<String?> deleteCategory(String id) async {
+    try {
+      Uri url = Uri.https(_url, "/deletecategory/$id");
+      Map<String, String> headers = {
+        "Content-type": "application/json",
+        "Authorization": sessionUser.sessionToken!
+      };
+      final res = await http.delete(url, headers: headers);
+      if (res.statusCode == 404) {
+        Fluttertoast.showToast(msg: "Sesión expirada");
+        SharedPref().logout(context, sessionUser.id!);
+      }
+      final data = json.decode(res.body);
+
+      return data["message"];
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<ResponseApi?> updateCategory(String id, Category category) async {
+    try {
+      Uri uri = Uri.https(_url, "/updatecategory/$id");
+      String bodyParams = json.encode(category);
+      Map<String, String> headers = {
+        "Content-type": "application/json",
+        "Authorization": sessionUser.sessionToken!
+      };
+      final res = await http.put(uri, headers: headers, body: bodyParams);
+
+      if (res.statusCode == 404) {
+        Fluttertoast.showToast(msg: "Sesión expirada");
+        SharedPref().logout(context, sessionUser.id!);
+      }
+
+      final data = json.decode(res.body);
+
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+
       return responseApi;
     } catch (e) {
       return null;

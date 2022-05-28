@@ -28,6 +28,7 @@ class ClientUpdateController {
   late Function refresh;
   ProgressDialog? _progressDialog;
   bool isEnable = true;
+  final ImagePicker _picker = ImagePicker();
   User? user;
   final SharedPref _sharedPref = SharedPref();
 
@@ -65,27 +66,27 @@ class ClientUpdateController {
     isEnable = false;
 
     User myUser = User(
-      id: user!.id,
+      id: user?.id,
       nombre: name,
       apellido: lastname,
       correo: email,
       telefono: phone,
-      image: user!.image,
+      image: user?.image,
       password: password,
+      roles: user?.roles
     );
 
-    Stream? stream = await usersProvider.updateWithImage(myUser, imageFile);
-
+    Stream? stream = await usersProvider.updateUserWithImagev2(myUser, imageFile);
     stream?.listen((res) async {
       // devuelve un responseApi de user
       _progressDialog!.close();
 
       ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
+      print(responseApi.data);
       Fluttertoast.showToast(msg: responseApi.message!);
 
       if (responseApi.success!) {
-        ResponseApi? responseApi2 = await usersProvider.getById(myUser.id!);
-        User userData = User.fromJson(responseApi2?.data);
+        User userData = User.fromJson(responseApi.data);
         _sharedPref.save(
             'user', userData.toJson()); // guardar el usuario en sesión
 
@@ -98,9 +99,9 @@ class ClientUpdateController {
   }
 
   Future selectedImage(ImageSource imageSource) async {
-    pickedFile = await ImagePicker().getImage(source: imageSource);
+    final XFile? pickedFile = await _picker.pickImage(source: imageSource);
     if (pickedFile != null) {
-      imageFile = File(pickedFile!.path);
+      imageFile = File(pickedFile.path);
       refresh();
     }
     Navigator.pop(context);

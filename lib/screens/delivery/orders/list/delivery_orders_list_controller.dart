@@ -1,7 +1,6 @@
 import 'package:simpplex_app/models/orders.dart';
 import 'package:simpplex_app/models/user.dart';
 import 'package:simpplex_app/provider/orders_provider.dart';
-import 'package:simpplex_app/screens/admin/categories/create/admin_categories_create_page.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
 import 'package:simpplex_app/screens/delivery/orders/details/delivery_orders_details_page.dart';
 import 'package:simpplex_app/screens/roles/roles_page.dart';
@@ -62,9 +61,6 @@ class DeliveryOrdersListController {
         context, RolesPage.routeName, (route) => false);
   }
 
-  void goToCaterogyCreate() {
-    Navigator.pushNamed(context, AdminCategoriesCreatePage.routeName);
-  }
 
   void goToProductCreate() {
     Navigator.pushNamed(context, AdminProductsCreatePage.routeName);

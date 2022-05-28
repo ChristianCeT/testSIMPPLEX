@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/screens/admin/users/list_users.dart';
 import 'package:simpplex_app/screens/admin/users/user_details_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:simpplex_app/widgets/input_decorations.dart';
@@ -33,6 +34,12 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Usuario ${data[0].nombre}"),
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, UserScreen.routeName, arguments: _con.parameter);
+            },
+          ),
       ),
       body: SingleChildScrollView(
         child: Column(

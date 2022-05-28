@@ -52,7 +52,7 @@ class AdminProductsCreateController {
   }
 
   void getCategories() async {
-    categories = await _categoriesProvider.getAll();
+    categories = await _categoriesProvider.getCategories();
     refresh();
   }
 

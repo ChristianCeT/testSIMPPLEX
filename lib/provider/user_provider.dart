@@ -160,8 +160,6 @@ class UsersProvider {
 
       final response = await request.send();
 
-      print(response);
-
       if (response.statusCode == 404) {
         Fluttertoast.showToast(msg: "Tu sesión expiró");
         SharedPref().logout(context, sessionUser!.id!);

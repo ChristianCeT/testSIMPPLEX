@@ -187,15 +187,7 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
     return Column(
       children: [
         ListTile(
-          title: const Text("Crear categoría"),
-          onTap: _con.goToCaterogyCreate,
-          trailing: Icon(
-            Icons.category_outlined,
-            color: MyColors.primaryColor,
-          ),
-        ),
-        ListTile(
-          title: const Text("Crear producto"),
+          title: const Text("Productos"),
           onTap: _con.goToProductCreate,
           trailing: Icon(
             Icons.assessment_outlined,
@@ -219,6 +211,14 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
           title: const Text("Usuarios"),
           trailing: Icon(
             Icons.person_add_outlined,
+            color: MyColors.primaryColor,
+          ),
+        ),
+        ListTile(
+          onTap: _con.goToCategories,
+          title: const Text("Categorias"),
+          trailing: Icon(
+            Icons.category_outlined,
             color: MyColors.primaryColor,
           ),
         ),
