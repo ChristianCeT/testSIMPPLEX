@@ -86,7 +86,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
           children: _con.categories.map((Category category) {
             return FutureBuilder(
                 future: _con.getProducts(category.id!, _con.productName),
-                builder: (context, AsyncSnapshot<List<Product>> snapshot) {
+                builder: (context, AsyncSnapshot<List<Product>?> snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.isNotEmpty) {
                       return GridView.builder(

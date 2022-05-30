@@ -27,9 +27,14 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
 
   @override
   Widget build(BuildContext context) {
+    final List dataArguments =
+        ModalRoute.of(context)!.settings.arguments as List;
+    _con.option = dataArguments[0];
+    _con.productToEdit = dataArguments[1];
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Nuevo Producto"),
+        title: Text(
+            _con.option == "agregar" ? "Crear producto" : "Editar producto"),
       ),
       body: ListView(
         children: [
@@ -44,9 +49,9 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _cardImage(_con.imageFile1, 1),
-                _cardImage(_con.imageFile2, 2),
-                _cardImage(_con.imageFile3, 3),
+                _cardImage(_con.imageFile1, 1, _con.productToEdit?.image1!),
+                _cardImage(_con.imageFile2, 2, _con.productToEdit?.image2!),
+                _cardImage(_con.imageFile3, 3, _con.productToEdit?.image3!),
               ],
             ),
           ),
@@ -73,7 +78,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
             hintText: "Nombre del producto",
             hintStyle: const TextStyle(color: Colors.black),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
+            contentPadding: const EdgeInsets.all(15),
             suffixIcon: Icon(
               Icons.list_alt,
               color: MyColors.primaryColor,
@@ -133,13 +138,13 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
 
   Widget _dropDownCategories(List<Category> categories) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 34, vertical: 9),
+      margin: const EdgeInsets.symmetric(horizontal: 34, vertical: 9),
       child: Material(
         elevation: 2.0,
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               Row(
@@ -148,17 +153,17 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
                     Icons.search,
                     color: MyColors.primaryColor,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
-                  Text(
+                  const Text(
                     "Categorías",
                     style: TextStyle(color: Colors.grey),
                   )
                 ],
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: DropdownButton(
                   underline: Container(
                       alignment: Alignment.centerRight,
@@ -168,14 +173,17 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
                       )),
                   elevation: 3,
                   isExpanded: true,
-                  hint: Text("Selecciona la categoría",
+                  hint: const Text("Selecciona la categoría",
                       style: TextStyle(color: Colors.grey, fontSize: 16)),
                   items: _dropDownItems(categories),
-                  value: _con.idCategory,
+                  value: _con.option == "editar"
+                      ? _con.productToEdit!.categoria
+                      : _con.idCategory,
                   onChanged: (String? option) {
                     setState(() {
-                      print("Categoria seleccionada $option");
-                      _con.idCategory = option;
+                      _con.option == "editar"
+                          ? _con.productToEdit!.categoria = option
+                          : _con.idCategory = option;
                     });
                   },
                 ),
@@ -201,7 +209,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
   Widget _textFieldCategoryDescription() {
     return Container(
       padding: const EdgeInsets.all(10),
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
         color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
@@ -212,9 +220,9 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
         maxLength: 255,
         decoration: InputDecoration(
             hintText: "Descripción de la categoría",
-            hintStyle: TextStyle(color: Colors.black),
+            hintStyle: const TextStyle(color: Colors.black),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
+            contentPadding: const EdgeInsets.all(15),
             suffixIcon: Icon(
               Icons.description_outlined,
               color: MyColors.primaryColor,
@@ -223,7 +231,8 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
     );
   }
 
-  Widget _cardImage(File? imageFile, int numberFile) {
+  Widget _cardImage(
+      File? imageFile, int numberFile, String? imageProductEditT) {
     return GestureDetector(
       onTap: () {
         _con.showAlertDialog(numberFile);
@@ -245,8 +254,11 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
               child: SizedBox(
                   height: 140,
                   width: MediaQuery.of(context).size.width * 0.24,
-                  child: const Image(
-                    image: AssetImage('assets/images/noImagen.png'),
+                  child: Image(
+                    image: _con.option == "editar" && imageProductEditT != null
+                        ? NetworkImage(imageProductEditT)
+                        : const AssetImage('assets/images/noImagen.png')
+                            as ImageProvider,
                   )),
             ),
     );
@@ -256,15 +268,15 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
     return Container(
       height: 50,
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 45),
       child: ElevatedButton(
         onPressed: _con.createProduct,
-        child: Text("Crear producto"),
+        child: Text(_con.option == "editar" ? "Actualizar producto" : "Crear producto"),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            padding: EdgeInsets.symmetric(vertical: 15)),
+            padding: const EdgeInsets.symmetric(vertical: 15)),
       ),
     );
   }

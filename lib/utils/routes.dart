@@ -4,6 +4,7 @@ import 'package:simpplex_app/screens/admin/categories/list_categories/list_categ
 import 'package:simpplex_app/screens/admin/orders/list/admin_orders_list_page.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
 import 'package:simpplex_app/screens/admin/products/list_products/list_products.dart';
+import 'package:simpplex_app/screens/admin/products/list_products_category.dart/list_products_category.dart';
 import 'package:simpplex_app/screens/admin/users/list_users.dart';
 import 'package:simpplex_app/screens/admin/users/menu_users/menu_users_screen.dart';
 import 'package:simpplex_app/screens/admin/users/user_details_screen.dart';
@@ -58,4 +59,5 @@ final Map<String, WidgetBuilder> routes = {
   AdminUserDetailsScreen.routeName: (context) => const AdminUserDetailsScreen(),
   CategoriesScreen.routeName: (context) => const CategoriesScreen(),
   ListProductsScreen.routeName: (context) => const ListProductsScreen(),
+  ListProductByCategoryScreen.routeName: (context) => const ListProductByCategoryScreen(),
 };

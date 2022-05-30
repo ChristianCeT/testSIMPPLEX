@@ -31,11 +31,15 @@ class AdminProductsCreateController {
   List<Category> categories = [];
   String? idCategory; // almacena el id de la categoria seleccionada
 
+  late String option;
+  Product? productToEdit;
+
   //imagenes
   PickedFile? pickedFile;
   File? imageFile1;
   File? imageFile2;
   File? imageFile3;
+  final ImagePicker _picker = ImagePicker();
 
   ProgressDialog? _progressDialog;
 
@@ -46,7 +50,12 @@ class AdminProductsCreateController {
     user = User.fromJson(await sharedPref.read("user"));
     _categoriesProvider.init(context, user);
     _productsProvider.init(context, user);
-
+    if (option == "editar") {
+      nameController.text = productToEdit!.nombre!;
+      descriptionController.text = productToEdit!.descripcion!;
+      priceController.text = productToEdit!.precio.toString();
+      linkRAController.text = productToEdit!.linkRA!;
+    }
     getCategories();
     refresh();
   }
@@ -104,8 +113,24 @@ class AdminProductsCreateController {
         resetValues();
       }
     });
+  }
 
-    print("Formulario Producto: ${product.toJson()}");
+  void updateProduct() async {
+    String name = nameController.text;
+    String description = descriptionController.text;
+    String linkRA = linkRAController.text;
+    double price = double.parse(priceController.text);
+
+    if (name.isEmpty || description.isEmpty || price == 0 || linkRA.isEmpty) {
+      MySnackBar.show(context, "Debe ingresar todos los campos");
+      return;
+    }
+
+    if (imageFile1 == null || imageFile2 == null || imageFile3 == null) {
+      MySnackBar.show(context, "Selecciona las 3 imágenes");
+      return;
+    }
+    
   }
 
   void resetValues() {
@@ -121,14 +146,14 @@ class AdminProductsCreateController {
   }
 
   Future selectedImage(ImageSource imageSource, int numberFile) async {
-    pickedFile = await ImagePicker().getImage(source: imageSource);
+    final XFile? pickedFile = await _picker.pickImage(source: imageSource);
     if (pickedFile != null) {
       if (numberFile == 1) {
-        imageFile1 = File(pickedFile!.path);
+        imageFile1 = File(pickedFile.path);
       } else if (numberFile == 2) {
-        imageFile2 = File(pickedFile!.path);
+        imageFile2 = File(pickedFile.path);
       } else if (numberFile == 3) {
-        imageFile3 = File(pickedFile!.path);
+        imageFile3 = File(pickedFile.path);
       }
     }
     Navigator.pop(context);

@@ -60,7 +60,7 @@ class ClientProductsListController {
     });
   }
 
-  Future<List<Product>> getProducts(
+  Future<List<Product>?> getProducts(
       String idCategory, String productName) async {
     if (productName.isEmpty) {
       return await _productsProvider.getByCategory(idCategory);

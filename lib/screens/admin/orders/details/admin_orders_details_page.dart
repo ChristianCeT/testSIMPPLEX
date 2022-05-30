@@ -139,7 +139,7 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
 
   Widget _deliveryData() {
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: 30,
       ),
       child: Row(
@@ -172,19 +172,19 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
       list.add(DropdownMenuItem(
         child: Row(
           children: [
-            Container(
+            SizedBox(
               height: 40,
               width: 40,
               child: FadeInImage(
-                image: user.image!.isNotEmpty
+                image: user.image != null
                     ? NetworkImage(user.image!)
-                    : AssetImage("assets/images/noImagen.png") as ImageProvider,
+                    : const AssetImage("assets/images/noImagen.png") as ImageProvider,
                 fit: BoxFit.contain,
-                fadeInDuration: Duration(milliseconds: 50),
-                placeholder: AssetImage("assets/images/noImagen.png"),
+                fadeInDuration: const Duration(milliseconds: 50),
+                placeholder: const AssetImage("assets/images/noImagen.png"),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
             Text('${user.nombre ?? ''} ${user.apellido ?? ''}')
@@ -199,7 +199,7 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
 
   Widget _textData(String title, String content) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: ListTile(
           title: Text(title),
           subtitle: Text(
@@ -211,12 +211,12 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
 
   Widget _buttonNext() {
     return Container(
-      margin: EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 30),
+      margin: const EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 30),
       child: ElevatedButton(
         onPressed: _con.updateOrder,
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
-            padding: EdgeInsets.symmetric(vertical: 2),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
         child: Stack(
@@ -226,7 +226,7 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
               child: Container(
                 alignment: Alignment.center,
                 height: 40,
-                child: Text(
+                child: const Text(
                   "DESPACHAR PEDIDO",
                   style: TextStyle(
                     fontSize: 16,
@@ -253,24 +253,24 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
 
   Widget _cardProduct(Product producto) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
           _imageProduct(producto),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(producto.nombre ?? "",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(
                 height: 10,
               ),
               Text("Cantidad: ${producto.cantidad}",
-                  style: TextStyle(fontSize: 13)),
-              SizedBox(
+                  style: const TextStyle(fontSize: 13)),
+              const SizedBox(
                 height: 10,
               ),
             ],
@@ -300,6 +300,6 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
   }
 
   void refresh() {
-    setState(() {});
+    if (mounted) setState(() {});
   }
 }

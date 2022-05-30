@@ -16,7 +16,7 @@ class ProductsProvider {
   final String _productoCategoriaNombre = "/buscarProductoNombreCat";
 
   late BuildContext context;
-  late User sessionUser;
+  User sessionUser = User();
 
   Future init(BuildContext context, User sessionUser) async {
     this.context = context;
@@ -59,10 +59,9 @@ class ProductsProvider {
     }
   }
 
-  Future<List<Product>> getByCategory(String idCategory) async {
+  Future<List<Product>?> getByCategory(String idCategory) async {
     try {
       Uri url = Uri.https(_url, "$_productoCategoria/$idCategory");
-      print(url);
       Map<String, String> headers = {
         "Content-type": "application/json",
         "Authorization": sessionUser.sessionToken!
@@ -74,16 +73,15 @@ class ProductsProvider {
         SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body); // categorias
-      print(data);
+
       Product product = Product.fromJsonList(data);
 
-      print(product.toList); // recibe la data que viene de la api
+      // recibe la data que viene de la api
 
       return product.toList; // se retorna la lista de categorías
 
     } catch (e) {
-      print("Error: $e");
-      return [];
+      return null;
     }
   }
 
@@ -114,6 +112,28 @@ class ProductsProvider {
     } catch (e) {
       print("Error: $e");
       return [];
+    }
+  }
+
+  Future<String?> deleteProductById(String id) async {
+    try {
+      Uri uri = Uri.https(_url, "/eliminarProducto/$id");
+      Map<String, String> headers = {
+        "Content-type": "application/json",
+        "Authorization": sessionUser.sessionToken!
+      };
+      final res = await http.delete(uri, headers: headers);
+
+      if (res.statusCode == 403) {
+        Fluttertoast.showToast(msg: "Sesión expirada");
+        SharedPref().logout(context, sessionUser.id!);
+      }
+
+      final data = json.decode(res.body);
+
+      return data["message"];
+    } catch (e) {
+      return null;
     }
   }
 }

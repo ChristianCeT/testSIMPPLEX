@@ -51,7 +51,7 @@ class AdminOrdersDetailsController {
   }
 
   void getUsers() async {
-    users = (await _usersProvider.getDeliveryUser())!;
+    users = (await _usersProvider.getUsersByRolDynamic("REPARTIDOR"))!;
     refresh();
   }
 

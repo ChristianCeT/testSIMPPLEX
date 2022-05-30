@@ -55,6 +55,9 @@ class _UserScreenState extends State<UserScreen> {
                         return Dismissible(
                           onDismissed: (_) {
                             _con.deleteUser(user.id!);
+                            setState(() {
+                              users.removeAt(index);
+                            });
                           },
                           key: UniqueKey(),
                           child: ListTile(

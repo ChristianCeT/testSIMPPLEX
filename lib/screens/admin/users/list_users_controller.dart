@@ -8,9 +8,9 @@ class AdminUserListController {
   late Function refresh;
   User? user;
   SharedPref sharedPref = SharedPref();
-  int totalUsers = 0;
+  int? totalUsers = 0;
   List<User>? users = [];
-  bool isLoading = false;
+  bool isLoading = true;
   final UsersProvider _usersProvider = UsersProvider();
 
   Future init(BuildContext context, Function refresh) async {
@@ -23,11 +23,27 @@ class AdminUserListController {
 
   Future<List<User>?> getUsers() async {
     users = await _usersProvider.getUsers();
+    if (totalUsers == 0) {
+      totalUsers = users?.length ?? 0;
+      refresh();
+    }
+    if (totalUsers != users?.length) {
+      totalUsers = users?.length ?? 0;
+      refresh();
+    }
     return users;
   }
 
   Future<List<User>?> getUsersDynamic(String rol) async {
     users = await _usersProvider.getUsersByRolDynamic(rol);
+    if (totalUsers == 0) {
+      totalUsers = users?.length ?? 0;
+      refresh();
+    }
+    if (totalUsers != users?.length) {
+      totalUsers = users?.length ?? 0;
+      refresh();
+    }
     return users;
   }
 
@@ -36,4 +52,5 @@ class AdminUserListController {
     return message;
   }
 
+  countUsers(String rol) async {}
 }
