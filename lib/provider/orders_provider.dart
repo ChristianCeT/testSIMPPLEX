@@ -26,7 +26,7 @@ class OrdersProvider {
     this.sessionUser = sessionUser;
   }
 
-  Future<List<Order>> getByStatus(String status) async {
+  Future<List<Order>?> getByStatus(String status) async {
     try {
       Uri url = Uri.https(_url, "$_pedidoEstado/$status");
 
@@ -49,11 +49,11 @@ class OrdersProvider {
       return category.toList; // se retorna la lista de categorías
 
     } catch (e) {
-      return [];
+      return null;
     }
   }
 
-  Future<List<Order>> getByDeliveryStatus(
+  Future<List<Order>?> getByDeliveryStatus(
       String idDelivery, String status) async {
     try {
       Uri url = Uri.https(_url, "$_pedidoDeliveryEstado/$idDelivery/$status");
@@ -77,7 +77,7 @@ class OrdersProvider {
       return category.toList; // se retorna la lista de categorías
 
     } catch (e) {
-      return [];
+      return null;
     }
   }
 

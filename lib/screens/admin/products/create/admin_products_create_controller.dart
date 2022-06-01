@@ -6,6 +6,7 @@ import 'package:simpplex_app/models/response_api.dart';
 import 'package:simpplex_app/models/user.dart';
 import 'package:simpplex_app/provider/categories_provider.dart';
 import 'package:simpplex_app/provider/products_provider.dart';
+import 'package:simpplex_app/screens/admin/products/list_products_category.dart/list_products_category.dart';
 import 'package:simpplex_app/utils/my_snackbar.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class AdminProductsCreateController {
 
   List<Category> categories = [];
   String? idCategory; // almacena el id de la categoria seleccionada
+  Category? categorySelect;
 
   late String option;
   Product? productToEdit;
@@ -111,6 +113,7 @@ class AdminProductsCreateController {
 
       if (responseApi.success!) {
         resetValues();
+        Navigator.pop(context);
       }
     });
   }
@@ -126,11 +129,34 @@ class AdminProductsCreateController {
       return;
     }
 
-    if (imageFile1 == null || imageFile2 == null || imageFile3 == null) {
-      MySnackBar.show(context, "Selecciona las 3 imágenes");
-      return;
-    }
-    
+    Product product = Product(
+      id: productToEdit!.id,
+      nombre: name,
+      descripcion: description,
+      linkRA: linkRA,
+      precio: price,
+      categoria: idCategory ?? productToEdit!.categoria,
+    );
+
+    List<File?> images = [];
+    images.add(imageFile1);
+    images.add(imageFile2);
+    images.add(imageFile3);
+
+    _progressDialog!.show(max: 100, msg: "Espere un momento");
+    Stream? stream = await _productsProvider.updateProduct(product, images);
+
+    stream?.listen((res) {
+      _progressDialog!.close();
+      ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
+      MySnackBar.show(context, responseApi.message!);
+
+      if (responseApi.success!) {
+        Navigator.pushReplacementNamed(
+            context, ListProductByCategoryScreen.routeName,
+            arguments: categorySelect);
+      }
+    });
   }
 
   void resetValues() {

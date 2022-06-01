@@ -80,7 +80,7 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
           children: _con.status.map((String status) {
             return FutureBuilder(
                 future: _con.getOrders(status),
-                builder: (context, AsyncSnapshot<List<Order>> snapshot) {
+                builder: (context, AsyncSnapshot<List<Order>?> snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.isNotEmpty) {
                       return ListView.builder(
@@ -96,8 +96,10 @@ class _AdminOrdersListPageState extends State<AdminOrdersListPage> {
                       );
                     }
                   } else {
-                    return const NoDataWidget(
-                      text: "No hay ordenes",
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: MyColors.primaryColor,
+                      ),
                     );
                   }
                 }); // numero de productos

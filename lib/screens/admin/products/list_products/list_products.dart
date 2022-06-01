@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:simpplex_app/models/category.dart';
+import 'package:simpplex_app/screens/admin/orders/list/admin_orders_list_page.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
 import 'package:simpplex_app/screens/admin/products/list_products/list_products_controller.dart';
 import 'package:simpplex_app/screens/admin/products/list_products_category.dart/list_products_category.dart';
@@ -32,6 +33,10 @@ class _ListProductsScreenState extends State<ListProductsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Listado de productos"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back), 
+          onPressed: () => Navigator.pushNamed(context, AdminOrdersListPage.routeName),
+        ),
       ),
       body: FutureBuilder(
         future: _con.getCategories(),
@@ -68,7 +73,7 @@ class _ListProductsScreenState extends State<ListProductsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, AdminProductsCreatePage.routeName,
-              arguments: ["agregar", null]);
+              arguments: ["agregar", null, null]);
         },
         child: const Icon(Icons.add),
         backgroundColor: MyColors.primaryColor,

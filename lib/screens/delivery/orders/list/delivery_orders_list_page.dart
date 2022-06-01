@@ -1,6 +1,7 @@
 import 'package:simpplex_app/models/orders.dart';
 import 'package:simpplex_app/screens/delivery/orders/list/delivery_orders_list_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/utils/relative_time_util.dart';
 import 'package:simpplex_app/widgets/drawer.dart';
 import 'package:simpplex_app/widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
@@ -78,24 +79,26 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
           children: _con.status.map((String status) {
             return FutureBuilder(
                 future: _con.getOrders(status),
-                builder: (context, AsyncSnapshot<List<Order>> snapshot) {
+                builder: (context, AsyncSnapshot<List<Order>?> snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data!.length > 0) {
+                    if (snapshot.data!.isNotEmpty) {
                       return ListView.builder(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 10),
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
                             return _cardOrder(snapshot.data![index]);
                           });
                     } else {
-                      return NoDataWidget(
+                      return const NoDataWidget(
                         text: "No hay ordenes",
                       );
                     }
                   } else {
-                    return NoDataWidget(
-                      text: "No hay ordenes",
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: MyColors.primaryColor,
+                      ),
                     );
                   }
                 }); // numero de productos
@@ -111,7 +114,7 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
         _con.openBottomSheet(order);
       },
       child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           height: 150,
           child: Card(
             elevation: 3.0,
@@ -125,7 +128,7 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
                         height: 30,
                         decoration: BoxDecoration(
                             color: MyColors.primaryColor,
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15),
                             )),
@@ -133,42 +136,42 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
                           width: double.infinity,
                           alignment: Alignment.center,
                           child: Text("Pedido ${order.id}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 15,
                                 color: Colors.white,
                                 fontFamily: "NimbusSans",
                               )),
                         ))),
                 Container(
-                  margin: EdgeInsets.only(top: 40, left: 20, right: 20),
+                  margin: const EdgeInsets.only(top: 40, left: 20, right: 20),
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
                         alignment: Alignment.centerLeft,
                         width: double.infinity,
                         child: Text(
-                          "Pedido: 2015-05-23",
-                          style: TextStyle(fontSize: 13),
+                          "Pedido: ${RelativeTimeUtil.getRelativeTime(order.fecha ?? 0)}",
+                          style: const TextStyle(fontSize: 13),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
                         alignment: Alignment.centerLeft,
                         width: double.infinity,
                         child: Text(
                           "Cliente: ${order.cliente?.nombre ?? ''} ${order.cliente?.apellido ?? ''}",
-                          style: TextStyle(fontSize: 13),
+                          style: const TextStyle(fontSize: 13),
                           maxLines: 1,
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
                         alignment: Alignment.centerLeft,
                         width: double.infinity,
                         child: Text(
                           "Entregar en: ${order.direccion?.direccion ?? ''}",
-                          style: TextStyle(fontSize: 13),
+                          style: const TextStyle(fontSize: 13),
                           maxLines: 2,
                         ),
                       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:simpplex_app/models/category.dart';
 import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/screens/admin/orders/list/admin_orders_list_page.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
 import 'package:simpplex_app/screens/admin/products/list_products_category.dart/list_product_category_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
@@ -32,7 +33,8 @@ class _ListProductByCategoryScreenState
   @override
   Widget build(BuildContext context) {
     final Category category =
-        ModalRoute.of(context)!.settings.arguments as Category;
+        ModalRoute.of(context)?.settings.arguments as Category;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Productos"),
@@ -88,7 +90,7 @@ class _ListProductByCategoryScreenState
                               onTap: () {
                                 Navigator.pushReplacementNamed(
                                     context, AdminProductsCreatePage.routeName,
-                                    arguments: ["editar", product]);
+                                    arguments: ["editar", product, category]);
                               },
                             ),
                           );

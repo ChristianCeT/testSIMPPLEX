@@ -35,14 +35,14 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
     return Scaffold(
         body: Stack(
       children: [
-        Container(
+        SizedBox(
             height: MediaQuery.of(context).size.height * 0.6,
             child: _googleMaps()),
         SafeArea(
           child: Column(
             children: [
               _buttonCenterPosition(),
-              Spacer(),
+              const Spacer(),
               _cardOrderInfo(),
             ],
           ),

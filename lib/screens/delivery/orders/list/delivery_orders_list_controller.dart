@@ -29,9 +29,9 @@ class DeliveryOrdersListController {
     refresh();
   }
 
-  Future<List<Order>> getOrders(String status) async {
+  Future<List<Order>?> getOrders(String status) async {
     if (user == null) {
-      return [];
+      return null;
     }
     return await _ordersProvider.getByDeliveryStatus(user!.id!, status);
   }
@@ -60,7 +60,6 @@ class DeliveryOrdersListController {
     Navigator.pushNamedAndRemoveUntil(
         context, RolesPage.routeName, (route) => false);
   }
-
 
   void goToProductCreate() {
     Navigator.pushNamed(context, AdminProductsCreatePage.routeName);

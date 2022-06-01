@@ -136,4 +136,58 @@ class ProductsProvider {
       return null;
     }
   }
+
+  Future<Stream?> updateProduct(Product product, List<File?> images) async {
+    try {
+      Uri url = Uri.https(_url, "/actualizarProducto/${product.id}");
+
+      final request = http.MultipartRequest("PUT", url);
+      Map<String, String> headers = {
+        "Content-type": "application/json",
+        "Authorization": sessionUser.sessionToken!
+      };
+
+      List<Map> stringImages = [];
+
+      List<File> imagesToSend = [];
+
+      for (int i = 0; i < images.length; i++) {
+        if (images[i] == null) {
+          stringImages.add({"imagen": i, "tiene": false});
+        } else {
+          stringImages.add({"imagen": i, "tiene": true});
+          request.files.add(http.MultipartFile(
+              "image",
+              http.ByteStream(images[i]!.openRead().cast()),
+              await images[i]!.length(),
+              filename: basename(images[i]!.path)));
+        }
+      }
+
+      for (int i = 0; i < imagesToSend.length; i++) {}
+
+      request.headers.addAll(headers);
+      request.fields["producto"] = json.encode(product);
+      request.fields["nombre"] = product.nombre!;
+      request.fields["descripcion"] = product.descripcion!;
+      request.fields["linkRA"] = product.linkRA!;
+      request.fields["precio"] = product.precio.toString();
+      request.fields["categoria"] = product.categoria!;
+      request.fields["posicion1"] =
+          stringImages[0]["tiene"] == true ? "true" : "false";
+      request.fields["posicion2"] =
+          stringImages[1]["tiene"] == true ? "true" : "false";
+      request.fields["posicion3"] =
+          stringImages[2]["tiene"] == true ? "true" : "false";
+
+      final response = await request.send();
+
+      print(response);
+
+      return response.stream.transform(utf8.decoder);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

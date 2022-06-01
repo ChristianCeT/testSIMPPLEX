@@ -4,7 +4,6 @@ import 'package:simpplex_app/provider/orders_provider.dart';
 import 'package:simpplex_app/screens/admin/categories/create_update/admin_categories_create_page.dart';
 import 'package:simpplex_app/screens/admin/categories/list_categories/list_categories.dart';
 import 'package:simpplex_app/screens/admin/orders/details/admin_orders_details_page.dart';
-import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
 import 'package:simpplex_app/screens/admin/products/list_products/list_products.dart';
 import 'package:simpplex_app/screens/admin/users/menu_users/menu_users_screen.dart';
 import 'package:simpplex_app/screens/roles/roles_page.dart';
@@ -34,7 +33,7 @@ class AdminOrdersListController {
     refresh();
   }
 
-  Future<List<Order>> getOrders(String status) async {
+  Future<List<Order>?> getOrders(String status) async {
     return await _ordersProvider.getByStatus(status);
   }
 

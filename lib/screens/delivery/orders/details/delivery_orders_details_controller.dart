@@ -16,14 +16,14 @@ class DeliveryOrdersDetailsController {
   int counter = 1;
   late double productPrice;
 
-  SharedPref _sharedPref = SharedPref();
+  final SharedPref _sharedPref = SharedPref();
 
   double total = 0;
   Order? order;
   late User user;
   List<User> users = [];
-  UsersProvider _usersProvider = UsersProvider();
-  OrdersProvider _ordersProvider = new OrdersProvider();
+  final UsersProvider _usersProvider = UsersProvider();
+  final OrdersProvider _ordersProvider = OrdersProvider();
   late String idDelivery;
 
   Future init(BuildContext context, Function refresh, Order order) async {

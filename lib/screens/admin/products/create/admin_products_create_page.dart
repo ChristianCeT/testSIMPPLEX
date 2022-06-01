@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:simpplex_app/models/category.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_controller.dart';
+import 'package:simpplex_app/screens/admin/products/list_products_category.dart/list_products_category.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -31,10 +32,22 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
         ModalRoute.of(context)!.settings.arguments as List;
     _con.option = dataArguments[0];
     _con.productToEdit = dataArguments[1];
+    _con.categorySelect = dataArguments[2];
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(
             _con.option == "agregar" ? "Crear producto" : "Editar producto"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            _con.option == "agregar"
+                ? Navigator.of(context).pop()
+                : Navigator.pushReplacementNamed(
+                    context, ListProductByCategoryScreen.routeName,
+                    arguments: _con.categorySelect);
+          },
+        ),
       ),
       body: ListView(
         children: [
@@ -89,8 +102,8 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
 
   Widget _textFieldRALink() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
         color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
@@ -100,9 +113,9 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
         maxLines: 1,
         decoration: InputDecoration(
             hintText: "URL del modelo RA",
-            hintStyle: TextStyle(color: Colors.black),
+            hintStyle: const TextStyle(color: Colors.black),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
+            contentPadding: const EdgeInsets.all(15),
             suffixIcon: Icon(
               Icons.device_hub,
               color: MyColors.primaryColor,
@@ -113,8 +126,8 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
 
   Widget _textFieldProductPrice() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       decoration: BoxDecoration(
         color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
@@ -125,9 +138,9 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
         maxLines: 1,
         decoration: InputDecoration(
             hintText: "Precio",
-            hintStyle: TextStyle(color: Colors.black),
+            hintStyle: const TextStyle(color: Colors.black),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
+            contentPadding: const EdgeInsets.all(15),
             suffixIcon: Icon(
               Icons.monetization_on_outlined,
               color: MyColors.primaryColor,
@@ -270,8 +283,10 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 45),
       child: ElevatedButton(
-        onPressed: _con.createProduct,
-        child: Text(_con.option == "editar" ? "Actualizar producto" : "Crear producto"),
+        onPressed:
+            _con.option == "editar" ? _con.updateProduct : _con.createProduct,
+        child: Text(
+            _con.option == "editar" ? "Actualizar producto" : "Crear producto"),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
             shape:
