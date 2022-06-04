@@ -42,10 +42,9 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
           ),
           Container(
               margin: EdgeInsets.only(top: size.height * 0.08),
-              child: _listAddress()),
+              child: _listAddress(size)),
         ],
       ),
-      bottomNavigationBar: _buttonAccept(size),
     );
   }
 
@@ -54,7 +53,7 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
       children: [
         Container(
           margin: const EdgeInsets.only(),
-          child: NoDataWidget(
+          child: const NoDataWidget(
             text: "Agrega una nueva dirección",
           ),
         ),
@@ -77,28 +76,38 @@ class _ClientAddressListPageState extends State<ClientAddressListPage> {
     );
   }
 
-  Widget _listAddress() {
-    return FutureBuilder(
-        future: _con.getAddress(),
-        builder: (context, AsyncSnapshot<List<Address>> snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!.isNotEmpty) {
-              return ListView.builder(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                  itemCount: snapshot.data?.length ?? 0,
-                  itemBuilder: (_, index) {
-                    return _radioSelectorAddress(snapshot.data![index], index);
-                  });
-            } else {
-              return _noAddress();
-            }
-          } else {
-            return const NoDataWidget(
-              text: "No hay direcciones",
-            );
-          }
-        });
+  Widget _listAddress(Size size) {
+    return Column(
+      children: [
+        FutureBuilder(
+            future: _con.getAddress(),
+            builder: (context, AsyncSnapshot<List<Address>?> snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.isNotEmpty) {
+                  _con.totalAddress = snapshot.data!.length;
+                  return Expanded(
+                    child: ListView.builder(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
+                        itemCount: snapshot.data?.length ?? 0,
+                        itemBuilder: (_, index) {
+                          return _radioSelectorAddress(
+                              snapshot.data![index], index);
+                        }),
+                  );
+                } else {
+                  return _noAddress();
+                }
+              } else {
+                return Center(
+                    child: CircularProgressIndicator(
+                  color: MyColors.primaryColor,
+                ));
+              }
+            }),
+        _con.totalAddress > 0 ? _buttonAccept(size) : Container()
+      ],
+    );
   }
 
   Widget _radioSelectorAddress(Address address, int index) {

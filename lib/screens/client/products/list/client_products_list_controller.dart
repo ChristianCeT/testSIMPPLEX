@@ -77,6 +77,7 @@ class ClientProductsListController {
 
   logout() {
     sharedPref.logout(context, user!.id!);
+    sharedPref.remove("address");
   }
 
   void goToOrdersList() {

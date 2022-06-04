@@ -12,7 +12,7 @@ String listaddress() {
 
   clientAddressListController.address = directions;
 
-  if (clientAddressListController.address.isNotEmpty) {
+  if (clientAddressListController.address!.isNotEmpty) {
     return "Mostrar direcciones";
   } else {
     return "No mostrar nada";

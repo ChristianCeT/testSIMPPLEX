@@ -44,7 +44,6 @@ dependencies:
   flutter_credit_card: ^3.0.1
   flutter_custom_clippers: ^2.0.0
   webview_flutter: ^3.0.2
-  ninja: ^3.0.8
 
 dev_dependencies:
   flutter_test:

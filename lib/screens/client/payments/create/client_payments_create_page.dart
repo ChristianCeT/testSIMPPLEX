@@ -41,6 +41,7 @@ class _ClientPaymentsCreatePageState extends State<ClientPaymentsCreatePage> {
             cardNumber: _con.cardNumber,
             expiryDate: _con.expireDate,
             onCreditCardWidgetChange: (CreditCardBrand card) {
+              // ignore: avoid_print
               print("ADSAD ${card.brandName}");
             },
             cardHolderName: _con.cardHolderName,

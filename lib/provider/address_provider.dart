@@ -21,7 +21,7 @@ class AddressProvider {
     this.sessionUser = sessionUser;
   }
 
-  Future<List<Address>> getByUsers() async {
+  Future<List<Address>?> getByUsers() async {
     try {
       Uri url = Uri.https(_url, "$_usuarioDireccion/${sessionUser.id}");
       print(url);
@@ -45,7 +45,7 @@ class AddressProvider {
 
     } catch (e) {
       print("Error: $e");
-      return [];
+      return null;
     }
   }
 

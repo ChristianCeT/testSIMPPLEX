@@ -33,7 +33,7 @@ class ClientPaymentsInstallmentsController {
   List<MercadoPagoInstallment>? installmentsList = [];
   MercadoPagoCardToken? cardToken;
 
-  late Address address;
+  Address? address;
 
   late ProgressDialog progressDialog;
   late String identificationType;
@@ -57,7 +57,8 @@ class ClientPaymentsInstallmentsController {
 
     user = User.fromJson(await _sharedPref.read('user'));
     _mercadoPagoProvider.init(context, user);
-    address = Address.fromJson(await _sharedPref.read('address'));
+
+    address ??= Address.fromJson(await _sharedPref.read('address'));
 
     getTotalPayment();
     getInstallments();

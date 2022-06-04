@@ -13,13 +13,15 @@ class ClientAddressListController {
   late BuildContext context;
   late Function refresh;
 
-  List<Address> address = [];
+  List<Address>? address = [];
   List<Product> selectedProducts = [];
 
   final AddressProvider _addressProvider = AddressProvider();
   final OrdersProvider _ordersProvider = OrdersProvider();
 /*   StripeProvider _stripeProvider = new StripeProvider(); */
   ProgressDialog? progressDialog;
+
+  int totalAddress = 0;
 
   late User user;
   final SharedPref _sharedPref = SharedPref();
@@ -36,7 +38,6 @@ class ClientAddressListController {
     _addressProvider.init(context, user);
     _ordersProvider.init(context, user);
     /*  _stripeProvider.init(context); */
-
     refresh();
   }
 
@@ -61,20 +62,26 @@ class ClientAddressListController {
 
   void handleRadioValueChange(int? value) async {
     radioValue = value!;
-    _sharedPref.save('address', address[value]);
+    if (address != null && radioValue == -1) {
+      _sharedPref.save('address', address![0]);
+    } else {
+      _sharedPref.save('address', address![value]);
+    }
     refresh();
-    print("Valor seleccionado: $radioValue");
   }
 
-  Future<List<Address>> getAddress() async {
+  Future<List<Address>?> getAddress() async {
     address = await _addressProvider.getByUsers();
     Address a = Address.fromJson(await _sharedPref.read('address') ?? {});
-    int index = address.indexWhere((ad) => ad.id == a.id);
-    print("INDEX $index");
-    if (index != -1) {
-      radioValue = index;
+    int? index = address?.indexWhere((ad) => ad.id == a.id);
+    if (totalAddress != address?.length) {
+      totalAddress = address?.length ?? 0;
+      refresh();
     }
-    print("Direccion guardada ${a.toJson()}");
+    if (index != -1) {
+      radioValue = index ?? 0;
+    }
+
     return address;
   }
 

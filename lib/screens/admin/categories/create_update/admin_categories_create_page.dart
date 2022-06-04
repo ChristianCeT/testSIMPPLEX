@@ -13,7 +13,8 @@ class AdminCategoriesCreateUpdatePage extends StatefulWidget {
       _AdminCategoriesCreateUpdatePageState();
 }
 
-class _AdminCategoriesCreateUpdatePageState extends State<AdminCategoriesCreateUpdatePage> {
+class _AdminCategoriesCreateUpdatePageState
+    extends State<AdminCategoriesCreateUpdatePage> {
   final AdminCategoriesCreateUpdateController _con =
       AdminCategoriesCreateUpdateController();
 
@@ -68,14 +69,15 @@ class _AdminCategoriesCreateUpdatePageState extends State<AdminCategoriesCreateU
       child: TextField(
         controller: _con.nameController,
         decoration: InputDecoration(
-            hintText: "Nombre de la categoría",
-            hintStyle: const TextStyle(color: Colors.black),
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.all(15),
-            suffixIcon: Icon(
-              Icons.list_alt,
-              color: MyColors.primaryColor,
-            )),
+          hintText: "Nombre de la categoría",
+          hintStyle: const TextStyle(color: Colors.black),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(15),
+          suffixIcon: Icon(
+            Icons.list_alt,
+            color: MyColors.primaryColor,
+          ),
+        ),
       ),
     );
   }
@@ -108,9 +110,10 @@ class _AdminCategoriesCreateUpdatePageState extends State<AdminCategoriesCreateU
   Widget _buttonCreate() {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20), 
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: ElevatedButton(
-        onPressed: _con.option == "editar" ? _con.updateCategory : _con.createCategory,
+        onPressed:
+            _con.option == "editar" ? _con.updateCategory : _con.createCategory,
         child: Text(_con.option == "editar"
             ? "Actualizar categoría"
             : "Crear categoría"),

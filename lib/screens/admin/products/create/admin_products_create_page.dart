@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:simpplex_app/models/category.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_controller.dart';
 import 'package:simpplex_app/screens/admin/products/list_products_category.dart/list_products_category.dart';
@@ -33,7 +34,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
     _con.option = dataArguments[0];
     _con.productToEdit = dataArguments[1];
     _con.categorySelect = dataArguments[2];
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -55,7 +56,14 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
           _textFieldProductName(),
           _textFieldCategoryDescription(),
           _textFieldProductPrice(),
-          _textFieldRALink(),
+          Row(
+            children: [
+              _textFieldRALink(),
+              Expanded(
+                child: _textFieldRACode(),
+              )
+            ],
+          ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),
             height: 100,
@@ -88,22 +96,29 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
         maxLines: 1,
         maxLength: 180,
         decoration: InputDecoration(
-            hintText: "Nombre del producto",
-            hintStyle: const TextStyle(color: Colors.black),
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.all(15),
-            suffixIcon: Icon(
-              Icons.list_alt,
-              color: MyColors.primaryColor,
-            )),
+          hintText: "Nombre del producto",
+          hintStyle: const TextStyle(color: Colors.black),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(15),
+          suffixIcon: Icon(
+            Icons.list_alt,
+            color: MyColors.primaryColor,
+          ),
+        ),
       ),
     );
   }
 
   Widget _textFieldRALink() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+        margin: const EdgeInsets.only(left: 40),
+        child: const Text("https://go.echo3d.co/",
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)));
+  }
+
+  Widget _textFieldRACode() {
+    return Container(
+      margin: const EdgeInsets.only(left: 5, right: 30),
       decoration: BoxDecoration(
         color: MyColors.primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
@@ -112,7 +127,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
         controller: _con.linkRAController,
         maxLines: 1,
         decoration: InputDecoration(
-            hintText: "URL del modelo RA",
+            hintText: "Código RA",
             hintStyle: const TextStyle(color: Colors.black),
             border: InputBorder.none,
             contentPadding: const EdgeInsets.all(15),
@@ -134,7 +149,10 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
       ),
       child: TextField(
         controller: _con.priceController,
-        keyboardType: TextInputType.phone,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))  
+        ],
         maxLines: 1,
         decoration: InputDecoration(
             hintText: "Precio",

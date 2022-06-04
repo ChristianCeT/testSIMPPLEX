@@ -20,11 +20,12 @@ class RegisterController {
 
   UsersProvider usersProvider = UsersProvider();
 
-  PickedFile? pickedFile;
   File? imageFile;
   late Function refresh;
 
   late ProgressDialog _progressDialog;
+
+  final ImagePicker _picker = ImagePicker();
 
   bool isEnable = true;
 
@@ -52,6 +53,8 @@ class RegisterController {
       MySnackBar.show(context, "Debes ingresar todos los campos");
       return;
     }
+
+    validateEmail(email);
 
     if (confirmPassword != password) {
       MySnackBar.show(context, "Las contraseñas no coinciden");
@@ -104,10 +107,10 @@ class RegisterController {
   }
 
   Future selectedImage(ImageSource imageSource) async {
-    pickedFile = await ImagePicker().getImage(source: imageSource);
+    final XFile? pickedFile = await _picker.pickImage(source: imageSource);
 
     if (pickedFile != null) {
-      imageFile = File(pickedFile!.path);
+      imageFile = File(pickedFile.path);
     }
     Navigator.pop(context);
     refresh();
@@ -136,6 +139,16 @@ class RegisterController {
         builder: (BuildContext context) {
           return alertDialog;
         });
+  }
+
+  String? validateEmail(String? value) {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = RegExp(pattern);
+    if (value == null || value.isEmpty || !regex.hasMatch(value)) {
+      MySnackBar.show(context, "Ingresa un correo válido");
+    }
+    return null;
   }
 
   void back() {

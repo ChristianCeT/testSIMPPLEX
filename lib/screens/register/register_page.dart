@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:simpplex_app/screens/register/register_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:simpplex_app/widgets/widgets.dart';
@@ -171,15 +172,18 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _textFieldPhone() {
     return TextField(
-      autocorrect: false,
-      controller: _con.phoneController,
-      keyboardType: TextInputType.number,
-      decoration: InputDecorations.authInputDecoration(
-        hintText: '999666232',
-        labelText: 'Teléfono',
-        prefixIcon: Icons.phone_outlined,
-      ),
-    );
+        autocorrect: false,
+        controller: _con.phoneController,
+        keyboardType: TextInputType.phone,
+        inputFormatters: [
+          FilteringTextInputFormatter.allow((RegExp("[a-zA-Z0-9]"))),
+          LengthLimitingTextInputFormatter(9)
+        ],
+        decoration: InputDecorations.authInputDecoration(
+          hintText: '999666232',
+          labelText: 'Teléfono',
+          prefixIcon: Icons.phone_outlined,
+        ));
   }
 
   Widget _textFieldPassword() {

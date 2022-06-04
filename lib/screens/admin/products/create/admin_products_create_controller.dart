@@ -56,7 +56,8 @@ class AdminProductsCreateController {
       nameController.text = productToEdit!.nombre!;
       descriptionController.text = productToEdit!.descripcion!;
       priceController.text = productToEdit!.precio.toString();
-      linkRAController.text = productToEdit!.linkRA!;
+      linkRAController.text =
+          productToEdit!.linkRA!.replaceAll("https://go.echo3d.co/", "");
     }
     getCategories();
     refresh();
@@ -78,6 +79,18 @@ class AdminProductsCreateController {
       MySnackBar.show(context, "Debe ingresar todos los campos");
       return;
     }
+    
+
+    if (price < 0) {
+      MySnackBar.show(context, "El precio no puede ser menor a 0");
+      return;
+    }
+
+    //valida double
+    if (price.toString().contains(".")) {
+      MySnackBar.show(context, "El precio no puede contener decimales");
+      return;
+    }
 
     if (imageFile1 == null || imageFile2 == null || imageFile3 == null) {
       MySnackBar.show(context, "Selecciona las 3 imágenes");
@@ -92,7 +105,7 @@ class AdminProductsCreateController {
     Product product = Product(
       nombre: name,
       descripcion: description,
-      linkRA: linkRA,
+      linkRA: "https://go.echo3d.co/$linkRA",
       precio: price,
       categoria: idCategory,
     );
@@ -133,7 +146,7 @@ class AdminProductsCreateController {
       id: productToEdit!.id,
       nombre: name,
       descripcion: description,
-      linkRA: linkRA,
+      linkRA: "https://go.echo3d.co/$linkRA",
       precio: price,
       categoria: idCategory ?? productToEdit!.categoria,
     );
