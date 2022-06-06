@@ -18,10 +18,10 @@ class ClientPaymentsCreateController {
 
   TextEditingController documentNumberController = TextEditingController();
 
-  String cardNumber = '4009175332805122';
-  String expireDate = '11/25';
-  String cardHolderName = 'Chritian';
-  String cvvCode = '432';
+  String cardNumber = '';
+  String expireDate = '';
+  String cardHolderName = '';
+  String cvvCode = '';
   bool isCvvFocused = false;
 
   List<MercadoPagoDocumentType> documentTypeList = [];
@@ -38,7 +38,6 @@ class ClientPaymentsCreateController {
     this.context = context;
     this.refresh = refresh;
     user = User.fromJson(await _sharedPref.read('user'));
-    documentNumberController.text = "74070539";
     _mercadoPagoProvider.init(context, user);
 
     getIdenteficationTypes();

@@ -225,8 +225,14 @@ class DeliveryOrdersMapController {
     }
   }
 
-  void call() {
-    launch("tel://${order?.cliente?.telefono}");
+  void call() async {
+    /* canLaunch("tel://${order?.cliente?.telefono}").then((value) {
+      if (value) {
+        launch("tel://${order!.cliente!.telefono!}");
+      }
+    }); */
+
+    print("${order?.cliente?.telefono}");
   }
 
   void checkGPS() async {
