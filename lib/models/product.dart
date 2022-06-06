@@ -15,6 +15,8 @@ class Product {
   String? linkRA;
   double? precio;
   int? cantidad;
+  int? stock;
+  bool? disponible;
   List<Product> toList = [];
 
   Product({
@@ -28,6 +30,8 @@ class Product {
     this.categoria,
     this.precio,
     this.cantidad,
+    this.stock,
+    this.disponible,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -45,6 +49,8 @@ class Product {
                 ? json["precio"].toDouble()
                 : json["precio"],
         cantidad: json["cantidad"],
+        stock: json["stock"],
+        disponible: json["disponible"],
       );
 
   //transformar la data que viene en json en un arreglo list
@@ -66,6 +72,7 @@ class Product {
         "precio": precio,
         "cantidad": cantidad,
         "linkRA": linkRA,
+        "stock": stock,
       };
 
   static bool isInteger(num value) => value is int || value == value;

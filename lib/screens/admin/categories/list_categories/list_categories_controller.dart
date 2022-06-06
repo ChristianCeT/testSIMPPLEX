@@ -29,7 +29,7 @@ class ListCategoriesController {
     return categories;
   }
 
-  deleteUser(String id) async {
+  deleteCategory(String id) async {
     String? message = await _categoriesProvider.deleteCategory(id);
     return message;
   }

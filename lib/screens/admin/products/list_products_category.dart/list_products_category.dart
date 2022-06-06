@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:simpplex_app/models/category.dart';
 import 'package:simpplex_app/models/product.dart';
-import 'package:simpplex_app/screens/admin/orders/list/admin_orders_list_page.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
 import 'package:simpplex_app/screens/admin/products/list_products_category.dart/list_product_category_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
@@ -76,11 +76,33 @@ class _ListProductByCategoryScreenState
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) {
                           final Product product = products[index];
-                          return Dismissible(
-                            onDismissed: (_) {
-                              _con.deleteProduct(product.id!);
-                            },
+                          return Slidable(
                             key: UniqueKey(),
+                            endActionPane: ActionPane(
+                              motion: const ScrollMotion(),
+                              children: [
+                                const Spacer(),
+                                SlidableAction(
+                                  flex: 1,
+                                  onPressed: (_) {
+                                    _con.deleteProduct(product.id!);
+                                    setState(() {
+                                      products.removeAt(index);
+                                    });
+                                  },
+                                  backgroundColor: const Color(0xFFFE4A49),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Borrar',
+                                ),
+                              ],
+                              dismissible: DismissiblePane(
+                                closeOnCancel: true,
+                                onDismissed: () {
+                                  _con.deleteProduct(product.id!);
+                                },
+                              ),
+                            ),
                             child: ListTile(
                               title: Text(product.nombre!),
                               subtitle: Text(product.descripcion!),

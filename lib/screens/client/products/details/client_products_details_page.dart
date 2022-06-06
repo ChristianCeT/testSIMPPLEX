@@ -44,7 +44,12 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
           const Spacer(),
           _addOrRemoveItem(),
           _standarDelivery(),
-          _buttonShoppingBag(),
+          _con.product?.disponible == true
+              ? _buttonShoppingBag()
+              : Container(
+                  margin: const EdgeInsets.only(
+                      left: 30, right: 30, top: 10, bottom: 30),
+                ),
         ],
       ),
     );
@@ -163,25 +168,41 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
       margin: const EdgeInsets.symmetric(horizontal: 17),
       child: Row(
         children: [
-          IconButton(
-              onPressed: _con.addItem,
-              icon: Icon(
-                Icons.add_circle_outline,
-                color: MyColors.primaryColor,
-                size: 30,
-              )),
-          Text(
-            "${_con.counter}",
-            style: const TextStyle(
-                fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black),
-          ),
-          IconButton(
-              onPressed: _con.removeItem,
-              icon: Icon(
-                Icons.remove_circle_outline,
-                color: MyColors.primaryColor,
-                size: 30,
-              )),
+          _con.product != null
+              ? _con.product!.disponible!
+                  ? Row(
+                      children: [
+                        IconButton(
+                            onPressed: _con.addItem,
+                            icon: Icon(
+                              Icons.add_circle_outline,
+                              color: MyColors.primaryColor,
+                              size: 30,
+                            )),
+                        Text(
+                          "${_con.counter}",
+                          style: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                        IconButton(
+                            onPressed: _con.removeItem,
+                            icon: Icon(
+                              Icons.remove_circle_outline,
+                              color: MyColors.primaryColor,
+                              size: 30,
+                            )),
+                      ],
+                    )
+                  : const Text(
+                      "Producto no disponible",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red),
+                    )
+              : Container(),
           const Spacer(),
           Container(
             margin: const EdgeInsets.only(right: 10),

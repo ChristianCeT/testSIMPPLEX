@@ -49,6 +49,8 @@ class ProductsProvider {
       request.fields["linkRA"] = product.linkRA!;
       request.fields["precio"] = product.precio.toString();
       request.fields["categoria"] = product.categoria!;
+      request.fields["stock"] = product.stock.toString();
+      request.fields["disponible"] = product.disponible.toString();
 
       final response = await request.send();
 
@@ -179,6 +181,8 @@ class ProductsProvider {
           stringImages[1]["tiene"] == true ? "true" : "false";
       request.fields["posicion3"] =
           stringImages[2]["tiene"] == true ? "true" : "false";
+      request.fields["stock"] = product.stock.toString();
+      request.fields["disponible"] = product.disponible.toString();
 
       final response = await request.send();
 

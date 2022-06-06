@@ -64,6 +64,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
               )
             ],
           ),
+          const SizedBox(height: 7),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),
             height: 100,
@@ -76,6 +77,8 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
               ],
             ),
           ),
+          _availableProduct(_con.productToEdit?.disponible),
+          _stockProduct(_con.productToEdit?.stock),
           _dropDownCategories(_con.categories),
         ],
       ),
@@ -151,7 +154,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
         controller: _con.priceController,
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))  
+          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))
         ],
         maxLines: 1,
         decoration: InputDecoration(
@@ -310,6 +313,58 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             padding: const EdgeInsets.symmetric(vertical: 15)),
+      ),
+    );
+  }
+
+  Widget _availableProduct(bool? available) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      child: SwitchListTile.adaptive(
+        activeColor: MyColors.primaryColor,
+        title: const Text(
+          "Disponible",
+          style: TextStyle(fontSize: 15),
+        ),
+        value: _con.option == "editar"
+            ? _con.productToEdit!.disponible! : _con.disponibleStockAdd,
+        onChanged: (value) {
+          if(_con.option == "editar") {
+            _con.updateAvailable(available!);
+          }
+          else {
+            _con.updateAvailable(_con.disponibleStockAdd);
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _stockProduct(int? stock) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      decoration: BoxDecoration(
+        color: MyColors.primaryColor.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: TextField(
+        controller: _con.quantityController,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+        maxLines: 1,
+        decoration: InputDecoration(
+          hintText: "Stock",
+          hintStyle: const TextStyle(color: Colors.black),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(15),
+          suffixIcon: Icon(
+            Icons.numbers,
+            color: MyColors.primaryColor,
+          ),
+        ),
       ),
     );
   }

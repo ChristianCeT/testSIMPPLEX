@@ -18,10 +18,10 @@ class ClientPaymentsCreateController {
 
   TextEditingController documentNumberController = TextEditingController();
 
-  String cardNumber = '4009175332806176';
+  String cardNumber = '4009175332805122';
   String expireDate = '11/25';
   String cardHolderName = 'Chritian';
-  String cvvCode = '123';
+  String cvvCode = '432';
   bool isCvvFocused = false;
 
   List<MercadoPagoDocumentType> documentTypeList = [];

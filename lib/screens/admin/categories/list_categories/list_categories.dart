@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:simpplex_app/models/category.dart';
 import 'package:simpplex_app/screens/admin/categories/create_update/admin_categories_create_page.dart';
 import 'package:simpplex_app/screens/admin/categories/list_categories/list_categories_controller.dart';
@@ -41,11 +42,33 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 itemCount: categories.length,
                 itemBuilder: (context, index) {
                   final Category category = categories[index];
-                  return Dismissible(
-                    onDismissed: (_) {
-                      _con.deleteUser(category.id!);
-                    },
+                  return Slidable(
                     key: UniqueKey(),
+                    endActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [
+                        const Spacer(),
+                        SlidableAction(
+                          flex: 1,
+                          onPressed: (_) {
+                            _con.deleteCategory(category.id!);
+                            setState(() {
+                              categories.removeAt(index);
+                            });
+                          },
+                          backgroundColor: const Color(0xFFFE4A49),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Borrar',
+                        ),
+                      ],
+                      dismissible: DismissiblePane(
+                        closeOnCancel: true,
+                        onDismissed: () {
+                          _con.deleteCategory(category.id!);
+                        },
+                      ),
+                    ),
                     child: ListTile(
                       title: Text("${category.nombre}"),
                       subtitle: Text("${category.descripcion}"),
@@ -86,7 +109,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           Navigator.pushReplacementNamed(
               context, AdminCategoriesCreateUpdatePage.routeName,
               arguments: [
-                "agregar", null,
+                "agregar",
+                null,
               ]);
         },
         backgroundColor: MyColors.primaryColor,

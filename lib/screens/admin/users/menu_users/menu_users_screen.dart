@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simpplex_app/screens/admin/orders/list/admin_orders_list_page.dart';
 import 'package:simpplex_app/screens/admin/users/list_users.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
 
@@ -16,6 +17,13 @@ class _MenuUsersScreenState extends State<MenuUsersScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Usuarios"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, AdminOrdersListPage.routeName, (route) => false);
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -21,6 +21,7 @@ class AdminProductsCreateController {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController linkRAController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
 
   final CategoriesProvider _categoriesProvider = CategoriesProvider();
   final ProductsProvider _productsProvider = ProductsProvider();
@@ -42,6 +43,7 @@ class AdminProductsCreateController {
   File? imageFile2;
   File? imageFile3;
   final ImagePicker _picker = ImagePicker();
+  bool disponibleStockAdd = false;
 
   ProgressDialog? _progressDialog;
 
@@ -58,7 +60,14 @@ class AdminProductsCreateController {
       priceController.text = productToEdit!.precio.toString();
       linkRAController.text =
           productToEdit!.linkRA!.replaceAll("https://go.echo3d.co/", "");
+      quantityController.text = productToEdit!.stock!.toString();
     }
+
+    if (option == "agregar") {
+      quantityController.text = "0";
+    }
+
+    print(productToEdit?.disponible);
     getCategories();
     refresh();
   }
@@ -72,6 +81,7 @@ class AdminProductsCreateController {
     String name = nameController.text;
     String description = descriptionController.text;
     String linkRA = linkRAController.text;
+    int stock = int.parse(quantityController.text);
     double price =
         double.parse(priceController.text); // obtener valores enteros
 
@@ -79,7 +89,6 @@ class AdminProductsCreateController {
       MySnackBar.show(context, "Debe ingresar todos los campos");
       return;
     }
-    
 
     if (price < 0) {
       MySnackBar.show(context, "El precio no puede ser menor a 0");
@@ -108,6 +117,8 @@ class AdminProductsCreateController {
       linkRA: "https://go.echo3d.co/$linkRA",
       precio: price,
       categoria: idCategory,
+      stock: stock,
+      disponible: disponibleStockAdd,
     );
 
     List<File> images = [];
@@ -131,10 +142,21 @@ class AdminProductsCreateController {
     });
   }
 
+  updateAvailable(bool disponible) {
+    if (option == "editar") {
+      productToEdit!.disponible = !disponible;
+    } else {
+      disponibleStockAdd = !disponible;
+    }
+
+    refresh();
+  }
+
   void updateProduct() async {
     String name = nameController.text;
     String description = descriptionController.text;
     String linkRA = linkRAController.text;
+    int stock = int.parse(quantityController.text);
     double price = double.parse(priceController.text);
 
     if (name.isEmpty || description.isEmpty || price == 0 || linkRA.isEmpty) {
@@ -149,6 +171,8 @@ class AdminProductsCreateController {
       linkRA: "https://go.echo3d.co/$linkRA",
       precio: price,
       categoria: idCategory ?? productToEdit!.categoria,
+      stock: stock,
+      disponible: productToEdit!.disponible,
     );
 
     List<File?> images = [];

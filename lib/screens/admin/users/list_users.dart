@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:simpplex_app/models/user.dart';
 import 'package:simpplex_app/screens/admin/users/list_users_controller.dart';
+import 'package:simpplex_app/screens/admin/users/menu_users/menu_users_screen.dart';
 import 'package:simpplex_app/screens/admin/users/user_details_screen.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:simpplex_app/widgets/no_data_widget.dart';
+import 'package:simpplex_app/widgets/search_delegate.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
@@ -33,6 +36,22 @@ class _UserScreenState extends State<UserScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Usuarios'),
+        actions: [
+          IconButton(
+            onPressed: () => showSearch(
+                context: context,
+                delegate: SearchDelegateUsers(
+                    users: _con.users!, dataParameter: parameter)),
+            icon: const Icon(Icons.search_outlined),
+          ),
+        ],
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, MenuUsersScreen.routeName, (route) => false);
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -52,14 +71,40 @@ class _UserScreenState extends State<UserScreen> {
                       itemCount: users.length,
                       itemBuilder: (context, index) {
                         final User user = users[index];
-                        return Dismissible(
-                          onDismissed: (_) {
-                            _con.deleteUser(user.id!);
+                        /*  _con.deleteUser(user.id!);
                             setState(() {
                               users.removeAt(index);
-                            });
-                          },
+                            }); */
+                        return Slidable(
                           key: UniqueKey(),
+                          endActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            children: [
+                              const Spacer(),
+                              SlidableAction(
+                                flex: 1,
+                                onPressed: (_) {
+                                  _con.deleteUser(user.id!);
+                                  setState(() {
+                                    users.removeAt(index);
+                                  });
+                                },
+                                backgroundColor: const Color(0xFFFE4A49),
+                                foregroundColor: Colors.white,
+                                icon: Icons.delete,
+                                label: 'Borrar',
+                              ),
+                            ],
+                            dismissible: DismissiblePane(
+                              closeOnCancel: true,
+                              onDismissed: () {
+                                _con.deleteUser(user.id!);
+                                setState(() {
+                                  users.removeAt(index);
+                                });
+                              },
+                            ),
+                          ),
                           child: ListTile(
                             title: Row(children: [
                               Text("${user.nombre} ${user.apellido}"),

@@ -52,9 +52,11 @@ class ClientProductDetailController {
   }
 
   void addItem() {
-    counter = counter + 1;
-    productPrice = (product!.precio! * counter);
-    product!.cantidad = counter;
+    if (counter < product!.stock!) {
+      counter = counter + 1;
+      productPrice = (product!.precio! * counter);
+      product!.cantidad = counter;
+    }
     refresh();
   }
 

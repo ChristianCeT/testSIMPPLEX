@@ -24,7 +24,7 @@ class AddressProvider {
   Future<List<Address>?> getByUsers() async {
     try {
       Uri url = Uri.https(_url, "$_usuarioDireccion/${sessionUser.id}");
-      print(url);
+      
       Map<String, String> headers = {
         "Content-type": "application/json",
         "Authorization": sessionUser.sessionToken!
@@ -36,7 +36,7 @@ class AddressProvider {
         SharedPref().logout(context, sessionUser.id!);
       }
       final data = json.decode(res.body); // categorias
-      print(data);
+
       Address address = Address.fromJsonList(data);
 
       print(address.toList); // recibe la data que viene de la api
