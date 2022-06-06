@@ -11,7 +11,6 @@ import "package:path/path.dart";
 
 class UsersProvider {
   final String _url = Enviroment.API_DELIVERY;
-  final String _urlDev = Enviroment.apiDev;
   final String _crear = "/crearUsuario";
   final String _login = "/login";
   final String _update = "/actualizarUsuario";

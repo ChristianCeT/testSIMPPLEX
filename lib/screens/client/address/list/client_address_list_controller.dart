@@ -62,10 +62,15 @@ class ClientAddressListController {
 
   void handleRadioValueChange(int? value) async {
     radioValue = value!;
-    if (address != null && radioValue == -1) {
-      _sharedPref.save('address', address![0]);
-    } else {
-      _sharedPref.save('address', address![value]);
+    if (radioValue != value) {
+      radioValue = value;
+    }
+    if (address != null) {
+      if (radioValue == 0) {
+        _sharedPref.save('address', address![0]);
+      } else {
+        _sharedPref.save('address', address![radioValue]);
+      }
     }
     refresh();
   }
@@ -73,13 +78,22 @@ class ClientAddressListController {
   Future<List<Address>?> getAddress() async {
     address = await _addressProvider.getByUsers();
     Address a = Address.fromJson(await _sharedPref.read('address') ?? {});
-    int? index = address?.indexWhere((ad) => ad.id == a.id);
-    if (totalAddress != address?.length) {
-      totalAddress = address?.length ?? 0;
-      refresh();
-    }
-    if (index != -1) {
-      radioValue = index ?? 0;
+    if (address != null && address!.isNotEmpty) {
+      int? index = address?.indexWhere((ad) => ad.id == a.id);
+      if (totalAddress != address?.length) {
+        totalAddress = address?.length ?? 0;
+        refresh();
+      }
+      if (index != -1) {
+        radioValue = index ?? 0;
+      }
+
+      if (address!.length == 1 && a.id != address![0].id) {
+        _sharedPref.save('address', address![0]);
+      }
+      else {
+        _sharedPref.save('address', address![radioValue]);
+      }
     }
 
     return address;

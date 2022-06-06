@@ -33,7 +33,7 @@ class ClientPaymentsInstallmentsController {
   List<MercadoPagoInstallment>? installmentsList = [];
   MercadoPagoCardToken? cardToken;
 
-  Address? address;
+  Address address = Address();
 
   late ProgressDialog progressDialog;
   late String identificationType;
@@ -58,10 +58,13 @@ class ClientPaymentsInstallmentsController {
     user = User.fromJson(await _sharedPref.read('user'));
     _mercadoPagoProvider.init(context, user);
 
-    address ??= Address.fromJson(await _sharedPref.read('address'));
+    address = Address.fromJson(await _sharedPref.read('address') ?? {});
+
+    print("${address.avenida}");
 
     getTotalPayment();
     getInstallments();
+    refresh();
   }
 
   void getInstallments() async {
@@ -114,7 +117,9 @@ class ClientPaymentsInstallmentsController {
 
       if (response.statusCode == 200) {
         print("Se generó un pago ${response.body}");
+        final data = json.decode(response.body);
         creditCardPayment = MercadoPagoPayment.fromJsonMap(data);
+        print("${creditCardPayment.toJson()}");
         Navigator.pushNamedAndRemoveUntil(
             context, ClientPaymentsStatusPage.routeName, (route) => false,
             arguments: creditCardPayment.toJson());
