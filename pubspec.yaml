@@ -45,6 +45,7 @@ dependencies:
   flutter_custom_clippers: ^2.0.0
   webview_flutter: ^3.0.2
 
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

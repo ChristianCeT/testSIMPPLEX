@@ -16,7 +16,7 @@ class ProductsProvider {
   final String _productoCategoriaNombre = "/buscarProductoNombreCat";
 
   late BuildContext context;
-  User sessionUser = User();
+  late User sessionUser;
 
   Future init(BuildContext context, User sessionUser) async {
     this.context = context;

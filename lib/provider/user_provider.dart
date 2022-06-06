@@ -19,7 +19,7 @@ class UsersProvider {
   final String _usuarioRol = "/usuarioRol";
 
   late BuildContext context;
-  User? sessionUser;
+  late User? sessionUser;
 
   Future init(BuildContext context, {User? sessionUser}) async {
     this.context = context;

@@ -3,7 +3,7 @@
     
    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
    <application
-        android:label="client_exhibideas"
+        android:label="SIMPPLEX"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
         
