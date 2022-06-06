@@ -1,4 +1,4 @@
-import 'package:simpplex_app/screens/splash/splash_screen.dart';
+import 'package:simpplex_app/screens/splash2.0/splash.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:simpplex_app/utils/routes.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: "SIMPPLEX",
       debugShowCheckedModeBanner: false,
-      initialRoute: SplashScreen1.routeName,
+      initialRoute: SplashScreenV2.routName,
       routes: routes,
       theme: ThemeData.light().copyWith(
         primaryColor: MyColors.primaryColor,

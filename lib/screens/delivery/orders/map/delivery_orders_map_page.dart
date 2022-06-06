@@ -59,14 +59,14 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
       width: double.infinity,
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topRight: Radius.circular(20), topLeft: Radius.circular(20)),
           boxShadow: [
             BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 5,
                 blurRadius: 5,
-                offset: Offset(0, 3))
+                offset: const Offset(0, 3))
           ]),
       child: Column(
         children: [
@@ -84,26 +84,27 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
 
   Widget _clientInfo() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
       child: Row(
         children: [
-          Container(
+          SizedBox(
             height: 50,
             width: 50,
             child: FadeInImage(
               image: _con.order?.cliente?.image != null
                   ? NetworkImage(_con.order!.cliente!.image!)
-                  : AssetImage("assets/images/noImagen.png") as ImageProvider,
+                  : const AssetImage("assets/images/noImagen.png")
+                      as ImageProvider,
               fit: BoxFit.cover,
-              fadeInDuration: Duration(milliseconds: 50),
-              placeholder: AssetImage("assets/images/noImagen.png"),
+              fadeInDuration: const Duration(milliseconds: 50),
+              placeholder: const AssetImage("assets/images/noImagen.png"),
             ),
           ),
           Container(
-              margin: EdgeInsets.only(left: 10),
+              margin: const EdgeInsets.only(left: 10),
               child: Text(
                 "${_con.order?.cliente?.nombre ?? ''} ${_con.order?.cliente?.apellido ?? ''} ",
-                style: TextStyle(color: Colors.black, fontSize: 16),
+                style: const TextStyle(color: Colors.black, fontSize: 16),
                 maxLines: 1,
               )),
           const Spacer(),
@@ -137,10 +138,10 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
 
   Widget _listTitleAddress(String title, String subtitle, IconData iconData) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 30),
       child: ListTile(
-        title: Text(title, style: TextStyle(fontSize: 13)),
-        subtitle: Text("Vecindario"),
+        title: Text(title, style: const TextStyle(fontSize: 13)),
+        subtitle: const Text("Vecindario"),
         trailing: Icon(iconData),
       ),
     );
@@ -153,36 +154,25 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
         onPressed: _con.updateToDelivered,
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
-            padding: EdgeInsets.symmetric(vertical: 2),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10))),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                alignment: Alignment.center,
-                height: 40,
-                child: Text(
-                  "ENTREGAR PRODUCTO",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Icon(Icons.check_circle_outline, color: Colors.white),
+              SizedBox(width: 10),
+              Text(
+                "ENTREGAR PRODUCTO",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: EdgeInsets.only(left: 53, top: 9.3),
-                child: Icon(
-                  Icons.check_circle_outline,
-                  size: 22,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -193,14 +183,14 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
       onTap: () {},
       child: Container(
         alignment: Alignment.centerRight,
-        margin: EdgeInsets.symmetric(horizontal: 5),
+        margin: const EdgeInsets.symmetric(horizontal: 5),
         child: Card(
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           color: Colors.white,
           elevation: 4.0,
           child: Container(
-            padding: EdgeInsets.all(10),
-            child: Icon(
+            padding: const EdgeInsets.all(10),
+            child: const Icon(
               Icons.location_searching,
               color: Colors.black,
               size: 20,

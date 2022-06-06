@@ -37,34 +37,31 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
           ),
           actions: [
             Container(
-              margin: EdgeInsets.only(top: 18, right: 15),
+              margin: const EdgeInsets.only(top: 18, right: 15),
               child: Text("Total: S/${_con.total}",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18)),
             ),
           ],
         ),
-        bottomNavigationBar: Container(
+        bottomNavigationBar: SizedBox(
           height: MediaQuery.of(context).size.height * 0.3,
-          child: Container(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Divider(
-                    color: MyColors.primaryColor,
-                    endIndent: 30, // margen en la parte izquierda
-                    indent: 30, // margen en la parte derecha
-                  ),
-                  _textData("Cliente:",
-                      '${_con.order?.cliente?.nombre ?? ''} ${_con.order?.cliente?.apellido ?? ''}'),
-                  _textData(
-                      "Entregar en:", _con.order?.direccion?.direccion ?? ''),
-                  _textData("Fecha de pedido:",
-                      RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
-                  _con.order?.estado != "ENTREGADO"
-                      ? _buttonNext()
-                      : Container(),
-                ],
-              ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Divider(
+                  color: MyColors.primaryColor,
+                  endIndent: 30, // margen en la parte izquierda
+                  indent: 30, // margen en la parte derecha
+                ),
+                _textData("Cliente:",
+                    '${_con.order?.cliente?.nombre ?? ''} ${_con.order?.cliente?.apellido ?? ''}'),
+                _textData(
+                    "Entregar en:", _con.order?.direccion?.direccion ?? ''),
+                _textData("Fecha de pedido:",
+                    RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
+                _con.order?.estado != "ENTREGADO" ? _buttonNext() : Container(),
+              ],
             ),
           ),
         ),
@@ -126,8 +123,8 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
             Align(
               alignment: Alignment.centerLeft,
               child: Container(
-                margin: EdgeInsets.only(left: 62, top: 9),
-                child: Icon(
+                margin: const EdgeInsets.only(left: 62, top: 9),
+                child: const Icon(
                   Icons.directions_car,
                   size: 22,
                 ),
@@ -141,24 +138,24 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
 
   Widget _cardProduct(Product producto) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
           _imageProduct(producto),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(producto.nombre ?? "",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(
                 height: 10,
               ),
               Text("Cantidad: ${producto.cantidad}",
-                  style: TextStyle(fontSize: 13)),
-              SizedBox(
+                  style: const TextStyle(fontSize: 13)),
+              const SizedBox(
                 height: 10,
               ),
             ],
@@ -171,16 +168,16 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
   Widget _imageProduct(Product producto) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           color: Colors.grey[200]),
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       child: FadeInImage(
         image: producto.image1 != null
             ? NetworkImage(producto.image1!)
             : const AssetImage("assets/images/noImagen.png") as ImageProvider,
         fit: BoxFit.contain,
-        fadeInDuration: Duration(milliseconds: 50),
-        placeholder: AssetImage("assets/images/noImagen.png"),
+        fadeInDuration: const Duration(milliseconds: 50),
+        placeholder: const AssetImage("assets/images/noImagen.png"),
       ),
       height: 50,
       width: 50,

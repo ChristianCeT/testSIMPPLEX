@@ -25,17 +25,17 @@ import 'package:simpplex_app/screens/delivery/orders/list/delivery_orders_list_p
 import 'package:simpplex_app/screens/delivery/orders/map/delivery_orders_map_page.dart';
 import 'package:simpplex_app/screens/register/register_page.dart';
 import 'package:simpplex_app/screens/roles/roles_page.dart';
-import 'package:simpplex_app/screens/splash/splash_screen.dart';
+
 import 'package:flutter/material.dart';
+import 'package:simpplex_app/screens/splash2.0/splash.dart';
 
 // Rutas
 final Map<String, WidgetBuilder> routes = {
-  SplashScreen1.routeName: (context) => SplashScreen1(),
-  LoginPage.routeName: (context) => LoginPage(),
+  LoginPage.routeName: (context) => const LoginPage(),
   RegisterPage.routeName: (context) => RegisterPage(),
   ClientProductsListPage.routeName: (context) => ClientProductsListPage(),
   DeliveryOrdersListPage.routeName: (context) => DeliveryOrdersListPage(),
-  RolesPage.routeName: (context) => RolesPage(),
+  RolesPage.routeName: (context) => const RolesPage(),
   ClienteProductsMenu.routeName: (context) => ClienteProductsMenu(),
   ClientOrderCreatePage.routeName: (context) => ClientOrderCreatePage(),
   ClientUpdatePage.routeName: (context) => ClientUpdatePage(),
@@ -49,7 +49,7 @@ final Map<String, WidgetBuilder> routes = {
   AdminOrdersListPage.routeName: (context) => AdminOrdersListPage(),
   AdminProductsCreatePage.routeName: (context) => AdminProductsCreatePage(),
   DeliveryOrdersMapPage.routeName: (context) => DeliveryOrdersMapPage(),
-  ClientPaymentsCreatePage.routeName: (context) => ClientPaymentsCreatePage(),
+  ClientPaymentsCreatePage.routeName: (context) => const ClientPaymentsCreatePage(),
   ClientPaymentsInstallmentsPage.routeName: (context) =>
       const ClientPaymentsInstallmentsPage(),
   ClientPaymentsStatusPage.routeName: (context) =>
@@ -60,4 +60,5 @@ final Map<String, WidgetBuilder> routes = {
   CategoriesScreen.routeName: (context) => const CategoriesScreen(),
   ListProductsScreen.routeName: (context) => const ListProductsScreen(),
   ListProductByCategoryScreen.routeName: (context) => const ListProductByCategoryScreen(),
+  SplashScreenV2.routName: (context) => const SplashScreenV2(),
 };
