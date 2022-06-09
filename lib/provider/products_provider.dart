@@ -195,8 +195,7 @@ class ProductsProvider {
 
   Future<ResponseApi?> updateStockProduct(List<Product> producto) async {
     try {
-      print("DATA DEL PRODUCTO $producto");
-      Uri uri = Uri.http(_urlDev, "/actualizarStockProducto");
+      Uri uri = Uri.https(_url, "/actualizarStockProducto");
 
       String bodyParams = json.encode(producto);
 
