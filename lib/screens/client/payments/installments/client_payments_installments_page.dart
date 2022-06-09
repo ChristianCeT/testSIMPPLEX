@@ -22,7 +22,7 @@ class _ClientPaymentsInstallmentsPageState
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -137,7 +137,7 @@ class _ClientPaymentsInstallmentsPageState
                   isExpanded: true,
                   hint: const Text("Seleccionar número de cuotas",
                       style: TextStyle(color: Colors.grey, fontSize: 16)),
-                  items: _dropDownItems(_con.installmentsList!),
+                  items: _dropDownItems(_con.installmentsList ?? []),
                   value: _con.selectedInstallment,
                   onChanged: (String? option) {
                     setState(() {

@@ -23,7 +23,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) async {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
       await _con.init(context, refresh);
     });
   }

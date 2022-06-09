@@ -21,7 +21,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) async {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
       await _con.init(context, refresh);
     });
   }

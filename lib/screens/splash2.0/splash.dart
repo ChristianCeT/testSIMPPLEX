@@ -19,7 +19,7 @@ class _SplashScreenV2State extends State<SplashScreenV2> {
   @override
   Widget build(BuildContext context) {
     Timer(
-      const Duration(seconds: 4),
+      const Duration(seconds: 5),
       () => Navigator.pushNamedAndRemoveUntil(
           context, LoginPage.routeName, (route) => false),
     );

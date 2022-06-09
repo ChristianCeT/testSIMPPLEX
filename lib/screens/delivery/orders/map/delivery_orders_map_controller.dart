@@ -226,13 +226,7 @@ class DeliveryOrdersMapController {
   }
 
   void call() async {
-    /* canLaunch("tel://${order?.cliente?.telefono}").then((value) {
-      if (value) {
-        launch("tel://${order!.cliente!.telefono!}");
-      }
-    }); */
-
-    print("${order?.cliente?.telefono}");
+    launch("tel://${920411227}");
   }
 
   void checkGPS() async {

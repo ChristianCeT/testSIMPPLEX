@@ -21,7 +21,7 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh, widget.product);
     });
   }
@@ -44,12 +44,14 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
           const Spacer(),
           _addOrRemoveItem(),
           _standarDelivery(),
-          _con.product?.disponible == true
-              ? _buttonShoppingBag()
-              : Container(
-                  margin: const EdgeInsets.only(
-                      left: 30, right: 30, top: 10, bottom: 30),
-                ),
+          _con.product != null
+              ? _con.product?.disponible == true && _con.product!.stock! > 0
+                  ? _buttonShoppingBag()
+                  : Container(
+                      margin: const EdgeInsets.only(
+                          left: 30, right: 30, top: 10, bottom: 30),
+                    )
+              : Container(),
         ],
       ),
     );

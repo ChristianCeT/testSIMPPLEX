@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:simpplex_app/api/enviroment.dart';
 import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/models/response_api.dart';
 import 'package:simpplex_app/models/user.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import "package:path/path.dart";
@@ -11,6 +12,7 @@ import "package:http/http.dart" as http;
 
 class ProductsProvider {
   final String _url = Enviroment.API_DELIVERY;
+  final String _urlDev = Enviroment.apiDev;
   final String _agregar = "/crearProducto";
   final String _productoCategoria = "/productoCategoria";
   final String _productoCategoriaNombre = "/buscarProductoNombreCat";
@@ -151,8 +153,6 @@ class ProductsProvider {
 
       List<Map> stringImages = [];
 
-      List<File> imagesToSend = [];
-
       for (int i = 0; i < images.length; i++) {
         if (images[i] == null) {
           stringImages.add({"imagen": i, "tiene": false});
@@ -165,8 +165,6 @@ class ProductsProvider {
               filename: basename(images[i]!.path)));
         }
       }
-
-      for (int i = 0; i < imagesToSend.length; i++) {}
 
       request.headers.addAll(headers);
       request.fields["producto"] = json.encode(product);
@@ -191,6 +189,37 @@ class ProductsProvider {
       return response.stream.transform(utf8.decoder);
     } catch (e) {
       print(e);
+      return null;
+    }
+  }
+
+  Future<ResponseApi?> updateStockProduct(List<Product> producto) async {
+    try {
+      print("DATA DEL PRODUCTO $producto");
+      Uri uri = Uri.http(_urlDev, "/actualizarStockProducto");
+
+      String bodyParams = json.encode(producto);
+
+      Map<String, String> headers = {
+        "Content-type": "application/json",
+        "Authorization": sessionUser.sessionToken!
+      };
+
+      final res = await http.put(uri, headers: headers, body: bodyParams);
+
+      if (res.statusCode == 404) {
+        Fluttertoast.showToast(msg: "Sesión expirada");
+        SharedPref().logout(context, sessionUser.id!);
+      }
+
+      final data = json.decode(res.body);
+
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+
+      print(data);
+
+      return responseApi;
+    } catch (e) {
       return null;
     }
   }

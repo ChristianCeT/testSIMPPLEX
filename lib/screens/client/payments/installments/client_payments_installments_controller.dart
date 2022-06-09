@@ -9,6 +9,7 @@ import 'package:simpplex_app/models/orders.dart';
 import 'package:simpplex_app/models/product.dart';
 import 'package:simpplex_app/models/user.dart';
 import 'package:simpplex_app/provider/mercado_pago_provider.dart';
+import 'package:simpplex_app/provider/products_provider.dart';
 import 'package:simpplex_app/screens/client/payments/status/client_status_installments_page.dart';
 import 'package:simpplex_app/utils/my_snackbar.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
@@ -23,6 +24,7 @@ class ClientPaymentsInstallmentsController {
   final MercadoPagoProvider _mercadoPagoProvider = MercadoPagoProvider();
   late User user;
   final SharedPref _sharedPref = SharedPref();
+  final ProductsProvider _productsProvider = ProductsProvider();
   List<Product> selectedProducts = [];
 
   double totalPayment = 0;
@@ -58,9 +60,9 @@ class ClientPaymentsInstallmentsController {
     user = User.fromJson(await _sharedPref.read('user'));
     _mercadoPagoProvider.init(context, user);
 
-    address = Address.fromJson(await _sharedPref.read('address') ?? {});
+    _productsProvider.init(context, user);
 
-    print("${address.avenida}");
+    address = Address.fromJson(await _sharedPref.read('address') ?? {});
 
     getTotalPayment();
     getInstallments();
@@ -116,10 +118,10 @@ class ClientPaymentsInstallmentsController {
       final data = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        print("Se generó un pago ${response.body}");
+        await _productsProvider.updateStockProduct(selectedProducts);
         final data = json.decode(response.body);
         creditCardPayment = MercadoPagoPayment.fromJsonMap(data);
-        print("${creditCardPayment.toJson()}");
+
         Navigator.pushNamedAndRemoveUntil(
             context, ClientPaymentsStatusPage.routeName, (route) => false,
             arguments: creditCardPayment.toJson());
