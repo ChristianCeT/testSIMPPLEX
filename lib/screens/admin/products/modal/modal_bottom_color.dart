@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:simpplex_app/screens/admin/products/modal/modal_bottom_color_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
@@ -16,17 +17,6 @@ class ModalBottomScreenProduct extends StatefulWidget {
 
 class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
   final ModalBottomColorController _con = ModalBottomColorController();
-  /* List<Widget> _list = []; */
-  /*  void initState() {
-    _list = List.generate(0, (i) {
-      return _rowImageAndColor(
-        null,
-        null,
-        null,
-      );
-    });
-    super.initState();
-  } */
 
   @override
   void initState() {
@@ -41,14 +31,15 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.85,
       child: Scaffold(
-        body: _con.list.isEmpty
+        body: _con.listMap.isEmpty
             ? const Center(child: Text("No hay data"))
             : Column(children: [
-                Text("Imagenes añadidas ${_con.list.length}"),
+                Text("Imagenes añadidas ${_con.listMap.length}"),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: _con.list.length,
-                    itemBuilder: (context, index) {
+                    itemCount: _con.listMap.length,
+                    itemBuilder: (_, index) {
+                      _con.index = index;
                       return Slidable(
                         key: UniqueKey(),
                         endActionPane: ActionPane(
@@ -58,8 +49,7 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
                             SlidableAction(
                               flex: 1,
                               onPressed: (_) {
-                                _con.list.removeAt(index);
-                                refresh();
+                                _con.deleteImage(index);
                               },
                               backgroundColor: const Color(0xFFFE4A49),
                               foregroundColor: Colors.white,
@@ -70,27 +60,29 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
                           dismissible: DismissiblePane(
                             closeOnCancel: true,
                             onDismissed: () {
-                              _con.list.removeAt(index);
-                              refresh();
+                              _con.deleteImage(index);
                             },
                           ),
                         ),
-                        child: _con.list[index],
+                        child: _rowImageAndColor(
+                            _con.listMap[index]["file"], index),
                       );
                     },
                   ),
                 ),
               ]),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           backgroundColor: MyColors.primaryColor,
           onPressed: () {
-            _con.list.add(_rowImageAndColor(
-              null,
-              null,
-              null,
-            ));
-            refresh();
+            setState(() {
+              _con.listMap.add({
+                "posicion": _con.listMap.length,
+                "file": null,
+                "path": null,
+                "color": null,
+              });
+            });
           },
           child: const Icon(Icons.add),
         ),
@@ -98,45 +90,75 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
     );
   }
 
-  Widget _rowImageAndColor(
-      File? imageFile, int? numberFile, String? imageProductEditT) {
+  Widget _rowImageAndColor(File? imageFile, int indexImage) {
     return Padding(
+      key: UniqueKey(),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
+            key: UniqueKey(),
             onTap: () {
-              _con.showAlertDialog();
+              _con.showAlertDialog(indexImage);
             }, // cuando hay un parametro
             child: imageFile != null
                 ? SizedBox(
-                    height: 140,
-                    width: 40,
+                    height: 100,
+                    width: 100,
                     child: Image.file(
                       imageFile,
                       fit: BoxFit.cover,
                     ),
                   )
-                : SizedBox(
+                : const SizedBox(
                     height: 100,
                     width: 100,
                     child: Image(
-                      image: imageProductEditT != null
-                          ? NetworkImage(imageProductEditT)
-                          : const AssetImage('assets/images/noImagen.png')
-                              as ImageProvider,
+                      image: AssetImage('assets/images/noImagen.png'),
                     )),
           ),
-          Column(
-            children: [
-              const Text("Hola"),
-              Container(
-                width: 10,
-                height: 10,
-                color: Colors.red,
-              )
-            ],
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("Selecciona tu color"),
+                      content: SingleChildScrollView(
+                        child: ColorPicker(
+                          pickerColor: _con.pickerColor,
+                          onColorChanged: _con.changeColor,
+                          hexInputBar: true,
+                          pickerAreaHeightPercent: 0.8,
+                        ),
+                      ),
+                      actions: [
+                        ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    MyColors.primaryColor)),
+                            onPressed: () {
+                              _con.updateColor(indexImage);
+                            },
+                            child: const Text(
+                              "Elegir",
+                            )),
+                      ],
+                    );
+                  });
+            },
+            child: Column(
+              children: [
+                const Text("Color"),
+                Container(
+                  width: 25,
+                  height: 25,
+                  color: _con.listMap[indexImage]["color"] ??
+                      MyColors.primaryColor,
+                )
+              ],
+            ),
           ),
         ],
       ),
@@ -144,6 +166,8 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
   }
 
   void refresh() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 }
