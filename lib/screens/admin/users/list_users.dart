@@ -71,10 +71,7 @@ class _UserScreenState extends State<UserScreen> {
                       itemCount: users.length,
                       itemBuilder: (context, index) {
                         final User user = users[index];
-                        /*  _con.deleteUser(user.id!);
-                            setState(() {
-                              users.removeAt(index);
-                            }); */
+                        
                         return Slidable(
                           key: UniqueKey(),
                           endActionPane: ActionPane(

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:simpplex_app/models/imagen_principal.dart';
+
 Product productFromJson(String str) => Product.fromJson(json.decode(str));
 
 String productToJson(Product data) => json.encode(data.toJson());
@@ -17,41 +19,45 @@ class Product {
   int? cantidad;
   int? stock;
   bool? disponible;
+  List<ImagenPrincipal>? imagenPrincipal;
   List<Product> toList = [];
 
-  Product({
-    this.id,
-    this.nombre,
-    this.descripcion,
-    this.linkRA,
-    this.image1,
-    this.image2,
-    this.image3,
-    this.categoria,
-    this.precio,
-    this.cantidad,
-    this.stock,
-    this.disponible,
-  });
+  Product(
+      {this.id,
+      this.nombre,
+      this.descripcion,
+      this.linkRA,
+      this.image1,
+      this.image2,
+      this.image3,
+      this.categoria,
+      this.precio,
+      this.cantidad,
+      this.stock,
+      this.disponible,
+      this.imagenPrincipal});
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["_id"],
-        nombre: json["nombre"],
-        descripcion: json["descripcion"],
-        linkRA: json["linkRA"],
-        image1: json["image1"],
-        image2: json["image2"],
-        image3: json["image3"],
-        categoria: json["categoria"],
-        precio: json["precio"] is String
-            ? double.parse(json["precio"])
-            : isInteger(json["precio"])
-                ? json["precio"].toDouble()
-                : json["precio"],
-        cantidad: json["cantidad"],
-        stock: json["stock"],
-        disponible: json["disponible"],
-      );
+      id: json["_id"],
+      nombre: json["nombre"],
+      descripcion: json["descripcion"],
+      linkRA: json["linkRA"],
+      image1: json["image1"],
+      image2: json["image2"],
+      image3: json["image3"],
+      categoria: json["categoria"],
+      precio: json["precio"] is String
+          ? double.parse(json["precio"])
+          : isInteger(json["precio"])
+              ? json["precio"].toDouble()
+              : json["precio"],
+      cantidad: json["cantidad"],
+      stock: json["stock"],
+      disponible: json["disponible"],
+      imagenPrincipal: json["imagenPrincipal"] == null
+          ? []
+          : List<ImagenPrincipal>.from(json["imagenPrincipal"]
+              .map((model) => ImagenPrincipal.fromJson(model))));
 
   //transformar la data que viene en json en un arreglo list
   Product.fromJsonList(List<dynamic> jsonList) {
@@ -73,6 +79,7 @@ class Product {
         "cantidad": cantidad,
         "linkRA": linkRA,
         "stock": stock,
+        "imagenPrincipal": imagenPrincipal,
       };
 
   static bool isInteger(num value) => value is int || value == value;

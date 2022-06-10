@@ -66,8 +66,7 @@ class AdminProductsCreateController {
     if (option == "agregar") {
       quantityController.text = "0";
     }
-
-    print(productToEdit?.disponible);
+    
     getCategories();
     refresh();
   }

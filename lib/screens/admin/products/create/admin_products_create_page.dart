@@ -6,6 +6,7 @@ import 'package:simpplex_app/screens/admin/products/list_products_category.dart/
 import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:simpplex_app/widgets/container_image_product.dart';
 
 class AdminProductsCreatePage extends StatefulWidget {
   const AdminProductsCreatePage({Key? key}) : super(key: key);
@@ -77,6 +78,7 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
               ],
             ),
           ),
+          _textActionImage(),
           _availableProduct(_con.productToEdit?.disponible),
           _stockProduct(_con.productToEdit?.stock),
           _dropDownCategories(_con.categories),
@@ -84,6 +86,10 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
       ),
       bottomNavigationBar: _buttonCreate(),
     );
+  }
+
+  Widget _textActionImage() {
+    return const ModalColorImage();
   }
 
   Widget _textFieldProductName() {
@@ -327,12 +333,12 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
           style: TextStyle(fontSize: 15),
         ),
         value: _con.option == "editar"
-            ? _con.productToEdit!.disponible! : _con.disponibleStockAdd,
+            ? _con.productToEdit!.disponible!
+            : _con.disponibleStockAdd,
         onChanged: (value) {
-          if(_con.option == "editar") {
+          if (_con.option == "editar") {
             _con.updateAvailable(available!);
-          }
-          else {
+          } else {
             _con.updateAvailable(_con.disponibleStockAdd);
           }
         },
