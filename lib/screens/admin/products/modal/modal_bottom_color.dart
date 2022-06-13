@@ -1,11 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:simpplex_app/screens/admin/products/modal/modal_bottom_color_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/widgets/input_decorations.dart';
 
 class ModalBottomScreenProduct extends StatefulWidget {
   const ModalBottomScreenProduct({Key? key}) : super(key: key);
@@ -28,13 +28,19 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
 
   @override
   Widget build(BuildContext context) {
+    final listMap = ModalRoute.of(context)!.settings.arguments
+        as List<Map<String, dynamic>>;
+
+    print(listMap);
+
+    _con.listMap = listMap;
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.85,
       child: Scaffold(
         body: _con.listMap.isEmpty
             ? const Center(child: Text("No hay data"))
             : Column(children: [
-                Text("Imagenes añadidas ${_con.listMap.length}"),
+                Text("Imagenes añadidas ${listMap.length}"),
                 Expanded(
                   child: ListView.builder(
                     itemCount: _con.listMap.length,
@@ -81,6 +87,7 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
                 "file": null,
                 "path": null,
                 "color": null,
+                "colorName": null,
               });
             });
           },
@@ -123,34 +130,14 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text("Selecciona tu color"),
-                      content: SingleChildScrollView(
-                        child: ColorPicker(
-                          pickerColor: _con.pickerColor,
-                          onColorChanged: _con.changeColor,
-                          hexInputBar: true,
-                          pickerAreaHeightPercent: 0.8,
-                        ),
-                      ),
-                      actions: [
-                        ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    MyColors.primaryColor)),
-                            onPressed: () {
-                              _con.updateColor(indexImage);
-                            },
-                            child: const Text(
-                              "Elegir",
-                            )),
-                      ],
-                    );
+                    return _colorWidget(indexImage);
                   });
             },
             child: Column(
               children: [
-                const Text("Color"),
+                Text(_con.listMap[indexImage]["color"] == null
+                    ? "Ninguno"
+                    : _con.listMap[indexImage]["colorName"]),
                 Container(
                   width: 25,
                   height: 25,
@@ -162,6 +149,48 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _colorWidget(int indexImage) {
+    return AlertDialog(
+      title: TextField(
+        controller: _con.colorNameController,
+        decoration: InputDecorations.authInputDecoration(
+            hintText: "Azul marino", labelText: "Ingrese el nombre del color"),
+      ),
+      content: SingleChildScrollView(
+        child: ColorPicker(
+          pickerColor: _con.pickerColor,
+          onColorChanged: _con.changeColor,
+          hexInputBar: true,
+          pickerAreaHeightPercent: 0.75,
+        ),
+      ),
+      actions: [
+        TextButton(
+          child: const Text(
+            "Cancelar",
+            style: TextStyle(color: Colors.black),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(MyColors.primaryColor),
+          ),
+          onPressed: () {
+            _con.colorNameController.text.isEmpty
+                ? "No"
+                : _con.updateColor(indexImage);
+          },
+          child: const Text(
+            "Elegir",
+          ),
+        ),
+      ],
     );
   }
 

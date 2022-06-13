@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:simpplex_app/models/category.dart';
+import 'package:simpplex_app/models/imagen_principal.dart';
 import 'package:simpplex_app/models/product.dart';
 import 'package:simpplex_app/models/response_api.dart';
 import 'package:simpplex_app/models/user.dart';
@@ -42,6 +43,7 @@ class AdminProductsCreateController {
   File? imageFile1;
   File? imageFile2;
   File? imageFile3;
+  List<Map<String, dynamic>> listMap = [];
   final ImagePicker _picker = ImagePicker();
   bool disponibleStockAdd = false;
 
@@ -66,7 +68,7 @@ class AdminProductsCreateController {
     if (option == "agregar") {
       quantityController.text = "0";
     }
-    
+
     getCategories();
     refresh();
   }
@@ -84,6 +86,11 @@ class AdminProductsCreateController {
     double price =
         double.parse(priceController.text); // obtener valores enteros
 
+    if (listMap.isEmpty) {
+      MySnackBar.show(context, "Debe agregar al menos 1 imagen principal");
+      return;
+    }
+
     if (name.isEmpty || description.isEmpty || price == 0 || linkRA.isEmpty) {
       MySnackBar.show(context, "Debe ingresar todos los campos");
       return;
@@ -94,14 +101,14 @@ class AdminProductsCreateController {
       return;
     }
 
-    //valida double
-    if (price.toString().contains(".")) {
-      MySnackBar.show(context, "El precio no puede contener decimales");
+    if (listMap.isEmpty) {
+      MySnackBar.show(context, "Debe agregar al menos una imagen principal");
       return;
     }
 
-    if (imageFile1 == null || imageFile2 == null || imageFile3 == null) {
-      MySnackBar.show(context, "Selecciona las 3 imágenes");
+    //valida double
+    if (stock.toString().contains(".")) {
+      MySnackBar.show(context, "El stock no puede contener decimales");
       return;
     }
 
@@ -113,20 +120,21 @@ class AdminProductsCreateController {
     Product product = Product(
       nombre: name,
       descripcion: description,
-      linkRA: "https://go.echo3d.co/$linkRA",
+      linkRA: "https://go.echo3d.co/asd",
       precio: price,
       categoria: idCategory,
       stock: stock,
       disponible: disponibleStockAdd,
     );
 
+    await _productsProvider.sendCountImages(listMap.length + 2);
+
     List<File> images = [];
-    images.add(imageFile1!);
     images.add(imageFile2!);
     images.add(imageFile3!);
 
     _progressDialog!.show(max: 100, msg: "Espere un momento");
-    Stream? stream = await _productsProvider.create(product, images);
+    Stream? stream = await _productsProvider.create2(product, images, listMap);
 
     stream!.listen((res) {
       _progressDialog!.close();

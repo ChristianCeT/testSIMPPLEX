@@ -14,7 +14,7 @@ class App extends StatelessWidget {
       title: "SIMPPLEX",
       debugShowCheckedModeBanner: false,
       initialRoute: SplashScreenV2.routName,
-      routes: routes,
+      routes: routes, 
       theme: ThemeData.light().copyWith(
         primaryColor: MyColors.primaryColor,
         backgroundColor: MyColors.primaryColor,

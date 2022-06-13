@@ -89,7 +89,9 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
   }
 
   Widget _textActionImage() {
-    return const ModalColorImage();
+    return ModalColorImage(
+      listMap: _con.listMap,
+    );
   }
 
   Widget _textFieldProductName() {

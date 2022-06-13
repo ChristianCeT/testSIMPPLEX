@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:simpplex_app/api/enviroment.dart';
+import 'package:simpplex_app/models/imagen_principal.dart';
 import 'package:simpplex_app/models/product.dart';
 import 'package:simpplex_app/models/response_api.dart';
 import 'package:simpplex_app/models/user.dart';
@@ -28,7 +29,6 @@ class ProductsProvider {
   Future<Stream?> create(Product product, List<File> images) async {
     try {
       Uri url = Uri.https(_url, _agregar);
-      print(url);
 
       final request = http.MultipartRequest("POST", url);
       Map<String, String> headers = {
@@ -219,6 +219,89 @@ class ProductsProvider {
 
       return responseApi;
     } catch (e) {
+      return null;
+    }
+  }
+
+  Future<String?> sendCountImages(int countImagesSend) async {
+    try {
+      Uri uri = Uri.http(_urlDev, "/countImagesSend");
+
+      String bodyParams = json.encode({
+        "numeroImagenes": countImagesSend,
+      });
+
+      Map<String, String> headers = {
+        "Content-type": "application/json",
+        "Authorization": sessionUser.sessionToken!
+      };
+
+      final res = await http.post(uri, headers: headers, body: bodyParams);
+
+      if (res.statusCode == 404) {
+        Fluttertoast.showToast(msg: "Sesión expirada");
+        SharedPref().logout(context, sessionUser.id!);
+      }
+
+      final data = json.decode(res.body);
+
+      print(data["message"]);
+
+      return data["message"];
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<Stream?> create2(Product product, List<File> images,
+      List<Map<String, dynamic>> listMap) async {
+    try {
+      Uri url = Uri.http(_urlDev, "/createProductv2");
+
+      final request = http.MultipartRequest("POST", url);
+      Map<String, String> headers = {
+        "Content-type": "application/json",
+        "Authorization": sessionUser.sessionToken!
+      };
+
+      List<File> imagesOrden = [];
+      List<ImagenPrincipal>? imagenesPrincipal = [];
+
+      imagesOrden.addAll(listMap.map((e) => e["file"]));
+      imagesOrden.addAll(images);
+
+      for (int i = 0; i < imagesOrden.length; i++) {
+        request.files.add(
+          http.MultipartFile(
+            "image",
+            http.ByteStream(imagesOrden[i].openRead().cast()),
+            await imagesOrden[i].length(),
+            filename: basename(
+              imagesOrden[i].path,
+            ),
+          ),
+        );
+      }
+
+      for (int i = 0; i < listMap.length; i++) {
+        imagenesPrincipal.add(ImagenPrincipal(
+          color: listMap[i]["color"].toString(),
+          posicion: listMap[i]["posicion"],
+          colorName: listMap[i]["colorName"],
+          path: listMap[i]["path"],
+        ));
+      }
+
+      product.imagenPrincipal = imagenesPrincipal;
+
+      request.headers.addAll(headers);
+      request.fields["producto"] = json.encode(product);
+
+      final response = await request.send();
+
+      return response.stream.transform(utf8.decoder);
+    } catch (e) {
+      print("Error $e");
       return null;
     }
   }

@@ -1,30 +1,35 @@
 import 'dart:convert';
 
-ImagenPrincipal rolFromJson(String str) =>
+ImagenPrincipal imagePFromJson(String str) =>
     ImagenPrincipal.fromJson(json.decode(str));
 
-String rolToJson(ImagenPrincipal data) => json.encode(data.toJson());
+String imagePToJson(ImagenPrincipal data) => json.encode(data.toJson());
 
 class ImagenPrincipal {
   ImagenPrincipal({
-    required this.url,
-    required this.color,
-    required this.posicion,
+    this.posicion,
+    this.path,
+    this.color,
+    this.colorName,
   });
-  String url;
-  String color;
-  int posicion;
+
+  String? color;
+  String? path;
+  int? posicion;
+  String? colorName;
 
   factory ImagenPrincipal.fromJson(Map<String, dynamic> json) =>
       ImagenPrincipal(
-        url: json["url"],
-        color: json["color"],
         posicion: json["posicion"],
+        path: json["path"],
+        color: json["color"],
+        colorName: json["colorName"],
       );
 
   Map<String, dynamic> toJson() => {
-        "url": url,
-        "color": color,
+        "path": path,
         "posicion": posicion,
+        "color": color,
+        "colorName": colorName,
       };
 }

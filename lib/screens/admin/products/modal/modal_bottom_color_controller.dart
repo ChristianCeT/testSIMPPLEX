@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class ModalBottomColorController {
   late BuildContext context;
@@ -16,15 +14,13 @@ class ModalBottomColorController {
   Color pickerColor = const Color(0xff443a49);
   Color currentColor = const Color(0xff443a49);
 
-  /*  ProgressDialog? _progressDialog; */
-
   List<Map<String, dynamic>> listMap = [];
+
+  final TextEditingController colorNameController = TextEditingController();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    /*  _progressDialog = ProgressDialog(context: context); */
-
     refresh();
   }
 
@@ -44,7 +40,7 @@ class ModalBottomColorController {
     if (imageFile != null) {
       if (index == listMap[index]["posicion"]) {
         listMap[index]["file"] = imageFile;
-        listMap[index]["path"] = pickedFile?.path;
+        listMap[index]["path"] = imageFile?.path;
       }
     }
     refresh();
@@ -85,6 +81,8 @@ class ModalBottomColorController {
   void updateColor(int indexImage) {
     currentColor = pickerColor;
     listMap[indexImage]["color"] = currentColor;
+    listMap[indexImage]["colorName"] = colorNameController.text;
+    colorNameController.text = "";
     Navigator.of(context).pop();
     refresh();
   }

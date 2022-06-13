@@ -78,6 +78,7 @@ class Product {
         "precio": precio,
         "cantidad": cantidad,
         "linkRA": linkRA,
+        "disponible": disponible,
         "stock": stock,
         "imagenPrincipal": imagenPrincipal,
       };
