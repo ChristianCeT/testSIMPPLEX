@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simpplex_app/models/category.dart';
 import 'package:simpplex_app/models/product.dart';
 import 'package:simpplex_app/models/user.dart';
 import 'package:simpplex_app/provider/products_provider.dart';

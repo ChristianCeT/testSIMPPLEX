@@ -76,6 +76,7 @@ class _ListProductByCategoryScreenState
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) {
                           final Product product = products[index];
+
                           return Slidable(
                             key: UniqueKey(),
                             endActionPane: ActionPane(
@@ -162,8 +163,9 @@ class _ProductImageContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(50),
       ),
       child: FadeInImage(
-        image: product.image1 != null
-            ? NetworkImage(product.image1!)
+        image: product.imagenPrincipal != null &&
+                product.imagenPrincipal!.isNotEmpty
+            ? NetworkImage(product.imagenPrincipal![0].path!)
             : const AssetImage("assets/images/noImagen.png") as ImageProvider,
         fit: BoxFit.fill,
         fadeInDuration: const Duration(seconds: 1),

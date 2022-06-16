@@ -144,16 +144,17 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
       ),
       child: Row(
         children: [
-          Container(
+          SizedBox(
             height: 40,
             width: 40,
             child: FadeInImage(
               image: _con.order?.deliveryList?.image != null
                   ? NetworkImage(_con.order!.deliveryList!.image!)
-                  : AssetImage("assets/images/noImagen.png") as ImageProvider,
+                  : const AssetImage("assets/images/noImagen.png")
+                      as ImageProvider,
               fit: BoxFit.contain,
-              fadeInDuration: Duration(milliseconds: 50),
-              placeholder: AssetImage("assets/images/noImagen.png"),
+              fadeInDuration: const Duration(milliseconds: 50),
+              placeholder: const AssetImage("assets/images/noImagen.png"),
             ),
           ),
           const SizedBox(
@@ -178,7 +179,8 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
               child: FadeInImage(
                 image: user.image != null
                     ? NetworkImage(user.image!)
-                    : const AssetImage("assets/images/noImagen.png") as ImageProvider,
+                    : const AssetImage("assets/images/noImagen.png")
+                        as ImageProvider,
                 fit: BoxFit.contain,
                 fadeInDuration: const Duration(milliseconds: 50),
                 placeholder: const AssetImage("assets/images/noImagen.png"),
@@ -283,16 +285,16 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
   Widget _imageProduct(Product producto) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           color: Colors.grey[200]),
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       child: FadeInImage(
         image: producto.image1 != null
             ? NetworkImage(producto.image1!)
-            : AssetImage("assets/images/noImagen.png") as ImageProvider,
+            : const AssetImage("assets/images/noImagen.png") as ImageProvider,
         fit: BoxFit.contain,
-        fadeInDuration: Duration(milliseconds: 50),
-        placeholder: AssetImage("assets/images/noImagen.png"),
+        fadeInDuration: const Duration(milliseconds: 50),
+        placeholder: const AssetImage("assets/images/noImagen.png"),
       ),
       height: 50,
       width: 50,

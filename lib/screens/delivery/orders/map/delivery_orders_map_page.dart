@@ -1,3 +1,4 @@
+import 'package:simpplex_app/screens/delivery/orders/assets_signature_evidence/assets_signature_evidence_screen.dart';
 import 'package:simpplex_app/screens/delivery/orders/map/delivery_orders_map_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,7 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
 
   Widget _clientInfo() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 33, vertical: 20),
       child: Row(
         children: [
           SizedBox(
@@ -108,15 +109,26 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
                 maxLines: 1,
               )),
           const Spacer(),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-              color: Colors.grey[300],
-            ),
-            child: IconButton(
-                onPressed: _con.call,
-                icon: const Icon(Icons.phone, color: Colors.black)),
-          )
+          Row(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                        context, SignatureEvidenceScreen.routeName);
+                  },
+                  child: const Text("F")),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  color: Colors.grey[300],
+                ),
+                child: IconButton(
+                  onPressed: _con.call,
+                  icon: const Icon(Icons.phone, color: Colors.black),
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );

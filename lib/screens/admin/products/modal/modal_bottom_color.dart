@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -31,9 +30,9 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
     final listMap = ModalRoute.of(context)!.settings.arguments
         as List<Map<String, dynamic>>;
 
-    print(listMap);
-
+    print("AQUI MI LISTMAP $listMap");
     _con.listMap = listMap;
+
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.85,
       child: Scaffold(
@@ -70,8 +69,7 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
                             },
                           ),
                         ),
-                        child: _rowImageAndColor(
-                            _con.listMap[index]["file"], index),
+                        child: _rowImageAndColor(_con.listMap[index], index),
                       );
                     },
                   ),
@@ -97,7 +95,7 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
     );
   }
 
-  Widget _rowImageAndColor(File? imageFile, int indexImage) {
+  Widget _rowImageAndColor(Map listMap, int indexImage) {
     return Padding(
       key: UniqueKey(),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -105,26 +103,34 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            key: UniqueKey(),
-            onTap: () {
-              _con.showAlertDialog(indexImage);
-            }, // cuando hay un parametro
-            child: imageFile != null
-                ? SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: Image.file(
-                      imageFile,
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                : const SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: Image(
-                      image: AssetImage('assets/images/noImagen.png'),
-                    )),
-          ),
+              key: UniqueKey(),
+              onTap: () {
+                _con.showAlertDialog(indexImage);
+              }, // cuando hay un parametro
+              child: listMap["file"] != null
+                  ? SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Image.file(
+                        listMap["file"],
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : listMap["path"] != null
+                      ? SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: Image.network(
+                            listMap["path"],
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : const SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: Image(
+                            image: AssetImage('assets/images/noImagen.png'),
+                          ))),
           GestureDetector(
             onTap: () {
               showDialog(

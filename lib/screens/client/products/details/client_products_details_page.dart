@@ -33,6 +33,7 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
       child: Column(
         children: [
           _imageSlideshow(),
+          _chipsColors(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -230,12 +231,12 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
           onPageChanged: (value) {
             debugPrint('Page changed: $value');
           },
-          autoPlayInterval: 6000,
+/*           autoPlayInterval: 12000, */
           isLoop: true,
           children: [
             FadeInImage(
-              image: _con.product?.image1 != null
-                  ? NetworkImage(_con.product!.image1!)
+              image: _con.product?.imagenPrincipal != null
+                  ? NetworkImage(_con.urlMainImage)
                   : const AssetImage("assets/images/noImagen.png")
                       as ImageProvider,
               fit: BoxFit.cover,
@@ -263,13 +264,55 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
           ],
         ),
         Positioned(
-            left: 10,
-            child: IconButton(
-                onPressed: _con.close,
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: MyColors.primaryColor,
-                ))),
+          left: 10,
+          child: IconButton(
+            onPressed: _con.close,
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: MyColors.primaryColor,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+//TODO: GUARDAR EL COLOR EN LA VENTA Y HACER NULA LA IMAGEN PRINCIPAL DEL LOGIN
+
+  Widget _chipsColors() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Colores disponibles",
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: _con.product?.imagenPrincipal != null
+                ? _con.product!.imagenPrincipal!.map((imagenPrincipalItem) {
+                    final Color _colorItem = Color(int.parse(imagenPrincipalItem
+                        .color!
+                        .split('(')[1]
+                        .split(')')[0]));
+                    return ActionChip(
+                      onPressed: () {
+                        setState(() {
+                          _con.urlMainImage = imagenPrincipalItem.path!;
+                        });
+                      },
+                      label: Text(
+                        imagenPrincipalItem.colorName!,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                      backgroundColor: _colorItem,
+                      pressElevation: 0,
+                    );
+                  }).toList()
+                : [],
+          ),
+        ),
       ],
     );
   }

@@ -21,6 +21,7 @@ import 'package:simpplex_app/screens/client/payments/status/client_status_instal
 import 'package:simpplex_app/screens/client/products/client_products_menu/client_products_menu.dart';
 import 'package:simpplex_app/screens/client/products/list/client_products_list_page.dart';
 import 'package:simpplex_app/screens/client/update/client_update_page.dart';
+import 'package:simpplex_app/screens/delivery/orders/assets_signature_evidence/assets_signature_evidence_screen.dart';
 import 'package:simpplex_app/screens/delivery/orders/list/delivery_orders_list_page.dart';
 import 'package:simpplex_app/screens/delivery/orders/map/delivery_orders_map_page.dart';
 import 'package:simpplex_app/screens/register/register_page.dart';
@@ -32,24 +33,28 @@ import 'package:simpplex_app/screens/splash2.0/splash.dart';
 // Rutas
 final Map<String, WidgetBuilder> routes = {
   LoginPage.routeName: (context) => const LoginPage(),
-  RegisterPage.routeName: (context) => RegisterPage(),
-  ClientProductsListPage.routeName: (context) => ClientProductsListPage(),
-  DeliveryOrdersListPage.routeName: (context) => DeliveryOrdersListPage(),
+  RegisterPage.routeName: (context) => const RegisterPage(),
+  ClientProductsListPage.routeName: (context) => const ClientProductsListPage(),
+  DeliveryOrdersListPage.routeName: (context) => const DeliveryOrdersListPage(),
   RolesPage.routeName: (context) => const RolesPage(),
-  ClienteProductsMenu.routeName: (context) => ClienteProductsMenu(),
-  ClientOrderCreatePage.routeName: (context) => ClientOrderCreatePage(),
-  ClientUpdatePage.routeName: (context) => ClientUpdatePage(),
-  ClientAcountPage.routeName: (context) => ClientAcountPage(),
-  ClientAddressCreatePage.routeName: (context) => ClientAddressCreatePage(),
-  ClientAddressListPage.routeName: (context) => ClientAddressListPage(),
-  ClientAddressMapPage.routeName: (context) => ClientAddressMapPage(),
-  ClientOrdersMapPage.routeName: (context) => ClientOrdersMapPage(),
-  ClientOrdersListPage.routeName: (context) => ClientOrdersListPage(),
-  AdminCategoriesCreateUpdatePage.routeName: (context) => const AdminCategoriesCreateUpdatePage(),
-  AdminOrdersListPage.routeName: (context) => AdminOrdersListPage(),
-  AdminProductsCreatePage.routeName: (context) => AdminProductsCreatePage(),
-  DeliveryOrdersMapPage.routeName: (context) => DeliveryOrdersMapPage(),
-  ClientPaymentsCreatePage.routeName: (context) => const ClientPaymentsCreatePage(),
+  ClienteProductsMenu.routeName: (context) => const ClienteProductsMenu(),
+  ClientOrderCreatePage.routeName: (context) => const ClientOrderCreatePage(),
+  ClientUpdatePage.routeName: (context) => const ClientUpdatePage(),
+  ClientAcountPage.routeName: (context) => const ClientAcountPage(),
+  ClientAddressCreatePage.routeName: (context) =>
+      const ClientAddressCreatePage(),
+  ClientAddressListPage.routeName: (context) => const ClientAddressListPage(),
+  ClientAddressMapPage.routeName: (context) => const ClientAddressMapPage(),
+  ClientOrdersMapPage.routeName: (context) => const ClientOrdersMapPage(),
+  ClientOrdersListPage.routeName: (context) => const ClientOrdersListPage(),
+  AdminCategoriesCreateUpdatePage.routeName: (context) =>
+      const AdminCategoriesCreateUpdatePage(),
+  AdminOrdersListPage.routeName: (context) => const AdminOrdersListPage(),
+  AdminProductsCreatePage.routeName: (context) =>
+      const AdminProductsCreatePage(),
+  DeliveryOrdersMapPage.routeName: (context) => const DeliveryOrdersMapPage(),
+  ClientPaymentsCreatePage.routeName: (context) =>
+      const ClientPaymentsCreatePage(),
   ClientPaymentsInstallmentsPage.routeName: (context) =>
       const ClientPaymentsInstallmentsPage(),
   ClientPaymentsStatusPage.routeName: (context) =>
@@ -59,6 +64,9 @@ final Map<String, WidgetBuilder> routes = {
   AdminUserDetailsScreen.routeName: (context) => const AdminUserDetailsScreen(),
   CategoriesScreen.routeName: (context) => const CategoriesScreen(),
   ListProductsScreen.routeName: (context) => const ListProductsScreen(),
-  ListProductByCategoryScreen.routeName: (context) => const ListProductByCategoryScreen(),
+  ListProductByCategoryScreen.routeName: (context) =>
+      const ListProductByCategoryScreen(),
   SplashScreenV2.routName: (context) => const SplashScreenV2(),
+  SignatureEvidenceScreen.routeName: (context) =>
+      const SignatureEvidenceScreen(),
 };

@@ -12,6 +12,8 @@ class ClientProductDetailController {
   int counter = 1;
   double? productPrice;
 
+  String urlMainImage = '';
+
   final SharedPref _sharedPref = SharedPref();
 
   late List<Product> selectedProducts = [];
@@ -26,6 +28,7 @@ class ClientProductDetailController {
     /*  _sharedPref.remove("order");  */ //eliminar lo que hay en el sharedpreferences
     selectedProducts =
         Product.fromJsonList(await _sharedPref.read("order") ?? []).toList;
+    urlMainImage = product.imagenPrincipal![0].path!;
     refresh();
   }
 
@@ -34,6 +37,8 @@ class ClientProductDetailController {
     if (!await launch(url1)) throw 'Could not launcher $url1';
     refresh();
   }
+
+  void changeFirstPhoto() {}
 
   void addToBag() {
     int index = selectedProducts.indexWhere(

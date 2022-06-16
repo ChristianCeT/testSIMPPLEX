@@ -70,11 +70,10 @@ class _AdminProductsCreatePageState extends State<AdminProductsCreatePage> {
             margin: const EdgeInsets.symmetric(horizontal: 30),
             height: 100,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _cardImage(_con.imageFile1, 1, _con.productToEdit?.image1!),
-                _cardImage(_con.imageFile2, 2, _con.productToEdit?.image2!),
-                _cardImage(_con.imageFile3, 3, _con.productToEdit?.image3!),
+                _cardImage(_con.imageFile2, 2, _con.productToEdit?.image2),
+                _cardImage(_con.imageFile3, 3, _con.productToEdit?.image3),
               ],
             ),
           ),

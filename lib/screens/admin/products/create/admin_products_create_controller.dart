@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:simpplex_app/models/category.dart';
-import 'package:simpplex_app/models/imagen_principal.dart';
 import 'package:simpplex_app/models/product.dart';
 import 'package:simpplex_app/models/response_api.dart';
 import 'package:simpplex_app/models/user.dart';
@@ -44,6 +43,8 @@ class AdminProductsCreateController {
   File? imageFile2;
   File? imageFile3;
   List<Map<String, dynamic>> listMap = [];
+
+  List<Map<String, dynamic>> listMapUploadBD = [];
   final ImagePicker _picker = ImagePicker();
   bool disponibleStockAdd = false;
 
@@ -63,6 +64,7 @@ class AdminProductsCreateController {
       linkRAController.text =
           productToEdit!.linkRA!.replaceAll("https://go.echo3d.co/", "");
       quantityController.text = productToEdit!.stock!.toString();
+      updateListMap();
     }
 
     if (option == "agregar") {
@@ -76,6 +78,21 @@ class AdminProductsCreateController {
   void getCategories() async {
     categories = await _categoriesProvider.getCategories();
     refresh();
+  }
+
+  void updateListMap() async {
+    for (var i = 0; i < productToEdit!.imagenPrincipal!.length; i++) {
+      listMapUploadBD.add({
+        "posicion": productToEdit!.imagenPrincipal![i].posicion,
+        "colorName": productToEdit!.imagenPrincipal![i].colorName,
+        "color": Color(int.parse(productToEdit!.imagenPrincipal![i].color!
+            .split('(')[1]
+            .split(')')[0])),
+        "path": productToEdit!.imagenPrincipal![i].path,
+      });
+    }
+
+    listMap = listMapUploadBD;
   }
 
   void createProduct() async {
@@ -155,7 +172,6 @@ class AdminProductsCreateController {
     } else {
       disponibleStockAdd = !disponible;
     }
-
     refresh();
   }
 
@@ -183,12 +199,45 @@ class AdminProductsCreateController {
     );
 
     List<File?> images = [];
-    images.add(imageFile1);
+    List<Map<String, dynamic>> imagesSecondaryValidation = [];
+    int lenghtImagesSecondary = 0;
+    int lenghtImagesListMap = 0;
     images.add(imageFile2);
     images.add(imageFile3);
 
+    for (var i = 0; i < images.length; i++) {
+      if (images[i] != null) {
+        imagesSecondaryValidation.add({
+          "posicion": i + 1,
+          "tiene": true,
+        });
+        lenghtImagesSecondary++;
+      } else {
+        imagesSecondaryValidation.add({
+          "posicion": i + 1,
+          "tiene": false,
+        });
+      }
+    }
+
+    for (var i = 0; i < listMap.length; i++) {
+      if (listMap[i]["file"] != null) {
+        lenghtImagesListMap++;
+      }
+    }
+
     _progressDialog!.show(max: 100, msg: "Espere un momento");
-    Stream? stream = await _productsProvider.updateProduct(product, images);
+
+    await _productsProvider
+        .sendCountImages(lenghtImagesListMap + lenghtImagesSecondary);
+
+    Stream? stream = await _productsProvider.updateProduct(
+        product,
+        images,
+        listMap,
+        lenghtImagesSecondary,
+        lenghtImagesListMap,
+        imagesSecondaryValidation);
 
     stream?.listen((res) {
       _progressDialog!.close();

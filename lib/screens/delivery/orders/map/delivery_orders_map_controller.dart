@@ -15,6 +15,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import "package:location/location.dart" as location;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:signature/signature.dart';
 
 class DeliveryOrdersMapController {
   late BuildContext context;
@@ -41,6 +42,8 @@ class DeliveryOrdersMapController {
   double? _distanceBetween;
 
   iosocket.Socket? socket;
+
+  final SignatureController _signatureController = SignatureController();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -153,7 +156,6 @@ class DeliveryOrdersMapController {
   }
 
   // geocoder: ^0.2.1 si algo no funciona
-
   void selectRefPoint() async {
     Map<String, dynamic> data = {
       "address": addressName,
@@ -177,18 +179,16 @@ class DeliveryOrdersMapController {
       double long = initialPosition!.target.longitude;
       List<Placemark> address = await placemarkFromCoordinates(lat, long);
 
-      if (address != null) {
-        if (address.isNotEmpty) {
-          String direction = address[0].thoroughfare!;
-          String street = address[0].subThoroughfare!;
-          String city = address[0].locality!;
-          String deparment = address[0].administrativeArea!;
-          /* String country = address[0].country; */
-          addressName = '$direction #$street, $city, $deparment';
-          addressLaglng = LatLng(lat, long);
+      if (address.isNotEmpty) {
+        String direction = address[0].thoroughfare!;
+        String street = address[0].subThoroughfare!;
+        String city = address[0].locality!;
+        String deparment = address[0].administrativeArea!;
+        /* String country = address[0].country; */
+        addressName = '$direction #$street, $city, $deparment';
+        addressLaglng = LatLng(lat, long);
 
-          refresh();
-        }
+        refresh();
       }
     }
   }
