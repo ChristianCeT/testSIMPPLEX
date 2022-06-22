@@ -63,12 +63,12 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
                             return _cardOrder(snapshot.data![index]);
                           });
                     } else {
-                      return NoDataWidget(
+                      return const NoDataWidget(
                         text: "No hay ordenes",
                       );
                     }
                   } else {
-                    return NoDataWidget(
+                    return const NoDataWidget(
                       text: "No hay ordenes",
                     );
                   }

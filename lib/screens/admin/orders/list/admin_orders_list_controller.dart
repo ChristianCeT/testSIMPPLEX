@@ -29,7 +29,7 @@ class AdminOrdersListController {
     this.refresh = refresh;
     user = User.fromJson(
         await sharedPref.read("user")); // PUEDE TARDAR UN TIEMPO EN OBTENER
-    _ordersProvider.init(context, user! );
+    _ordersProvider.init(context, user!);
     refresh();
   }
 
@@ -39,8 +39,9 @@ class AdminOrdersListController {
 
   void openBottomSheet(Order order) async {
     isUpdated = await showMaterialModalBottomSheet(
-        context: context,
-        builder: (context) => AdminOrdersDetailsPage(order: order));
+      context: context,
+      builder: (context) => AdminOrdersDetailsPage(order: order),
+    );
 
     if (isUpdated == null) {
       return;

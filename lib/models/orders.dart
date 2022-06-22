@@ -19,51 +19,59 @@ class Order {
   Address? direccion;
   double? latitud;
   double? longitud;
+  String? fotoEvidencia;
+  String? firmaEvidencia;
 
-  Order(
-      {this.id,
-      this.cliente,
-      this.idDelivery,
-      this.deliveryList,
-      this.direccion,
-      this.estado,
-      this.producto,
-      this.fecha,
-      this.latitud,
-      this.longitud});
+  Order({
+    this.id,
+    this.cliente,
+    this.idDelivery,
+    this.deliveryList,
+    this.direccion,
+    this.estado,
+    this.producto,
+    this.fecha,
+    this.latitud,
+    this.longitud,
+    this.firmaEvidencia,
+    this.fotoEvidencia,
+  });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
-      id: json["_id"],
-      cliente: json["cliente"] is String
-          ? userFromJson(json["cliente"])
-          : json["cliente"] is User
-              ? json["cliente"]
-              : User.fromJson(json["cliente"]),
-      direccion: json["direccion"] is String
-          ? addressFromJson(json["direccion"])
-          : json["direccion"] is Address
-              ? json["direccion"]
-              : Address.fromJson(json["direccion"]),
-      idDelivery: json["id_delivery"],
-      deliveryList: json["detalle_repartidor"] == null
-          ? json["detalle_repartidor"]
-          : json["detalle_repartidor"] is String
-              ? userFromJson(json["detalle_repartidor"])
-              : json["detalle_repartidor"] is User
-                  ? json["detalle_repartidor"]
-                  : User.fromJson(json["detalle_repartidor"]),
-      estado: json["estado"],
-      producto: json["producto"] != null
-          ? List<Product>.from(json["producto"].map(
-              (model) => model is Product ? model : Product.fromJson(model)))
-          : [],
-      fecha: json["horaOrden"],
-      longitud: json["longitud"] is String
-          ? double.parse(json["longitud"])
-          : json["longitud"].toDouble(),
-      latitud: json["latitud"] is String
-          ? double.parse(json["latitud"])
-          : json["latitud"].toDouble());
+        id: json["_id"],
+        cliente: json["cliente"] is String
+            ? userFromJson(json["cliente"])
+            : json["cliente"] is User
+                ? json["cliente"]
+                : User.fromJson(json["cliente"]),
+        direccion: json["direccion"] is String
+            ? addressFromJson(json["direccion"])
+            : json["direccion"] is Address
+                ? json["direccion"]
+                : Address.fromJson(json["direccion"]),
+        idDelivery: json["id_delivery"],
+        deliveryList: json["detalle_repartidor"] == null
+            ? json["detalle_repartidor"]
+            : json["detalle_repartidor"] is String
+                ? userFromJson(json["detalle_repartidor"])
+                : json["detalle_repartidor"] is User
+                    ? json["detalle_repartidor"]
+                    : User.fromJson(json["detalle_repartidor"]),
+        estado: json["estado"],
+        producto: json["producto"] != null
+            ? List<Product>.from(json["producto"].map(
+                (model) => model is Product ? model : Product.fromJson(model)))
+            : [],
+        fecha: json["horaOrden"],
+        longitud: json["longitud"] is String
+            ? double.parse(json["longitud"])
+            : json["longitud"].toDouble(),
+        latitud: json["latitud"] is String
+            ? double.parse(json["latitud"])
+            : json["latitud"].toDouble(),
+        firmaEvidencia: json["firmaEvidencia"],
+        fotoEvidencia: json["fotoEvidencia"],
+      );
 
   Order.fromJsonList(List<dynamic> jsonList) {
     for (var element in jsonList) {
@@ -83,5 +91,7 @@ class Order {
         "horaOrden": fecha,
         "latitud": latitud,
         "longitud": longitud,
+        "firmaEvidencia": firmaEvidencia,
+        "fotoEvidencia": fotoEvidencia,
       };
 }

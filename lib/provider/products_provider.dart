@@ -13,7 +13,7 @@ import "package:http/http.dart" as http;
 
 class ProductsProvider {
   final String _url = Enviroment.API_DELIVERY;
-  final String _urlDev = Enviroment.apiDev;
+
   final String _productoCategoria = "/productoCategoria";
   final String _productoCategoriaNombre = "/buscarProductoNombreCat";
 
@@ -111,7 +111,7 @@ class ProductsProvider {
       int lenghImagesListMap,
       List imagesSecondaryValidation) async {
     try {
-      Uri url = Uri.http(_urlDev, "/updateProductv2/${product.id}");
+      Uri url = Uri.https(_url, "/updateProductv2/${product.id}");
 
       final request = http.MultipartRequest("PUT", url);
 
@@ -188,8 +188,6 @@ class ProductsProvider {
 
       ResponseApi responseApi = ResponseApi.fromJson(data);
 
-      print(data);
-
       return responseApi;
     } catch (e) {
       return null;
@@ -198,7 +196,7 @@ class ProductsProvider {
 
   Future<String?> sendCountImages(int countImagesSend) async {
     try {
-      Uri uri = Uri.http(_urlDev, "/countImagesSend");
+      Uri uri = Uri.https(_url, "/countImagesSend");
 
       String bodyParams = json.encode({
         "numeroImagenes": countImagesSend,

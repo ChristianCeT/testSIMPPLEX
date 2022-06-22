@@ -75,7 +75,11 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
               Icons.my_location),
           _listTitleAddress(_con.order?.direccion?.direccion ?? "", "Dirección",
               Icons.location_on),
-          Divider(color: MyColors.primaryColor, endIndent: 30, indent: 30),
+          Divider(
+            color: MyColors.primaryColor,
+            endIndent: 30,
+            indent: 30,
+          ),
           _clientInfo(),
           _buttonNext()
         ],
@@ -111,20 +115,42 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
           const Spacer(),
           Row(
             children: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(
-                        context, SignatureEvidenceScreen.routeName);
-                  },
-                  child: const Text("F")),
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(15)),
-                  color: Colors.grey[300],
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
+                    color: MyColors.primaryColor),
+                child: IconButton(
+                  onPressed: () async {
+                    final result = await Navigator.pushNamed(
+                      context,
+                      SignatureEvidenceScreen.routeName,
+                      arguments: {
+                        "imageFile": _con.imageEvidence,
+                        "firma": _con.pointsValue,
+                        "firmaImage": _con.imageSignature
+                      },
+                    );
+                    _con.updateDataReturn(result);
+                  },
+                  icon: const Icon(
+                    Icons.check,
+                    color: Colors.white,
+                  ),
                 ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
+                    color: MyColors.primaryColor),
                 child: IconButton(
                   onPressed: _con.call,
-                  icon: const Icon(Icons.phone, color: Colors.black),
+                  icon: const Icon(
+                    Icons.phone,
+                    color: Colors.white,
+                  ),
                 ),
               )
             ],
@@ -225,6 +251,8 @@ class _DeliveryOrdersMapPageState extends State<DeliveryOrdersMapPage> {
   }
 
   void refresh() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 }

@@ -55,18 +55,30 @@ class _ClientAcountPageState extends State<ClientAcountPage> {
                           clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30)),
-                          child: FadeInImage(
-                            placeholder:
-                                const AssetImage("assets/images/no-avatar.png"),
-                            image: _con.user != null
-                                ? NetworkImage(_con.user!.image!)
-                                : const AssetImage(
-                                        "assets/images/no-avatar.png")
-                                    as ImageProvider,
-                            fit: BoxFit.cover,
-                            fadeInDuration: const Duration(milliseconds: 50),
-                          ),
-                        ),
+                          child: _con.user != null
+                              ? _con.user?.image != null
+                                  ? FadeInImage(
+                                      image: NetworkImage(_con.user!.image!),
+                                      fit: BoxFit.cover,
+                                      fadeInDuration:
+                                          const Duration(milliseconds: 50),
+                                      placeholder: const AssetImage(
+                                          "assets/images/no-avatar.png"),
+                                    )
+                                  : CircleAvatar(
+                                      backgroundColor: Colors.indigo,
+                                      child: Text(
+                                        _con.user!.nombre!
+                                            .substring(0, 1)
+                                            .toUpperCase(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 28,
+                                        ),
+                                      ),
+                                    )
+                              : Container(),
+                        )
                       ],
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     ),

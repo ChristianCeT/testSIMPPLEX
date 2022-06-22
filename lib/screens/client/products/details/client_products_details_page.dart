@@ -277,11 +277,8 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
     );
   }
 
-//TODO: GUARDAR EL COLOR EN LA VENTA Y HACER NULA LA IMAGEN PRINCIPAL DEL LOGIN
-
   Widget _chipsColors() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           "Colores disponibles",
@@ -295,10 +292,15 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
                         .color!
                         .split('(')[1]
                         .split(')')[0]));
+
                     return ActionChip(
                       onPressed: () {
                         setState(() {
+                          /*  print(imagenPrincipalItem.path); */
                           _con.urlMainImage = imagenPrincipalItem.path!;
+                          _con.colorSeleccionado =
+                              imagenPrincipalItem.colorName!;
+                          _con.urlSeleccionada = imagenPrincipalItem.path!;
                         });
                       },
                       label: Text(

@@ -215,7 +215,6 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-/* _con.isEnable ? _con.register : null */
   void refresh() {
     setState(() {});
   }

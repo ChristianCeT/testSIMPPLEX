@@ -116,6 +116,13 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                 }); // numero de productos
           }).toList(),
         ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: MyColors.primaryColor,
+          onPressed: () {
+            _con.goToWhatssap();
+          },
+          child: const Icon(Icons.whatsapp, color: Colors.white, size: 30),
+        ),
       ),
     );
   }

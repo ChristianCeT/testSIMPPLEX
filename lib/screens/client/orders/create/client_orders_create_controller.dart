@@ -36,8 +36,10 @@ class ClientOrdersCreateController {
 
   void addItem(Product product) {
     int index = selectedProducts.indexWhere((p) =>
-        p.id ==
-        product.id); // para saber si elemento existe y que modifico en la lista
+        p.id == product.id &&
+        p.colorSelecionado ==
+            product
+                .colorSelecionado); // para saber si elemento existe y que modifico en la lista
     selectedProducts[index].cantidad = selectedProducts[index].cantidad! + 1;
     _sharedPref.save("order", selectedProducts);
     getTotal();
@@ -46,9 +48,10 @@ class ClientOrdersCreateController {
   void removeItem(Product product) {
     if (product.cantidad! > 1) {
       int index = selectedProducts.indexWhere((p) =>
-          p.id ==
-          product
-              .id); // para saber si elemento existe y que modifico en la lista
+          p.id == product.id &&
+          p.colorSelecionado ==
+              product
+                  .colorSelecionado); // para saber si elemento existe y que modifico en la lista
       selectedProducts[index].cantidad = selectedProducts[index].cantidad! - 1;
       _sharedPref.save("order", selectedProducts);
       getTotal();
@@ -56,7 +59,11 @@ class ClientOrdersCreateController {
   }
 
   void deleteItem(Product product) {
-    selectedProducts.removeWhere((p) => p.id == product.id);
+    selectedProducts.removeWhere((p) =>
+        p.id == product.id &&
+        p.colorSelecionado ==
+            product
+                .colorSelecionado); // para saber si elemento existe y que modifico en la lista
     _sharedPref.save("order", selectedProducts);
     getTotal();
   }

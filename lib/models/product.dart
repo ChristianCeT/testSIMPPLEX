@@ -19,23 +19,28 @@ class Product {
   int? cantidad;
   int? stock;
   bool? disponible;
+  String? colorSelecionado;
+  String? imagenPrincipalSeleccionado;
   List<ImagenPrincipal>? imagenPrincipal;
   List<Product> toList = [];
 
-  Product(
-      {this.id,
-      this.nombre,
-      this.descripcion,
-      this.linkRA,
-      this.image1,
-      this.image2,
-      this.image3,
-      this.categoria,
-      this.precio,
-      this.cantidad,
-      this.stock,
-      this.disponible,
-      this.imagenPrincipal});
+  Product({
+    this.id,
+    this.nombre,
+    this.descripcion,
+    this.linkRA,
+    this.image1,
+    this.image2,
+    this.image3,
+    this.categoria,
+    this.precio,
+    this.cantidad,
+    this.stock,
+    this.disponible,
+    this.imagenPrincipal,
+    this.colorSelecionado,
+    this.imagenPrincipalSeleccionado,
+  });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
       id: json["_id"],
@@ -52,6 +57,8 @@ class Product {
               ? json["precio"].toDouble()
               : json["precio"],
       cantidad: json["cantidad"],
+      colorSelecionado: json["colorSelecionado"],
+      imagenPrincipalSeleccionado: json["imagenPrincipalSeleccionado"],
       stock: json["stock"],
       disponible: json["disponible"],
       imagenPrincipal: json["imagenPrincipal"] == null
@@ -81,6 +88,8 @@ class Product {
         "disponible": disponible,
         "stock": stock,
         "imagenPrincipal": imagenPrincipal,
+        "colorSelecionado": colorSelecionado,
+        "imagenPrincipalSeleccionado": imagenPrincipalSeleccionado
       };
 
   static bool isInteger(num value) => value is int || value == value;

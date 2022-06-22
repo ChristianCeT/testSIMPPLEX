@@ -118,10 +118,9 @@ class ClientPaymentsInstallmentsController {
       final data = json.decode(response.body);
 
       if (response.statusCode == 200) {
+        await _sharedPref.remove("order");
 
         await _productsProvider.updateStockProduct(selectedProducts);
-
-        await _sharedPref.remove("order");
 
         final data = json.decode(response.body);
         creditCardPayment = MercadoPagoPayment.fromJsonMap(data);

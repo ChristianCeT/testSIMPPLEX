@@ -39,16 +39,24 @@ class DrawerMenu extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                   ),
-                  child: FadeInImage(
-                    image: image != null
-                        ? NetworkImage(image!)
-                        : const AssetImage("assets/images/no-avatar.png")
-                            as ImageProvider,
-                    fit: BoxFit.cover,
-                    fadeInDuration: const Duration(milliseconds: 50),
-                    placeholder:
-                        const AssetImage("assets/images/no-avatar.png"),
-                  ),
+                  child: image == null || image!.isEmpty
+                      ? CircleAvatar(
+                          backgroundColor: Colors.indigo,
+                          child: Text(
+                            nombre.substring(0, 1).toUpperCase(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 40,
+                            ),
+                          ),
+                        )
+                      : FadeInImage(
+                          image: NetworkImage(image!),
+                          fit: BoxFit.cover,
+                          fadeInDuration: const Duration(milliseconds: 50),
+                          placeholder:
+                              const AssetImage("assets/images/no-avatar.png"),
+                        ),
                 ),
                 const SizedBox(
                   height: 5,

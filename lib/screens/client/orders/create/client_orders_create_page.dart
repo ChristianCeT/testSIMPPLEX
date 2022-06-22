@@ -27,38 +27,39 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Carrito"),
-        ),
-        bottomNavigationBar: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.21,
-            child: _con.selectedProducts.isEmpty
-                ? const Text(
-                    "Aún no tienes productos en tu carrito :(",
-                    style: TextStyle(
-                      color: Colors.grey,
+      appBar: AppBar(
+        title: const Text("Carrito"),
+      ),
+      bottomNavigationBar: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.21,
+          child: _con.selectedProducts.isEmpty
+              ? const Text(
+                  "Aún no tienes productos en tu carrito :(",
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  textAlign: TextAlign.center,
+                )
+              : Column(
+                  children: [
+                    Divider(
+                      color: MyColors.primaryColor,
+                      endIndent: 30, // margen en la parte izquierda
+                      indent: 30, // margen en la parte derecha
                     ),
-                    textAlign: TextAlign.center,
-                  )
-                : Column(
-                    children: [
-                      Divider(
-                        color: MyColors.primaryColor,
-                        endIndent: 30, // margen en la parte izquierda
-                        indent: 30, // margen en la parte derecha
-                      ),
-                      _textTotalPrice(),
-                      _buttonNextShopping(),
-                    ],
-                  )),
-        body: _con.selectedProducts.isNotEmpty
-            ? ListView(
-                children: _con.selectedProducts.map((Product product) {
-                return _cardProduct(product);
-              }).toList())
-            : const NoDataWidget(
-                text: "Tu carrito está vacío",
-              ));
+                    _textTotalPrice(),
+                    _buttonNextShopping(),
+                  ],
+                )),
+      body: _con.selectedProducts.isNotEmpty
+          ? ListView(
+              children: _con.selectedProducts.map((Product product) {
+              return _cardProduct(product);
+            }).toList())
+          : const NoDataWidget(
+              text: "Tu carrito está vacío",
+            ),
+    );
   }
 
   Widget _buttonNextShopping() {
@@ -109,8 +110,20 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(product.nombre ?? "",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              Row(
+                children: [
+                  Text(
+                    product.nombre ?? "",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "(${product.colorSelecionado})",
+                  ),
+                ],
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -174,10 +187,10 @@ class _ClientOrderCreatePageState extends State<ClientOrderCreatePage> {
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           color: MyColors.primaryColor.withOpacity(0.15)),
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 17),
       child: FadeInImage(
-        image: product.image1 != null
-            ? NetworkImage(product.image1!)
+        image: product.imagenPrincipalSeleccionado != null
+            ? NetworkImage(product.imagenPrincipalSeleccionado!)
             : const AssetImage("assets/images/noImagen.png") as ImageProvider,
         fit: BoxFit.contain,
         fadeInDuration: const Duration(milliseconds: 50),

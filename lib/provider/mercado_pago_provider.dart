@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 class MercadoPagoProvider {
   final String _urlMercadoPago = 'api.mercadopago.com';
   final String _url = Enviroment.API_DELIVERY;
-    final String _urlDev = Enviroment.apiDev;
+
   final String _urlGuardarOrden = "/api/payments/createPay";
 
   final _mercadoPagoCredentials = Enviroment.mercadoPagoCredentials;
@@ -44,7 +44,7 @@ class MercadoPagoProvider {
     }
   }
 
-  Future<http.Response?> createPayment({  
+  Future<http.Response?> createPayment({
     String? cardId,
     required double transactionAmount,
     required int installments,
@@ -56,7 +56,6 @@ class MercadoPagoProvider {
     required String identificationType,
     required String identificationNumber,
     required Order order,
-
   }) async {
     try {
       Uri url = Uri.https(_url, _urlGuardarOrden, {

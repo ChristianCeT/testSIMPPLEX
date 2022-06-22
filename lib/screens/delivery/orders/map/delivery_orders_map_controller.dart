@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'package:simpplex_app/api/enviroment.dart';
 import 'package:simpplex_app/models/orders.dart';
 import 'package:simpplex_app/models/response_api.dart';
@@ -25,6 +27,10 @@ class DeliveryOrdersMapController {
   String? addressName;
   LatLng? addressLaglng;
 
+  File? imageEvidence;
+  List<Point>? pointsValue = [];
+  File? imageSignature;
+
   CameraPosition? initialPosition = const CameraPosition(
       target: LatLng(-11.991651, -77.0147332), zoom: 14); // zoom del 1 al 20
 
@@ -43,8 +49,6 @@ class DeliveryOrdersMapController {
 
   iosocket.Socket? socket;
 
-  final SignatureController _signatureController = SignatureController();
-
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
@@ -59,6 +63,7 @@ class DeliveryOrdersMapController {
       'transports': ['websocket'],
       'autoConnect': false,
     });
+
     socket?.connect();
 
     user = User.fromJson(await _sharedPref.read("user"));
@@ -126,19 +131,29 @@ class DeliveryOrdersMapController {
     if (_distanceBetween == null) {
       return;
     }
-    if (_distanceBetween! <= 200) {
-      ResponseApi? responseApi =
-          await _ordersProvider.updateToDelivered(order!);
-      if (responseApi == null) return;
-      if (responseApi.success!) {
-        Fluttertoast.showToast(
-            msg: responseApi.message!, toastLength: Toast.LENGTH_LONG);
-        Navigator.pushNamedAndRemoveUntil(
-            context, DeliveryOrdersListPage.routeName, (route) => false);
-      }
+
+    if (imageEvidence == null || imageSignature == null) {
+      MySnackBar.show(context, "Debes adjuntar evidencia");
     } else {
-      MySnackBar.show(
-          context, "Debes estar más cerca de la posición de entrega");
+      if (_distanceBetween! <= 200) {
+        List<File?> fileImages = [imageEvidence, imageSignature];
+        Stream? stream =
+            await _ordersProvider.updateToDelivered(order!, fileImages);
+
+        stream?.listen((res) {
+          ResponseApi? responseApi = ResponseApi.fromJson(json.decode(res));
+
+          if (responseApi.success!) {
+            Fluttertoast.showToast(
+                msg: responseApi.message!, toastLength: Toast.LENGTH_LONG);
+            Navigator.pushNamedAndRemoveUntil(
+                context, DeliveryOrdersListPage.routeName, (route) => false);
+          }
+        });
+      } else {
+        MySnackBar.show(
+            context, "Debes estar más cerca de la posición de entrega");
+      }
     }
   }
 
@@ -275,5 +290,16 @@ class DeliveryOrdersMapController {
     }
 
     return await Geolocator.getCurrentPosition();
+  }
+
+  void updateDataReturn(Object? result) {
+    if (result != null) {
+      final Map<String, dynamic> map = result as Map<String, dynamic>;
+
+      imageEvidence = map["imageFile"];
+      pointsValue = map["firma"];
+      imageSignature = map["firmaImage"];
+    }
+    refresh();
   }
 }

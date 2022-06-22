@@ -19,6 +19,8 @@ class ClientProductDetailController {
   late List<Product> selectedProducts = [];
 
   String url1 = '';
+  String colorSeleccionado = '';
+  String urlSeleccionada = "";
 
   Future init(BuildContext context, Function refresh, Product product) async {
     this.context = context;
@@ -28,7 +30,10 @@ class ClientProductDetailController {
     /*  _sharedPref.remove("order");  */ //eliminar lo que hay en el sharedpreferences
     selectedProducts =
         Product.fromJsonList(await _sharedPref.read("order") ?? []).toList;
+
     urlMainImage = product.imagenPrincipal![0].path!;
+    colorSeleccionado = product.imagenPrincipal![0].colorName!;
+
     refresh();
   }
 
@@ -38,22 +43,36 @@ class ClientProductDetailController {
     refresh();
   }
 
-  void changeFirstPhoto() {}
-
   void addToBag() {
+    //TODO: fix posible error with the products
     int index = selectedProducts.indexWhere(
-        (p) => p.id == product!.id); // para saber si elemento existe
-    //si es -1 no existe el producto
+        (p) => p.id == product!.id && p.colorSelecionado == colorSeleccionado);
+
+    if (urlSeleccionada.isEmpty) {
+      urlSeleccionada = urlMainImage;
+    }
+
     if (index == -1) {
       product!.cantidad ??= 1;
+      product!.colorSelecionado = colorSeleccionado;
+      product!.imagenPrincipalSeleccionado = urlSeleccionada;
       selectedProducts.add(product!);
+      refresh();
     } else {
-      selectedProducts[index].cantidad =
-          (selectedProducts[index].cantidad! + counter);
+      for (var i = 0; i < selectedProducts.length; i++) {
+        if (selectedProducts[i].id == product!.id &&
+            selectedProducts[i].colorSelecionado == colorSeleccionado) {
+          selectedProducts[i].cantidad =
+              selectedProducts[i].cantidad! + counter;
+          break;
+        }
+      }
+      refresh();
     }
 
     _sharedPref.save("order", selectedProducts);
     Fluttertoast.showToast(msg: "Producto agregado al carrito");
+    refresh();
   }
 
   void addItem() {
@@ -70,8 +89,8 @@ class ClientProductDetailController {
       counter = counter - 1;
       productPrice = product!.precio! * counter;
       product!.cantidad = counter;
-      refresh();
     }
+    refresh();
   }
 
   void close() {

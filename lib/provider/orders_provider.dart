@@ -1,15 +1,18 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:simpplex_app/api/enviroment.dart';
 import 'package:simpplex_app/models/orders.dart';
 import 'package:simpplex_app/models/response_api.dart';
 import 'package:simpplex_app/models/user.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
+import "package:path/path.dart";
 import 'package:fluttertoast/fluttertoast.dart';
 import "package:http/http.dart" as http;
 
 class OrdersProvider {
   final String _url = Enviroment.API_DELIVERY;
+/*   final String _urlDev = Enviroment.apiDev; */
   final String _agregar = "/crearPedido";
   final String _pedidoEstado = "/pedidoDetalle";
   final String _pedidoActualizado = "/pedidoUpdate";
@@ -108,9 +111,8 @@ class OrdersProvider {
     }
   }
 
-  Future<ResponseApi?> create(Order order) async {
+  Future<ResponseApi?> createOrder(Order order) async {
     try {
-      //authority url de la peticion
       Uri url = Uri.https(_url, _agregar);
 
       String bodyParams = json.encode(order);
@@ -183,26 +185,35 @@ class OrdersProvider {
     }
   }
 
-  Future<ResponseApi?> updateToDelivered(Order order) async {
+  Future<Stream?> updateToDelivered(
+      Order order, List<File?> fileEvidences) async {
     try {
-      //authority url de la peticion
       Uri url = Uri.https(_url, "$_pedidoActualizarEntregado/${order.id}");
 
-      String bodyParams = json.encode(order);
+      final request = http.MultipartRequest("PUT", url);
+
       Map<String, String> headers = {
         "Content-type": "application/json",
         "Authorization": sessionUser.sessionToken!
       };
-      final res = await http.put(url, headers: headers, body: bodyParams);
 
-      if (res.statusCode == 404) {
-        Fluttertoast.showToast(msg: "Sesión expirada");
-        SharedPref().logout(context, sessionUser.id!);
+      for (int i = 0; i < fileEvidences.length; i++) {
+        if (fileEvidences[i] != null) {
+          request.files.add(
+            http.MultipartFile(
+              "image",
+              http.ByteStream(fileEvidences[i]!.openRead().cast()),
+              await fileEvidences[i]!.length(),
+              filename: basename(fileEvidences[i]!.path),
+            ),
+          );
+        }
       }
-      final data = json.decode(res.body);
-      //espera mapa de valores
-      ResponseApi responseApi = ResponseApi.fromJson(data);
-      return responseApi;
+
+      request.headers.addAll(headers);
+      final response = await request.send();
+
+      return response.stream.transform(utf8.decoder);
     } catch (e) {
       return null;
     }

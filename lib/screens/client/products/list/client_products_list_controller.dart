@@ -11,11 +11,12 @@ import 'package:simpplex_app/screens/roles/roles_page.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ClientProductsListController {
   late BuildContext context;
   late Function refresh;
-  User? user ;
+  User? user;
 
   List<Category> categories = [];
 
@@ -25,6 +26,8 @@ class ClientProductsListController {
   SharedPref sharedPref = SharedPref();
 
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
+
+  final Uri _url = Uri.parse("https://api.whatsapp.com/send?phone=920411227");
 
   Timer? searchOnStoppedTyping;
   String productName = '';
@@ -78,6 +81,11 @@ class ClientProductsListController {
   logout() {
     sharedPref.logout(context, user!.id!);
     sharedPref.remove("address");
+    sharedPref.remove("order");
+  }
+
+  void goToWhatssap() async {
+    if (!await launchUrl(_url)) throw 'No existe el link $_url';
   }
 
   void goToOrdersList() {

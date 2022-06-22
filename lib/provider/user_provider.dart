@@ -69,16 +69,17 @@ class UsersProvider {
     }
   }
 
-  Future<Stream?> createWithImage(User user, File image) async {
+  Future<Stream?> createWithImage(User user, File? image) async {
     try {
       Uri url = Uri.https(_url, _crear);
       final request = http.MultipartRequest("POST", url);
       Map<String, String> headers = {"Content-type": "application/json"};
 
-      request.files.add(http.MultipartFile("image",
-          http.ByteStream(image.openRead().cast()), await image.length(),
-          filename: basename(image.path)));
-
+      if (image != null) {
+        request.files.add(http.MultipartFile("image",
+            http.ByteStream(image.openRead().cast()), await image.length(),
+            filename: basename(image.path)));
+      }
       request.headers.addAll(headers);
       request.fields["user"] = json.encode(user);
       request.fields["nombre"] = user.nombre!;
@@ -153,9 +154,12 @@ class UsersProvider {
       request.fields["apellido"] = user.apellido!;
       request.fields["telefono"] = user.telefono!;
       request.fields["password"] = user.password!;
-      request.fields["rolCliente"] = user.roles![0].active == true ? "true" : "false";
-      request.fields["rolRepartidor"] = user.roles![1].active == true ? "true" : "false";
-      request.fields["rolAdmin"] = user.roles![2].active == true ? "true" : "false";
+      request.fields["rolCliente"] =
+          user.roles![0].active == true ? "true" : "false";
+      request.fields["rolRepartidor"] =
+          user.roles![1].active == true ? "true" : "false";
+      request.fields["rolAdmin"] =
+          user.roles![2].active == true ? "true" : "false";
 
       final response = await request.send();
 

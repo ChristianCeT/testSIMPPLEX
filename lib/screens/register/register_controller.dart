@@ -67,11 +67,6 @@ class RegisterController {
       return;
     }
 
-    if (imageFile == null) {
-      MySnackBar.show(context, "Selecciona una imagen");
-      return;
-    }
-
     _progressDialog.show(max: 100, msg: "Espere un momento");
     isEnable = false;
 
@@ -83,7 +78,7 @@ class RegisterController {
       password: password,
     );
 
-    Stream? stream = await usersProvider.createWithImage(user, imageFile!);
+    Stream? stream = await usersProvider.createWithImage(user, imageFile);
 
     stream?.listen((res) {
       // devuelve un responseApi de user
