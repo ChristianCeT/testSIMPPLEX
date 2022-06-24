@@ -44,9 +44,9 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   signature: ^5.0.1
   path_provider: ^2.0.11
-  whatsapp: ^1.0.6
   gallery_saver: ^2.3.2
   dio: ^4.0.6
+  whatsapp_unilink: ^2.0.1+1
 
   
 dev_dependencies:

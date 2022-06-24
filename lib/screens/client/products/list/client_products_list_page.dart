@@ -118,6 +118,8 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: MyColors.primaryColor,
+          splashColor: MyColors.primaryColor.withOpacity(0.4),
+          elevation: 0,
           onPressed: () {
             _con.goToWhatssap();
           },

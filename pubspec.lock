@@ -703,13 +703,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
-  whatsapp:
+  whatsapp_unilink:
     dependency: "direct main"
     description:
-      name: whatsapp
+      name: whatsapp_unilink
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.6"
+    version: "2.0.1+1"
   win32:
     dependency: transitive
     description:
@@ -732,5 +732,5 @@ packages:
     source: hosted
     version: "6.1.0"
 sdks:
-  dart: ">=2.17.1 <3.0.0"
+  dart: ">=2.17.0 <3.0.0"
   flutter: ">=3.0.0"

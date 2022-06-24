@@ -11,7 +11,9 @@ import 'package:simpplex_app/screens/roles/roles_page.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:whatsapp/whatsapp.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 class ClientProductsListController {
   late BuildContext context;
@@ -22,7 +24,6 @@ class ClientProductsListController {
 
   final CategoriesProvider _categoriesProvider = CategoriesProvider();
   final ProductsProvider _productsProvider = ProductsProvider();
-  Whatsapp whatsapp = Whatsapp();
 
   SharedPref sharedPref = SharedPref();
 
@@ -84,11 +85,20 @@ class ClientProductsListController {
   }
 
   void goToWhatssap() async {
-    await whatsapp.short(
-      to: 51920411227, // number with country code (without +),
-      message: "Hey",
-      compress: true,
+    const link = WhatsAppUnilink(
+      phoneNumber: "+51920411227",
+      text: "Hola, estoy interesado en tu producto",
     );
+
+    final url = Uri.parse(
+      "$link",
+    );
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'No se ha podido enlazar con $url';
+    }
   }
 
   void goToOrdersList() {

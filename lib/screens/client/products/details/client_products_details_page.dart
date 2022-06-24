@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:simpplex_app/models/product.dart';
 import 'package:simpplex_app/screens/client/products/details/client_products_details_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
@@ -45,13 +44,42 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
           _chipsColors(),
           const Spacer(),
           _addOrRemoveItem(),
-          _standarDelivery(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _standarDelivery(),
+              Container(
+                margin: const EdgeInsets.only(right: 30),
+                width: 45,
+                height: 45,
+                child: FloatingActionButton(
+                  focusElevation: 0,
+                  splashColor: MyColors.primaryColor.withOpacity(0.4),
+                  elevation: 0,
+                  backgroundColor: MyColors.primaryColor,
+                  onPressed: () {
+                    _con.goToWhatssap(_con.product!.nombre!);
+                  },
+                  child: const Icon(
+                    Icons.whatsapp,
+                    color: Colors.white,
+                    size: 27.5,
+                  ),
+                ),
+              ),
+            ],
+          ),
           _con.product != null
               ? _con.product?.disponible == true && _con.product!.stock! > 0
                   ? _buttonShoppingBag()
                   : Container(
                       margin: const EdgeInsets.only(
                           left: 30, right: 30, top: 10, bottom: 30),
+                      child: const Text("Producto no disponible",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red)),
                     )
               : Container(),
         ],
@@ -62,7 +90,7 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
   Widget _productName() {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: const EdgeInsets.only(right: 30, left: 30, top: 30),
+      margin: const EdgeInsets.only(right: 30, left: 30, top: 10),
       child: Text(_con.product?.nombre ?? "",
           style: const TextStyle(
             fontSize: 20,
@@ -74,13 +102,16 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
   Widget _buttonRa() {
     return Container(
         width: 80,
-        margin: const EdgeInsets.only(top: 40, right: 25),
-        child: ElevatedButton(
+        margin: const EdgeInsets.only(top: 20, right: 25),
+        child: OutlinedButton(
           onPressed: _con.launchURL,
           style: ElevatedButton.styleFrom(
-              primary: Colors.white,
-              onPrimary: MyColors.primaryColor,
-              shadowColor: const Color(0x00000001)),
+            onPrimary: MyColors.primaryColor,
+            shadowColor: const Color(0x00000001),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -303,7 +334,7 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
                     );
                     return Container(
                       margin: const EdgeInsets.only(
-                        right: 12,
+                        right: 7,
                       ),
                       padding: const EdgeInsets.all(4),
                       width: 35,

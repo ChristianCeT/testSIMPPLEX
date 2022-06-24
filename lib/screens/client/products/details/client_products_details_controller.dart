@@ -3,6 +3,7 @@ import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 class ClientProductDetailController {
   late BuildContext context;
@@ -92,6 +93,23 @@ class ClientProductDetailController {
       product!.cantidad = counter;
     }
     refresh();
+  }
+
+  void goToWhatssap(String parameter) async {
+    final link = WhatsAppUnilink(
+      phoneNumber: "+51920411227",
+      text: "Hola, estoy interesado en el producto $parameter",
+    );
+
+    final url = Uri.parse(
+      "$link",
+    );
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'No se ha podido enlazar con $url';
+    }
   }
 
   void close() {
