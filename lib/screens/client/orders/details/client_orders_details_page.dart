@@ -1,4 +1,3 @@
-
 import 'package:simpplex_app/models/orders.dart';
 import 'package:simpplex_app/models/product.dart';
 import 'package:simpplex_app/screens/client/orders/details/client_orders_details_controller.dart';
@@ -7,6 +6,7 @@ import 'package:simpplex_app/utils/relative_time_util.dart';
 import 'package:simpplex_app/widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+
 class ClientOrdersDetailsPage extends StatefulWidget {
   final Order order;
   const ClientOrdersDetailsPage({Key? key, required this.order})
@@ -28,54 +28,56 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final int indexData = ModalRoute.of(context)!.settings.arguments as int;
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Pedido ${_con.order?.id ?? ''}",
-            maxLines: 2,
-          ),
-          actions: [
-            Container(
-              margin: const EdgeInsets.only(top: 18, right: 15),
-              child: Text("Total: S/${_con.total}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 18)),
-            ),
-          ],
+      appBar: AppBar(
+        title: Text(
+          "Pedido $indexData",
+          maxLines: 2,
         ),
-        bottomNavigationBar: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.3,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Divider(
-                  color: MyColors.primaryColor,
-                  endIndent: 30, // margen en la parte izquierda
-                  indent: 30, // margen en la parte derecha
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(top: 18, right: 15),
+            child: Text("Total: S/${_con.total}",
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          ),
+        ],
+      ),
+      bottomNavigationBar: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.3,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Divider(
+                color: MyColors.primaryColor,
+                endIndent: 30, // margen en la parte izquierda
+                indent: 30, // margen en la parte derecha
+              ),
+              _textData("Repartidor:",
+                  '${_con.order?.deliveryList?.nombre ?? 'No asignado '} ${_con.order?.deliveryList?.apellido ?? ''}'),
+              _textData("Entregar en:", _con.order?.direccion?.direccion ?? ''),
+              _textData("Fecha de pedido:",
+                  RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
+              _con.order?.estado == "EN CAMINO" ? _buttonNext() : Container(),
+            ],
+          ),
+        ),
+      ),
+      body: _con.order?.producto == null
+          ? const NoDataWidget(
+              text: "Tu carrito está vacío",
+            )
+          : _con.order!.producto!.isNotEmpty
+              ? ListView(
+                  children: _con.order!.producto!.map((Product producto) {
+                  return _cardProduct(producto);
+                }).toList())
+              : const NoDataWidget(
+                  text: "Tu carrito está vacío",
                 ),
-                _textData("Repartidor:",
-                    '${_con.order?.deliveryList?.nombre ?? 'No asignado '} ${_con.order?.deliveryList?.apellido ?? ''}'),
-                _textData(
-                    "Entregar en:", _con.order?.direccion?.direccion ?? ''),
-                _textData("Fecha de pedido:",
-                    RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
-                _con.order?.estado == "EN CAMINO" ? _buttonNext() : Container(),
-              ],
-            ),
-          ),
-        ),
-        body: _con.order?.producto == null
-            ? NoDataWidget(
-                text: "Tu carrito está vacío",
-              )
-            : _con.order!.producto!.isNotEmpty
-                ? ListView(
-                    children: _con.order!.producto!.map((Product producto) {
-                    return _cardProduct(producto);
-                  }).toList())
-                : NoDataWidget(
-                    text: "Tu carrito está vacío",
-                  ));
+    );
   }
 
   Widget _textData(String title, String content) {
@@ -136,25 +138,45 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _imageProduct(producto),
-          const SizedBox(
-            width: 10,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(producto.nombre ?? "",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              _imageProduct(producto),
               const SizedBox(
-                height: 10,
+                width: 18,
               ),
-              Text("Cantidad: ${producto.cantidad}",
-                  style: const TextStyle(fontSize: 13)),
-              const SizedBox(
-                height: 10,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(producto.nombre!,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(producto.descripcion!,
+                      style: const TextStyle(fontSize: 13)),
+                  const SizedBox(height: 5),
+                  Text("(${producto.colorSelecionado})",
+                      style: const TextStyle(fontSize: 13)),
+                ],
               ),
             ],
+          ),
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: MyColors.primaryColor,
+            ),
+            child: Text(
+              "x${producto.cantidad}",
+              style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
@@ -164,15 +186,15 @@ class _ClientOrdersDetailsState extends State<ClientOrdersDetailsPage> {
   Widget _imageProduct(Product producto) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-          color: Colors.grey[200]),
+          borderRadius: const BorderRadius.all(Radius.circular(13)),
+          color: MyColors.primaryColor.withOpacity(0.6)),
       padding: const EdgeInsets.all(5),
       child: FadeInImage(
-        image: producto.image1 != null
-            ? NetworkImage(producto.image1!)
+        image: producto.imagenPrincipalSeleccionado != null
+            ? NetworkImage(producto.imagenPrincipalSeleccionado!)
             : const AssetImage("assets/images/noImagen.png") as ImageProvider,
         fit: BoxFit.contain,
-        fadeInDuration: const Duration(milliseconds: 50),
+        fadeInDuration: const Duration(milliseconds: 40),
         placeholder: const AssetImage("assets/images/noImagen.png"),
       ),
       height: 50,

@@ -1,6 +1,8 @@
 import 'package:simpplex_app/models/orders.dart';
+import 'package:simpplex_app/models/product.dart';
 import 'package:simpplex_app/screens/client/orders/list/client_orders_list_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/utils/relative_time_util.dart';
 import 'package:simpplex_app/widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -60,7 +62,10 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
                               horizontal: 5, vertical: 10),
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
-                            return _cardOrder(snapshot.data![index]);
+                            return _cardOrder(
+                              snapshot.data![index],
+                              snapshot.data!.length - index,
+                            );
                           });
                     } else {
                       return const NoDataWidget(
@@ -79,77 +84,132 @@ class _ClientOrdersListPageState extends State<ClientOrdersListPage> {
     );
   }
 
-  Widget _cardOrder(Order order) {
+  Widget itemPrimerProducto(Product product) {
+    return SizedBox(
+      width: double.infinity,
+      height: 55,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          FadeInImage(
+            fadeInDuration: const Duration(milliseconds: 30),
+            fit: BoxFit.contain,
+            placeholder: const AssetImage("assets/images/noImagen.png"),
+            image: product.imagenPrincipalSeleccionado != null
+                ? NetworkImage(product.imagenPrincipalSeleccionado!)
+                : const AssetImage("assets/images/noImagen.png")
+                    as ImageProvider,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(product.nombre!),
+                  Text(
+                    "(${product.colorSelecionado ?? ""})",
+                    maxLines: 1,
+                    textAlign: TextAlign.start,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                "S/ ${product.precio}",
+                style: TextStyle(color: MyColors.primaryColor),
+              ),
+              Text(
+                "x ${product.cantidad}",
+                style: TextStyle(
+                    color: Colors.grey[400], fontWeight: FontWeight.w500),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget itemsPedido(String title, String descripcion) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 14),
+        ),
+        const SizedBox(
+          height: 3,
+        ),
+        Text(
+          descripcion,
+          style: TextStyle(color: MyColors.primaryColor, fontSize: 14),
+        ),
+      ],
+    );
+  }
+
+  Widget _cardOrder(Order order, int index) {
     return GestureDetector(
       onTap: () {
-        _con.openBottomSheet(order);
+        _con.openBottomSheet(order, index);
       },
       child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          height: 150,
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          height: 180,
           child: Card(
             elevation: 3.0,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            child: Stack(
-              children: [
-                Positioned(
-                    child: Container(
-                        width: MediaQuery.of(context).size.width * 1,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            color: MyColors.primaryColor,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
-                            )),
-                        child: Container(
-                          width: double.infinity,
-                          alignment: Alignment.center,
-                          child: Text("Pedido ${order.id}",
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontFamily: "NimbusSans",
-                              )),
-                        ))),
-                Container(
-                  margin: const EdgeInsets.only(top: 40, left: 20, right: 20),
-                  child: Column(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 24,
+                    backgroundColor: MyColors.primaryColor,
+                    child: Text(
+                      "N° $index",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  const Divider(
+                    thickness: 1.3,
+                    height: 10,
+                  ),
+                  itemPrimerProducto(order.producto![0]),
+                  const Divider(
+                    thickness: 1.3,
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      itemsPedido("Cliente", order.cliente!.nombre!),
                       Container(
-                        margin: const EdgeInsets.symmetric(vertical: 5),
-                        alignment: Alignment.centerLeft,
-                        width: double.infinity,
-                        child: const Text(
-                          "Pedido: 2015-05-23",
-                          style: TextStyle(fontSize: 13),
-                        ),
+                        color: Colors.black45,
+                        height: 29,
+                        width: 0.4,
                       ),
+                      itemsPedido("Fecha",
+                          RelativeTimeUtil.getRelativeTime(order.fecha ?? 0)),
                       Container(
-                        margin: const EdgeInsets.symmetric(vertical: 5),
-                        alignment: Alignment.centerLeft,
-                        width: double.infinity,
-                        child: Text(
-                          "Repartidor: ${order.deliveryList?.nombre ?? 'No asignado'} ${order.deliveryList?.apellido ?? ''}",
-                          style: const TextStyle(fontSize: 13),
-                          maxLines: 1,
-                        ),
+                        color: Colors.black45,
+                        height: 29,
+                        width: 0.3,
                       ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 5),
-                        alignment: Alignment.centerLeft,
-                        width: double.infinity,
-                        child: Text(
-                          "Entregar en: ${order.direccion?.direccion ?? ''}",
-                          style: const TextStyle(fontSize: 13),
-                          maxLines: 2,
-                        ),
-                      ),
+                      itemsPedido("Entrega", order.direccion!.direccion!),
                     ],
                   ),
-                )
-              ],
+                ],
+              ),
             ),
           )),
     );

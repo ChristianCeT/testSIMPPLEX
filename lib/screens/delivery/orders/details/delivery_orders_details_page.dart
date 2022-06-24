@@ -29,10 +29,12 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final int indexData = ModalRoute.of(context)!.settings.arguments as int;
+
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Pedido ${_con.order?.id ?? ''}",
+            "Pedido $indexData",
             maxLines: 2,
           ),
           actions: [
@@ -140,25 +142,45 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _imageProduct(producto),
-          const SizedBox(
-            width: 10,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(producto.nombre ?? "",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              _imageProduct(producto),
               const SizedBox(
-                height: 10,
+                width: 18,
               ),
-              Text("Cantidad: ${producto.cantidad}",
-                  style: const TextStyle(fontSize: 13)),
-              const SizedBox(
-                height: 10,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(producto.nombre!,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(producto.descripcion!,
+                      style: const TextStyle(fontSize: 13)),
+                  const SizedBox(height: 5),
+                  Text("(${producto.colorSelecionado})",
+                      style: const TextStyle(fontSize: 13)),
+                ],
               ),
             ],
+          ),
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: MyColors.primaryColor,
+            ),
+            child: Text(
+              "x${producto.cantidad}",
+              style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
@@ -168,15 +190,15 @@ class _DeliveryOrdersDetailsState extends State<DeliveryOrdersDetailsPage> {
   Widget _imageProduct(Product producto) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-          color: Colors.grey[200]),
+          borderRadius: const BorderRadius.all(Radius.circular(13)),
+          color: MyColors.primaryColor.withOpacity(0.6)),
       padding: const EdgeInsets.all(5),
       child: FadeInImage(
-        image: producto.image1 != null
-            ? NetworkImage(producto.image1!)
+        image: producto.imagenPrincipalSeleccionado != null
+            ? NetworkImage(producto.imagenPrincipalSeleccionado!)
             : const AssetImage("assets/images/noImagen.png") as ImageProvider,
         fit: BoxFit.contain,
-        fadeInDuration: const Duration(milliseconds: 50),
+        fadeInDuration: const Duration(milliseconds: 40),
         placeholder: const AssetImage("assets/images/noImagen.png"),
       ),
       height: 50,

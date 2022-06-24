@@ -113,7 +113,7 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
   Widget _cardOrder(Order order, int index) {
     return GestureDetector(
       onTap: () {
-        _con.openBottomSheet(order);
+        _con.openBottomSheet(order, index);
       },
       child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

@@ -35,10 +35,13 @@ class ClientOrdersListController {
     return await _ordersProvider.getByClientStatus(user!.id!, status);
   }
 
-  void openBottomSheet(Order order) async {
+  void openBottomSheet(Order order, int index) async {
     isUpdated = await showMaterialModalBottomSheet(
         context: context,
-        builder: (context) => ClientOrdersDetailsPage(order: order));
+        builder: (context) => ClientOrdersDetailsPage(order: order),
+        settings: RouteSettings(
+          arguments: index,
+        ));
 
     if (isUpdated == null) {
       return;

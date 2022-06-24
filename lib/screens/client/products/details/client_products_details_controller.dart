@@ -45,6 +45,7 @@ class ClientProductDetailController {
 
   void addToBag() {
     //TODO: fix posible error with the products
+
     int index = selectedProducts.indexWhere(
         (p) => p.id == product!.id && p.colorSelecionado == colorSeleccionado);
 

@@ -11,7 +11,7 @@ import 'package:simpplex_app/screens/roles/roles_page.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:whatsapp/whatsapp.dart';
 
 class ClientProductsListController {
   late BuildContext context;
@@ -22,12 +22,11 @@ class ClientProductsListController {
 
   final CategoriesProvider _categoriesProvider = CategoriesProvider();
   final ProductsProvider _productsProvider = ProductsProvider();
+  Whatsapp whatsapp = Whatsapp();
 
   SharedPref sharedPref = SharedPref();
 
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
-
-  final Uri _url = Uri.parse("https://api.whatsapp.com/send?phone=920411227");
 
   Timer? searchOnStoppedTyping;
   String productName = '';
@@ -85,7 +84,11 @@ class ClientProductsListController {
   }
 
   void goToWhatssap() async {
-    if (!await launchUrl(_url)) throw 'No existe el link $_url';
+    await whatsapp.short(
+      to: 51920411227, // number with country code (without +),
+      message: "Hey",
+      compress: true,
+    );
   }
 
   void goToOrdersList() {

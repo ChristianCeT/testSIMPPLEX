@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:simpplex_app/models/product.dart';
 import 'package:simpplex_app/screens/client/products/details/client_products_details_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
@@ -33,7 +34,6 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
       child: Column(
         children: [
           _imageSlideshow(),
-          _chipsColors(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -42,6 +42,7 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
             ],
           ),
           _productDescription(),
+          _chipsColors(),
           const Spacer(),
           _addOrRemoveItem(),
           _standarDelivery(),
@@ -168,7 +169,7 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
 
   Widget _addOrRemoveItem() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 17),
+      margin: const EdgeInsets.symmetric(horizontal: 19),
       child: Row(
         children: [
           _con.product != null
@@ -278,44 +279,66 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
   }
 
   Widget _chipsColors() {
-    return Column(
-      children: [
-        const Text(
-          "Colores disponibles",
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      padding: const EdgeInsets.only(left: 30),
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Colores:",
+          ),
+          const SizedBox(
+            height: 6,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: _con.product?.imagenPrincipal != null
                 ? _con.product!.imagenPrincipal!.map((imagenPrincipalItem) {
-                    final Color _colorItem = Color(int.parse(imagenPrincipalItem
-                        .color!
-                        .split('(')[1]
-                        .split(')')[0]));
-
-                    return ActionChip(
-                      onPressed: () {
-                        setState(() {
-                          /*  print(imagenPrincipalItem.path); */
-                          _con.urlMainImage = imagenPrincipalItem.path!;
-                          _con.colorSeleccionado =
-                              imagenPrincipalItem.colorName!;
-                          _con.urlSeleccionada = imagenPrincipalItem.path!;
-                        });
-                      },
-                      label: Text(
-                        imagenPrincipalItem.colorName!,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
+                    final Color _colorItem = Color(
+                      int.parse(
+                        imagenPrincipalItem.color!.split('(')[1].split(')')[0],
                       ),
-                      backgroundColor: _colorItem,
-                      pressElevation: 0,
+                    );
+                    return Container(
+                      margin: const EdgeInsets.only(
+                        right: 12,
+                      ),
+                      padding: const EdgeInsets.all(4),
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: _colorItem.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(35),
+                      ),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          setState(
+                            () {
+                              _con.urlMainImage = imagenPrincipalItem.path!;
+                              _con.colorSeleccionado =
+                                  imagenPrincipalItem.colorName!;
+                              _con.urlSeleccionada = imagenPrincipalItem.path!;
+                            },
+                          );
+                        },
+                        elevation: 0,
+                        backgroundColor: Color(_colorItem.value),
+                        child: _con.colorSeleccionado ==
+                                imagenPrincipalItem.colorName!
+                            ? const Icon(
+                                Icons.check_sharp,
+                                color: Colors.white,
+                              )
+                            : Container(),
+                      ),
                     );
                   }).toList()
                 : [],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

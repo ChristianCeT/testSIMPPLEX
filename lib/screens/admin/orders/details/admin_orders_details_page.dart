@@ -29,60 +29,67 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final int indexData = ModalRoute.of(context)!.settings.arguments as int;
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Pedido ${_con.order?.id ?? ''}",
-            maxLines: 2,
-          ),
-          actions: [
-            Container(
-              margin: const EdgeInsets.only(top: 18, right: 15),
-              child: Text("Total: S/${_con.total}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 18)),
-            ),
-          ],
-          backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: Text(
+          "Pedido $indexData",
+          maxLines: 2,
         ),
-        bottomNavigationBar: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.3,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Divider(
-                  color: MyColors.primaryColor,
-                  endIndent: 30, // margen en la parte izquierda
-                  indent: 30, // margen en la parte derecha
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(top: 18, right: 15),
+            child: Text(
+              "Total: S/${_con.total}",
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+          ),
+        ],
+        backgroundColor: MyColors.primaryColor,
+      ),
+      bottomNavigationBar: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.2,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Divider(
+                color: MyColors.primaryColor,
+                endIndent: 30,
+                indent: 30,
+                thickness: 1.8,
+              ),
+              _textDescription(),
+              _con.order?.estado != "PAGADO" ? _deliveryData() : Container(),
+              _con.order?.estado == "PAGADO" && _con.user != null
+                  ? _dropDown(_con.users)
+                  : Container(),
+              _textData("Cliente:",
+                  '${_con.order?.cliente?.nombre ?? ''} ${_con.order?.cliente?.apellido ?? ''}'),
+              _textData("Entregar en:", _con.order?.direccion?.direccion ?? ''),
+              _textData("Fecha de pedido:",
+                  RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
+              _con.order?.estado == "PAGADO" ? _buttonNext() : Container(),
+              _con.order?.estado == "ENTREGADO"
+                  ? _modalEvidences()
+                  : Container()
+            ],
+          ),
+        ),
+      ),
+      body: _con.order?.producto == null
+          ? const NoDataWidget(
+              text: "Tu carrito está vacío",
+            )
+          : _con.order!.producto!.isNotEmpty
+              ? ListView(
+                  children: _con.order!.producto!.map((Product producto) {
+                  return _cardProduct(producto);
+                }).toList())
+              : const NoDataWidget(
+                  text: "Tu carrito está vacío",
                 ),
-                _textDescription(),
-                _con.order?.estado != "PAGADO" ? _deliveryData() : Container(),
-                _con.order?.estado == "PAGADO" && _con.user != null
-                    ? _dropDown(_con.users)
-                    : Container(),
-                _textData("Cliente:",
-                    '${_con.order?.cliente?.nombre ?? ''} ${_con.order?.cliente?.apellido ?? ''}'),
-                _textData(
-                    "Entregar en:", _con.order?.direccion?.direccion ?? ''),
-                _textData("Fecha de pedido:",
-                    RelativeTimeUtil.getRelativeTime(_con.order?.fecha ?? 0)),
-                _con.order?.estado == "PAGADO" ? _buttonNext() : Container(),
-              ],
-            ),
-          ),
-        ),
-        body: _con.order?.producto == null
-            ? const NoDataWidget(
-                text: "Tu carrito está vacío",
-              )
-            : _con.order!.producto!.isNotEmpty
-                ? ListView(
-                    children: _con.order!.producto!.map((Product producto) {
-                    return _cardProduct(producto);
-                  }).toList())
-                : const NoDataWidget(
-                    text: "Tu carrito está vacío",
-                  ));
+    );
   }
 
   Widget _textDescription() {
@@ -142,23 +149,28 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
       margin: const EdgeInsets.symmetric(
         horizontal: 30,
       ),
+      padding: const EdgeInsets.only(top: 5),
       child: Row(
         children: [
-          SizedBox(
-            height: 40,
-            width: 40,
+          Container(
+            width: 38,
+            height: 38,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(38),
+            ),
             child: FadeInImage(
-              image: _con.order?.deliveryList?.image != null
+              image: _con.order != null
                   ? NetworkImage(_con.order!.deliveryList!.image!)
-                  : const AssetImage("assets/images/noImagen.png")
+                  : const AssetImage("assets/images/no-avatar.png")
                       as ImageProvider,
-              fit: BoxFit.contain,
-              fadeInDuration: const Duration(milliseconds: 50),
-              placeholder: const AssetImage("assets/images/noImagen.png"),
+              fit: BoxFit.cover,
+              fadeInDuration: const Duration(seconds: 1),
+              placeholder: const AssetImage("assets/images/no-avatar.png"),
             ),
           ),
           const SizedBox(
-            width: 5,
+            width: 6,
           ),
           Text(
               '${_con.order?.deliveryList?.nombre ?? ''} ${_con.order?.deliveryList?.apellido ?? ''}')
@@ -172,24 +184,32 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
     for (var user in users) {
       list.add(DropdownMenuItem(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 40,
-              width: 40,
+            Container(
+              width: 32,
+              height: 32,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(38),
+              ),
               child: FadeInImage(
-                image: user.image != null
+                image: _con.user != null
                     ? NetworkImage(user.image!)
-                    : const AssetImage("assets/images/noImagen.png")
+                    : const AssetImage("assets/images/no-avatar.png")
                         as ImageProvider,
-                fit: BoxFit.contain,
-                fadeInDuration: const Duration(milliseconds: 50),
-                placeholder: const AssetImage("assets/images/noImagen.png"),
+                fit: BoxFit.cover,
+                fadeInDuration: const Duration(microseconds: 40),
+                placeholder: const AssetImage("assets/images/no-avatar.png"),
               ),
             ),
             const SizedBox(
               width: 5,
             ),
-            Text('${user.nombre ?? ''} ${user.apellido ?? ''}')
+            Text(
+              '${user.nombre ?? ''} ${user.apellido ?? ''}',
+              style: const TextStyle(fontSize: 14),
+            )
           ],
         ),
         value: user.id,
@@ -257,25 +277,45 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _imageProduct(producto),
-          const SizedBox(
-            width: 10,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(producto.nombre ?? "",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              _imageProduct(producto),
               const SizedBox(
-                height: 10,
+                width: 18,
               ),
-              Text("Cantidad: ${producto.cantidad}",
-                  style: const TextStyle(fontSize: 13)),
-              const SizedBox(
-                height: 10,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(producto.nombre!,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(producto.descripcion!,
+                      style: const TextStyle(fontSize: 13)),
+                  const SizedBox(height: 5),
+                  Text("(${producto.colorSelecionado})",
+                      style: const TextStyle(fontSize: 13)),
+                ],
               ),
             ],
+          ),
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: MyColors.primaryColor,
+            ),
+            child: Text(
+              "x${producto.cantidad}",
+              style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
@@ -285,19 +325,60 @@ class _AdminOrdersDetailsState extends State<AdminOrdersDetailsPage> {
   Widget _imageProduct(Product producto) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-          color: Colors.grey[200]),
+          borderRadius: const BorderRadius.all(Radius.circular(13)),
+          color: MyColors.primaryColor.withOpacity(0.6)),
       padding: const EdgeInsets.all(5),
       child: FadeInImage(
-        image: producto.image1 != null
-            ? NetworkImage(producto.image1!)
+        image: producto.imagenPrincipalSeleccionado != null
+            ? NetworkImage(producto.imagenPrincipalSeleccionado!)
             : const AssetImage("assets/images/noImagen.png") as ImageProvider,
         fit: BoxFit.contain,
-        fadeInDuration: const Duration(milliseconds: 50),
+        fadeInDuration: const Duration(milliseconds: 40),
         placeholder: const AssetImage("assets/images/noImagen.png"),
       ),
       height: 50,
       width: 50,
+    );
+  }
+
+  Widget _modalEvidences() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 36),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          OutlinedButton(
+            style: ButtonStyle(
+              overlayColor: MaterialStateProperty.all(
+                  MyColors.primaryColor.withOpacity(0.1)),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+            ),
+            onPressed: () {
+              _con.showBottomSheet();
+            },
+            child: Row(children: [
+              Icon(
+                Icons.remove_red_eye_outlined,
+                color: MyColors.primaryColor,
+              ),
+              const SizedBox(
+                width: 2,
+              ),
+              Text(
+                "Evidencias",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: MyColors.primaryColor,
+                ),
+              ),
+            ]),
+          )
+        ],
+      ),
     );
   }
 

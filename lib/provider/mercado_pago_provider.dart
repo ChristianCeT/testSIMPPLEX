@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:simpplex_app/api/enviroment.dart';
 import 'package:simpplex_app/models/mercado_pago/mercado_pago_document_type.dart';
 import 'package:simpplex_app/models/mercado_pago/mercado_pago_payment_method_installments.dart';
@@ -67,7 +66,7 @@ class MercadoPagoProvider {
       Map<String, dynamic> body = {
         'order': order,
         'card_id': cardId,
-        'description': 'SIMPPLEX PAYMENT',
+        'description': '  ',
         'transaction_amount': transactionAmount,
         'installments': installments,
         'payment_method_id': paymentMethodId,

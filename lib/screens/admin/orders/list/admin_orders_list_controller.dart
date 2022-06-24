@@ -37,11 +37,15 @@ class AdminOrdersListController {
     return await _ordersProvider.getByStatus(status);
   }
 
-  void openBottomSheet(Order order) async {
+  void openBottomSheet(Order order, int index) async {
     isUpdated = await showMaterialModalBottomSheet(
-      context: context,
-      builder: (context) => AdminOrdersDetailsPage(order: order),
-    );
+        context: context,
+        builder: (context) => AdminOrdersDetailsPage(
+              order: order,
+            ),
+        settings: RouteSettings(
+          arguments: index,
+        ));
 
     if (isUpdated == null) {
       return;
