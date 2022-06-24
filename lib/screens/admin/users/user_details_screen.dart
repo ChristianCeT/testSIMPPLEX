@@ -27,7 +27,8 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> data = ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    List<dynamic> data =
+        ModalRoute.of(context)!.settings.arguments as List<dynamic>;
     _con.userData = data[0] as User;
     _con.parameter = data[1] as String;
 
@@ -35,11 +36,12 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
       appBar: AppBar(
         title: Text("Usuario ${data[0].nombre}"),
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, UserScreen.routeName, arguments: _con.parameter);
-            },
-          ),
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, UserScreen.routeName,
+                arguments: _con.parameter);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -50,7 +52,7 @@ class _AdminUserDetailsScreenState extends State<AdminUserDetailsScreen> {
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.save_outlined),
         backgroundColor: MyColors.primaryColor,

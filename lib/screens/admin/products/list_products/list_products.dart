@@ -34,8 +34,9 @@ class _ListProductsScreenState extends State<ListProductsScreen> {
       appBar: AppBar(
         title: const Text("Listado de productos"),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back), 
-          onPressed: () => Navigator.pushNamed(context, AdminOrdersListPage.routeName),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () =>
+              Navigator.pushNamed(context, AdminOrdersListPage.routeName),
         ),
       ),
       body: FutureBuilder(
@@ -69,7 +70,7 @@ class _ListProductsScreenState extends State<ListProductsScreen> {
           }
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, AdminProductsCreatePage.routeName,

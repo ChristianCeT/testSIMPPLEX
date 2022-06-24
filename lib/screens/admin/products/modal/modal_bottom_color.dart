@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:simpplex_app/screens/admin/products/modal/modal_bottom_color_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:simpplex_app/widgets/input_decorations.dart';
@@ -30,7 +31,6 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
     final listMap = ModalRoute.of(context)!.settings.arguments
         as List<Map<String, dynamic>>;
 
-    print("AQUI MI LISTMAP $listMap");
     _con.listMap = listMap;
 
     return SizedBox(
@@ -39,7 +39,24 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
         body: _con.listMap.isEmpty
             ? const Center(child: Text("No hay data"))
             : Column(children: [
-                Text("Imagenes añadidas ${listMap.length}"),
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Imágenes subidas: ",
+                      style: TextStyle(
+                          color: Colors.black.withOpacity(0.5), fontSize: 17),
+                    ),
+                    Text(
+                      "${_con.listMap.length}",
+                      style: TextStyle(
+                          color: MyColors.primaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: _con.listMap.length,
@@ -75,7 +92,7 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
                   ),
                 ),
               ]),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           backgroundColor: MyColors.primaryColor,
           onPressed: () {
@@ -103,57 +120,86 @@ class _ModalBottomScreenProductState extends State<ModalBottomScreenProduct> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-              key: UniqueKey(),
-              onTap: () {
-                _con.showAlertDialog(indexImage);
-              }, // cuando hay un parametro
-              child: listMap["file"] != null
-                  ? SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: Image.file(
-                        listMap["file"],
-                        fit: BoxFit.cover,
+            key: UniqueKey(),
+            onTap: () {
+              _con.showAlertDialog(indexImage);
+            }, // cuando hay un parametro
+            child: listMap["file"] != null
+                ? _imageProduct(
+                    Image.file(
+                      listMap["file"],
+                      fit: BoxFit.fill,
+                    ),
+                  )
+                : listMap["path"] != null
+                    ? _imageProduct(
+                        Image.network(
+                          listMap["path"],
+                          fit: BoxFit.fill,
+                        ),
+                      )
+                    : _imageProduct(
+                        const Image(
+                          image: AssetImage('assets/images/noImagen.png'),
+                        ),
                       ),
-                    )
-                  : listMap["path"] != null
-                      ? SizedBox(
-                          height: 100,
-                          width: 100,
-                          child: Image.network(
-                            listMap["path"],
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : const SizedBox(
-                          height: 100,
-                          width: 100,
-                          child: Image(
-                            image: AssetImage('assets/images/noImagen.png'),
-                          ))),
+          ),
           GestureDetector(
             onTap: () {
               showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return _colorWidget(indexImage);
-                  });
+                context: context,
+                builder: (BuildContext context) {
+                  return _colorWidget(indexImage);
+                },
+              );
             },
-            child: Column(
-              children: [
-                Text(_con.listMap[indexImage]["color"] == null
-                    ? "Ninguno"
-                    : _con.listMap[indexImage]["colorName"]),
-                Container(
-                  width: 25,
-                  height: 25,
-                  color: _con.listMap[indexImage]["color"] ??
-                      MyColors.primaryColor,
-                )
-              ],
+            child: SizedBox(
+              width: 80,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    _con.listMap[indexImage]["color"] == null
+                        ? "Ninguno"
+                        : _con.listMap[indexImage]["colorName"],
+                  ),
+                  SizedBox(
+                    width: 32,
+                    height: 32,
+                    child: CircleAvatar(
+                      backgroundColor: _con.listMap[indexImage]["color"] ??
+                          MyColors.primaryColor,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _imageProduct(Widget child) {
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            spreadRadius: 1,
+          ),
+        ],
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+        height: 92,
+        width: 95,
+        child: child,
       ),
     );
   }
