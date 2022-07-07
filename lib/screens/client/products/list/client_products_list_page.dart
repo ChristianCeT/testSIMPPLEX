@@ -166,8 +166,8 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                     width: MediaQuery.of(context).size.width * 0.45,
                     padding: const EdgeInsets.all(20),
                     child: FadeInImage(
-                      image: product.image1 != null
-                          ? NetworkImage(product.image1!)
+                      image: product.imagenPrincipal != null
+                          ? NetworkImage(product.imagenPrincipal![0].path!)
                           : const AssetImage("assets/images/noImagen.png")
                               as ImageProvider,
                       fit: BoxFit.contain,
