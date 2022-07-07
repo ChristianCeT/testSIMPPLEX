@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/screens/admin/users/list_users.dart';
 import 'package:simpplex_app/screens/admin/users/user_details_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';

@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'package:simpplex_app/models/category.dart';
-import 'package:simpplex_app/models/product.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/provider/categories_provider.dart';
 import 'package:simpplex_app/provider/products_provider.dart';
 import 'package:simpplex_app/screens/client/orders/create/client_orders_create_page.dart';
@@ -12,7 +10,6 @@ import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 class ClientProductsListController {
@@ -87,7 +84,7 @@ class ClientProductsListController {
   void goToWhatssap() async {
     const link = WhatsAppUnilink(
       phoneNumber: "+51920411227",
-      text: "Hola, estoy interesado en tu producto",
+      text: "Hola, ¿Cómo podemos ayudarte hoy?",
     );
 
     final url = Uri.parse(

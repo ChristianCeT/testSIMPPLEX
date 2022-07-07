@@ -1,4 +1,4 @@
-import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/screens/client/products/details/client_products_details_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 class ClientProductDetailsPage extends StatefulWidget {
   final Product product;
   const ClientProductDetailsPage({Key? key, required this.product})
-      : super(key: key); //@required obligatorio
+      : super(key: key);
 
   @override
   _ClientProductDetailsPageState createState() =>
@@ -37,7 +37,11 @@ class _ClientProductDetailsPageState extends State<ClientProductDetailsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _productName(),
-              _buttonRa(),
+              _con.product?.linkRA == null
+                  ? const SizedBox(
+                      height: 60,
+                    )
+                  : _buttonRa(),
             ],
           ),
           _productDescription(),

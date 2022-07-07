@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'package:simpplex_app/models/mercado_pago/mercado_pago_card_token.dart';
-import 'package:simpplex_app/models/mercado_pago/mercado_pago_document_type.dart';
-import 'package:simpplex_app/models/user.dart';
-import 'package:simpplex_app/provider/mercado_pago_provider.dart';
+import 'package:simpplex_app/models/models.dart';
+import 'package:simpplex_app/provider/providers.dart';
 import 'package:simpplex_app/screens/client/payments/installments/client_payments_installments_page.dart';
-import 'package:simpplex_app/utils/my_snackbar.dart';
-import 'package:simpplex_app/utils/share_preferences.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:http/http.dart';
@@ -88,13 +85,6 @@ class ClientPaymentsCreateController {
           context, "Inserta el mes y el año de expiración de la tarjeta");
     }
     cardNumber = cardNumber.replaceAll(RegExp(' '), '');
-/*     print('CVV $cvvCode');
-    print('Card Number $cardNumber');
-    print('cardHolderName $cardHolderName');
-    print('documentId $typesDocument');
-    print('documentNumber $documentNumber');
-    print('expirationYear $expirationYear');
-    print('expirationMonth $expirationMonth'); */
 
     Response? response = await _mercadoPagoProvider.createCardToken(
       cvv: cvvCode,
@@ -110,7 +100,6 @@ class ClientPaymentsCreateController {
       final data = json.decode(response.body);
       if (response.statusCode == 201) {
         cardToken = MercadoPagoCardToken.fromJsonMap(data);
-/*         print('card token: ${cardToken.toJson()}'); */
 
         Navigator.pushNamed(context, ClientPaymentsInstallmentsPage.routeName,
             arguments: {

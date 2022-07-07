@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:simpplex_app/api/enviroment.dart';
-import 'package:simpplex_app/models/imagen_principal.dart';
-import 'package:simpplex_app/models/product.dart';
-import 'package:simpplex_app/models/response_api.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import "package:path/path.dart";
 import 'package:flutter/material.dart';
@@ -12,7 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import "package:http/http.dart" as http;
 
 class ProductsProvider {
-  final String _url = Enviroment.API_DELIVERY;
+  final String _url = Enviroment.apiProduction;
 
   final String _productoCategoria = "/productoCategoria";
   final String _productoCategoriaNombre = "/buscarProductoNombreCat";

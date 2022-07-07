@@ -1,6 +1,6 @@
-import 'package:simpplex_app/models/mercado_pago/mercado_pago_document_type.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/screens/client/payments/create/client_payments_create_controller.dart';
-import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:simpplex_app/widgets/input_decorations_card_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';

@@ -1,10 +1,10 @@
-import 'package:simpplex_app/models/mercado_pago/mercado_pago_credentials.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:simpplex_app/models/models.dart';
 
 class Enviroment {
-  static const String apiDev = "192.168.1.64:3006";
-  static const String API_DELIVERY = "exhibideas-flutter-v1.herokuapp.com";
+  static String apiDev = dotenv.get('API_LOCAL_URL');
+  static String apiProduction = dotenv.get('API_HOST_URL');
   static MercadoPagoCredentials mercadoPagoCredentials = MercadoPagoCredentials(
-      publicKey: 'APP_USR-758b210e-6663-4650-b0b0-c84d05eb0d30',
-      accessToken:
-          'APP_USR-2010426941624597-120421-4f7925daff5e1e0ffa736b91062078ec-1006781084');
+      publicKey: dotenv.get('PUBLIC_KEY_MERCADOPAGO'),
+      accessToken: dotenv.get('ACCES_TOKEN_MERCADOPAGO'));
 }

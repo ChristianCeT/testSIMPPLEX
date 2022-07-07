@@ -21,6 +21,7 @@ void main() {
     MercadoPagoProvider mercadoPagoProvider = MercadoPagoProvider();
 
     Future<http.Response?> respuesta = mercadoPagoProvider.createPayment(
+        cardId: "",
         transactionAmount: 200.0,
         installments: int.parse("12121221"),
         paymentMethodId: "1234434",

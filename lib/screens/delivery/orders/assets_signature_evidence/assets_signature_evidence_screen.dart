@@ -4,7 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:signature/signature.dart';
 import 'package:simpplex_app/screens/delivery/orders/assets_signature_evidence/assets_signature_evidence_controller.dart';
-import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/utils/utils.dart';
 
 class SignatureEvidenceScreen extends StatefulWidget {
   const SignatureEvidenceScreen({Key? key}) : super(key: key);

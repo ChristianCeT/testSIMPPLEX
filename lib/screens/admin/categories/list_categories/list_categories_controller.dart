@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:simpplex_app/models/category.dart';
-import 'package:simpplex_app/models/user.dart';
-import 'package:simpplex_app/provider/categories_provider.dart';
-import 'package:simpplex_app/provider/user_provider.dart';
-import 'package:simpplex_app/utils/share_preferences.dart';
+import 'package:simpplex_app/models/models.dart';
+import 'package:simpplex_app/provider/providers.dart';
+import 'package:simpplex_app/utils/utils.dart';
 
 class ListCategoriesController {
   late BuildContext context;

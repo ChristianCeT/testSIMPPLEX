@@ -1,5 +1,5 @@
 import 'package:simpplex_app/models/user.dart';
-import 'package:simpplex_app/utils/share_preferences.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class RolesController {

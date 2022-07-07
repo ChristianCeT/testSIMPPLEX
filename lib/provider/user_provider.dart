@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:simpplex_app/api/enviroment.dart';
-import 'package:simpplex_app/models/response_api.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,7 +9,7 @@ import "package:http/http.dart" as http;
 import "package:path/path.dart";
 
 class UsersProvider {
-  final String _url = Enviroment.API_DELIVERY;
+  final String _url = Enviroment.apiProduction;
   final String _crear = "/crearUsuario";
   final String _login = "/login";
   final String _update = "/actualizarUsuario";

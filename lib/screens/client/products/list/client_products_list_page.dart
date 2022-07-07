@@ -1,5 +1,4 @@
-import 'package:simpplex_app/models/category.dart';
-import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/screens/client/products/list/client_products_list_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:simpplex_app/widgets/drawer.dart';

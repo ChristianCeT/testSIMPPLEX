@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:simpplex_app/models/category.dart';
-import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
 import 'package:simpplex_app/screens/admin/products/list_products_category.dart/list_product_category_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';

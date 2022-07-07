@@ -1,5 +1,4 @@
-import 'package:simpplex_app/models/orders.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/provider/orders_provider.dart';
 import 'package:simpplex_app/screens/admin/categories/create_update/admin_categories_create_page.dart';
 import 'package:simpplex_app/screens/admin/categories/list_categories/list_categories.dart';

@@ -2,13 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:simpplex_app/api/enviroment.dart';
-import 'package:simpplex_app/models/orders.dart';
-import 'package:simpplex_app/models/response_api.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/provider/orders_provider.dart';
 import 'package:simpplex_app/screens/delivery/orders/list/delivery_orders_list_page.dart';
-import 'package:simpplex_app/utils/my_snackbar.dart';
-import 'package:simpplex_app/utils/share_preferences.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:socket_io_client/socket_io_client.dart' as iosocket;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -59,7 +56,7 @@ class DeliveryOrdersMapController {
     homeMarker = await createMarketFromAssets('assets/images/home1.png');
 
     socket = iosocket.io(
-        'http://${Enviroment.API_DELIVERY}/orders/delivery', <String, dynamic>{
+        'http://${Enviroment.apiProduction}/orders/delivery', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
@@ -241,7 +238,7 @@ class DeliveryOrdersMapController {
   }
 
   void call() async {
-    launch("tel://${920411227}");
+    launch("tel://${order!.cliente!.telefono}");
   }
 
   void checkGPS() async {

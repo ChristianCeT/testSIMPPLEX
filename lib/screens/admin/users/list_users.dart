@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/screens/admin/users/list_users_controller.dart';
 import 'package:simpplex_app/screens/admin/users/menu_users/menu_users_screen.dart';
 import 'package:simpplex_app/screens/admin/users/user_details_screen.dart';
@@ -71,7 +71,7 @@ class _UserScreenState extends State<UserScreen> {
                       itemCount: users.length,
                       itemBuilder: (context, index) {
                         final User user = users[index];
-                        
+
                         return Slidable(
                           key: UniqueKey(),
                           endActionPane: ActionPane(

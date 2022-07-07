@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:simpplex_app/models/response_api.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/provider/user_provider.dart';
 import 'package:simpplex_app/screens/client/products/client_products_menu/client_products_menu.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
@@ -66,17 +65,17 @@ class ClientUpdateController {
     isEnable = false;
 
     User myUser = User(
-      id: user?.id,
-      nombre: name,
-      apellido: lastname,
-      correo: email,
-      telefono: phone,
-      image: user?.image,
-      password: password,
-      roles: user?.roles
-    );
+        id: user?.id,
+        nombre: name,
+        apellido: lastname,
+        correo: email,
+        telefono: phone,
+        image: user?.image,
+        password: password,
+        roles: user?.roles);
 
-    Stream? stream = await usersProvider.updateUserWithImagev2(myUser, imageFile);
+    Stream? stream =
+        await usersProvider.updateUserWithImagev2(myUser, imageFile);
     stream?.listen((res) async {
       // devuelve un responseApi de user
       _progressDialog!.close();

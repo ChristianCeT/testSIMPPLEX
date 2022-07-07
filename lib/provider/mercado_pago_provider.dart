@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'package:simpplex_app/api/enviroment.dart';
-import 'package:simpplex_app/models/mercado_pago/mercado_pago_document_type.dart';
-import 'package:simpplex_app/models/mercado_pago/mercado_pago_payment_method_installments.dart';
-import 'package:simpplex_app/models/orders.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,8 +8,7 @@ import 'package:http/http.dart' as http;
 
 class MercadoPagoProvider {
   final String _urlMercadoPago = 'api.mercadopago.com';
-  final String _url = Enviroment.API_DELIVERY;
-
+  final String _url = Enviroment.apiProduction;
   final String _urlGuardarOrden = "/api/payments/createPay";
 
   final _mercadoPagoCredentials = Enviroment.mercadoPagoCredentials;
@@ -60,13 +56,14 @@ class MercadoPagoProvider {
       Uri url = Uri.https(_url, _urlGuardarOrden, {
         _urlGuardarOrden: _mercadoPagoCredentials.publicKey,
       });
+
       // ignore: avoid_print
       print("URL DE CREAR PAGO $url");
 
       Map<String, dynamic> body = {
         'order': order,
         'card_id': cardId,
-        'description': '  ',
+        'description': 'SIMPPLEX APP',
         'transaction_amount': transactionAmount,
         'installments': installments,
         'payment_method_id': paymentMethodId,

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:simpplex_app/models/category.dart';
-import 'package:simpplex_app/screens/admin/categories/create_update/admin_categories_create_page.dart';
+import 'package:simpplex_app/screens/admin/admin_screens.dart';
 import 'package:simpplex_app/screens/admin/categories/list_categories/list_categories_controller.dart';
-import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:simpplex_app/widgets/no_data_widget.dart';
 
 class CategoriesScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:simpplex_app/screens/delivery/orders/assets_signature_evidence/assets_signature_evidence_screen.dart';
 import 'package:simpplex_app/screens/delivery/orders/map/delivery_orders_map_controller.dart';
-import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

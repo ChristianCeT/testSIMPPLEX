@@ -1,10 +1,6 @@
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:simpplex_app/models/orders.dart';
-import 'package:simpplex_app/models/product.dart';
-import 'package:simpplex_app/models/response_api.dart';
-import 'package:simpplex_app/models/user.dart';
-import 'package:simpplex_app/provider/orders_provider.dart';
-import 'package:simpplex_app/provider/user_provider.dart';
+import 'package:simpplex_app/models/models.dart';
+import 'package:simpplex_app/provider/providers.dart';
 import 'package:simpplex_app/screens/admin/orders/evidences/admin_orders_evidences.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';

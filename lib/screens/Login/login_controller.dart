@@ -1,11 +1,9 @@
-import 'package:simpplex_app/models/response_api.dart';
-import 'package:simpplex_app/models/user.dart';
-import 'package:simpplex_app/provider/user_provider.dart';
+import 'package:simpplex_app/models/models.dart';
+import 'package:simpplex_app/provider/providers.dart';
 import 'package:simpplex_app/screens/client/products/client_products_menu/client_products_menu.dart';
 import 'package:simpplex_app/screens/register/register_page.dart';
 import 'package:simpplex_app/screens/roles/roles_page.dart';
-import 'package:simpplex_app/utils/my_snackbar.dart';
-import 'package:simpplex_app/utils/share_preferences.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class LoginController {
@@ -41,7 +39,6 @@ class LoginController {
   void goToRegisterPage() {
     Navigator.pushNamed(context, RegisterPage.routeName);
   }
-
 
   void login() async {
     //capturar el texto del usuario

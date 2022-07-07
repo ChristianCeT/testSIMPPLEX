@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simpplex_app/models/product.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/provider/products_provider.dart';
 import 'package:simpplex_app/provider/user_provider.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';

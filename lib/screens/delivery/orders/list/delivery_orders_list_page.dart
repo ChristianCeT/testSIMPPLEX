@@ -1,8 +1,7 @@
 import 'package:simpplex_app/models/orders.dart';
 import 'package:simpplex_app/models/product.dart';
 import 'package:simpplex_app/screens/delivery/orders/list/delivery_orders_list_controller.dart';
-import 'package:simpplex_app/utils/my_colors.dart';
-import 'package:simpplex_app/utils/relative_time_util.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:simpplex_app/widgets/drawer.dart';
 import 'package:simpplex_app/widgets/no_data_widget.dart';
 import 'package:flutter/material.dart';

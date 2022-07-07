@@ -1,6 +1,6 @@
-import 'package:simpplex_app/models/product.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/screens/client/address/list/client_address_list_page.dart';
-import 'package:simpplex_app/utils/share_preferences.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ClientOrdersCreateController {
@@ -40,7 +40,11 @@ class ClientOrdersCreateController {
         p.colorSelecionado ==
             product
                 .colorSelecionado); // para saber si elemento existe y que modifico en la lista
-    selectedProducts[index].cantidad = selectedProducts[index].cantidad! + 1;
+    if (selectedProducts[index].cantidad! < selectedProducts[index].stock!) {
+      selectedProducts[index].cantidad = selectedProducts[index].cantidad! + 1;
+    } else {
+      selectedProducts[index].cantidad;
+    }
     _sharedPref.save("order", selectedProducts);
     getTotal();
   }

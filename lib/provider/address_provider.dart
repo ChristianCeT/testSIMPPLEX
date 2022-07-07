@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'package:simpplex_app/api/enviroment.dart';
-import 'package:simpplex_app/models/address.dart';
-import 'package:simpplex_app/models/response_api.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/utils/share_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import "package:http/http.dart" as http;
 
 class AddressProvider {
-  final String _url = Enviroment.API_DELIVERY;
+  final String _url = Enviroment.apiProduction;
   final String _agregar = "/crearDireccion";
   final String _usuarioDireccion = "/direcciones";
 
@@ -24,7 +22,7 @@ class AddressProvider {
   Future<List<Address>?> getByUsers() async {
     try {
       Uri url = Uri.https(_url, "$_usuarioDireccion/${sessionUser.id}");
-      
+
       Map<String, String> headers = {
         "Content-type": "application/json",
         "Authorization": sessionUser.sessionToken!

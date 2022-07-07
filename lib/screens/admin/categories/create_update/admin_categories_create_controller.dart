@@ -1,10 +1,7 @@
-import 'package:simpplex_app/models/category.dart';
-import 'package:simpplex_app/models/response_api.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/provider/categories_provider.dart';
 import 'package:simpplex_app/screens/admin/categories/list_categories/list_categories.dart';
-import 'package:simpplex_app/utils/my_snackbar.dart';
-import 'package:simpplex_app/utils/share_preferences.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class AdminCategoriesCreateUpdateController {
@@ -79,6 +76,6 @@ class AdminCategoriesCreateUpdateController {
     if (responseApi.success!) {
       MySnackBar.show(context, responseApi.message!);
     }
-     Navigator.pushReplacementNamed(context, CategoriesScreen.routeName);
+    Navigator.pushReplacementNamed(context, CategoriesScreen.routeName);
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:simpplex_app/screens/admin/products/modal/modal_bottom_color_controller.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
 import 'package:simpplex_app/widgets/input_decorations.dart';

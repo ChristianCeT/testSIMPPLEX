@@ -1,5 +1,5 @@
 import 'package:simpplex_app/screens/client/orders/map/client_orders_map_controller.dart';
-import 'package:simpplex_app/utils/my_colors.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

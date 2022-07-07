@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:simpplex_app/models/category.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/screens/admin/products/create/admin_products_create_controller.dart';
 import 'package:simpplex_app/screens/admin/products/list_products_category.dart/list_products_category.dart';
 import 'package:simpplex_app/utils/my_colors.dart';

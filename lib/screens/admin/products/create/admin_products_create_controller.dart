@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:simpplex_app/models/category.dart';
-import 'package:simpplex_app/models/product.dart';
-import 'package:simpplex_app/models/response_api.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/provider/categories_provider.dart';
 import 'package:simpplex_app/provider/products_provider.dart';
 import 'package:simpplex_app/screens/admin/products/list_products_category.dart/list_products_category.dart';
@@ -61,8 +58,9 @@ class AdminProductsCreateController {
       nameController.text = productToEdit!.nombre!;
       descriptionController.text = productToEdit!.descripcion!;
       priceController.text = productToEdit!.precio.toString();
-      linkRAController.text =
-          productToEdit!.linkRA!.replaceAll("https://go.echo3d.co/", "");
+      linkRAController.text = productToEdit?.linkRA != null
+          ? productToEdit!.linkRA!.replaceAll("https://go.echo3d.co/", "")
+          : "";
       quantityController.text = productToEdit!.stock!.toString();
       updateListMap();
     }
@@ -99,6 +97,7 @@ class AdminProductsCreateController {
     String name = nameController.text;
     String description = descriptionController.text;
     String linkRA = linkRAController.text;
+
     int stock = int.parse(quantityController.text);
     double price =
         double.parse(priceController.text); // obtener valores enteros
@@ -108,7 +107,7 @@ class AdminProductsCreateController {
       return;
     }
 
-    if (name.isEmpty || description.isEmpty || price == 0 || linkRA.isEmpty) {
+    if (name.isEmpty || description.isEmpty || price == 0) {
       MySnackBar.show(context, "Debe ingresar todos los campos");
       return;
     }
@@ -137,7 +136,7 @@ class AdminProductsCreateController {
     Product product = Product(
       nombre: name,
       descripcion: description,
-      linkRA: "https://go.echo3d.co/asd",
+      linkRA: linkRA == "" ? null : "https://go.echo3d.co/$linkRA",
       precio: price,
       categoria: idCategory,
       stock: stock,
@@ -182,7 +181,7 @@ class AdminProductsCreateController {
     int stock = int.parse(quantityController.text);
     double price = double.parse(priceController.text);
 
-    if (name.isEmpty || description.isEmpty || price == 0 || linkRA.isEmpty) {
+    if (name.isEmpty || description.isEmpty || price == 0) {
       MySnackBar.show(context, "Debe ingresar todos los campos");
       return;
     }
@@ -191,7 +190,7 @@ class AdminProductsCreateController {
       id: productToEdit!.id,
       nombre: name,
       descripcion: description,
-      linkRA: "https://go.echo3d.co/$linkRA",
+      linkRA: linkRA == "" ? null : "https://go.echo3d.co/$linkRA",
       precio: price,
       categoria: idCategory ?? productToEdit!.categoria,
       stock: stock,

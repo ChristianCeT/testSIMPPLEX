@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:simpplex_app/models/response_api.dart';
-import 'package:simpplex_app/models/user.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/provider/user_provider.dart';
 import 'package:simpplex_app/screens/admin/users/list_users.dart';
 import 'package:simpplex_app/utils/my_colors.dart';
@@ -92,13 +91,11 @@ class AdminUserDetailsController {
         if (responseApi.data['_id'] == user!.id) {
           userData = User.fromJson(responseApi.data);
           _sharedPref.save('user', userData!.toJson());
-          Navigator.pushReplacementNamed(
-              context, UserScreen.routeName,
+          Navigator.pushReplacementNamed(context, UserScreen.routeName,
               arguments: parameter);
           refresh();
         }
-        Navigator.pushReplacementNamed(
-            context, UserScreen.routeName,
+        Navigator.pushReplacementNamed(context, UserScreen.routeName,
             arguments: parameter);
         refresh();
       } else {

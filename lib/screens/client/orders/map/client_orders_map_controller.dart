@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:simpplex_app/api/enviroment.dart';
-import 'package:simpplex_app/models/orders.dart';
-import 'package:simpplex_app/models/user.dart';
-import 'package:simpplex_app/provider/orders_provider.dart';
-import 'package:simpplex_app/utils/share_preferences.dart';
+import 'package:simpplex_app/models/models.dart';
+import 'package:simpplex_app/provider/providers.dart';
+import 'package:simpplex_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -29,7 +28,7 @@ class ClientOrdersMapController {
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  final OrdersProvider _ordersProvider =  OrdersProvider();
+  final OrdersProvider _ordersProvider = OrdersProvider();
   late User user;
   final SharedPref _sharedPref = SharedPref();
   Order? order;
@@ -46,7 +45,7 @@ class ClientOrdersMapController {
     homeMarker = await createMarketFromAssets('assets/images/home1.png');
 
     socket = IO.io(
-        'http://${Enviroment.API_DELIVERY}/orders/delivery', <String, dynamic>{
+        'http://${Enviroment.apiProduction}/orders/delivery', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
@@ -54,8 +53,8 @@ class ClientOrdersMapController {
 
     socket?.on('posicion/${order?.id}', (data) {
       print(data);
-      addMarker("Delivery", data["latitud"], data["longitud"],
-          "Tu repartidor", "", deliveryMarker!);
+      addMarker("Delivery", data["latitud"], data["longitud"], "Tu repartidor",
+          "", deliveryMarker!);
     }); // leer info de socket io
 
     user = User.fromJson(await _sharedPref.read("user"));
@@ -65,8 +64,11 @@ class ClientOrdersMapController {
   }
 
   void isCloseToDeliveredPosition() {
-    _distanceBetween = Geolocator.distanceBetween(_position!.latitude,
-        _position!.longitude, order!.direccion!.latitud!, order!.direccion!.longitud!);
+    _distanceBetween = Geolocator.distanceBetween(
+        _position!.latitude,
+        _position!.longitude,
+        order!.direccion!.latitud!,
+        order!.direccion!.longitud!);
 
     print("----Distancia ${_distanceBetween} ---------");
   }
@@ -94,7 +96,6 @@ class ClientOrdersMapController {
     };
 // pasar la informacion al navigator cerrando la pestaña
     Navigator.pop(context, data);
-    
   }
 
   Future<BitmapDescriptor> createMarketFromAssets(String path) async {
@@ -142,7 +143,7 @@ class ClientOrdersMapController {
       _position = await Geolocator
           .getLastKnownPosition(); // obtener la ultima posicion del dispositivo la latitud y longitud actual es lo que devuelve
       animatedCameraToPosition(_position!.latitude, _position!.longitude);
-     /*  addMarker("Delivery", _position.latitude, _position.longitude,
+      /*  addMarker("Delivery", _position.latitude, _position.longitude,
           "Tu posición", "", deliveryMarker); */
       addMarker("Home", order!.direccion!.latitud!, order!.direccion!.longitud!,
           "Lugar de entrega", "", homeMarker!);

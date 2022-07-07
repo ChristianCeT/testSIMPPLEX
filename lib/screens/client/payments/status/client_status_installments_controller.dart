@@ -1,4 +1,4 @@
-import 'package:simpplex_app/models/mercado_pago/mercado_pago_payment.dart';
+import 'package:simpplex_app/models/models.dart';
 import 'package:simpplex_app/screens/client/products/client_products_menu/client_products_menu.dart';
 import 'package:flutter/material.dart';
 

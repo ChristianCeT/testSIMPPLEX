@@ -1,13 +1,4 @@
 import 'package:simpplex_app/screens/Login/login_page.dart';
-import 'package:simpplex_app/screens/admin/categories/create_update/admin_categories_create_page.dart';
-import 'package:simpplex_app/screens/admin/categories/list_categories/list_categories.dart';
-import 'package:simpplex_app/screens/admin/orders/list/admin_orders_list_page.dart';
-import 'package:simpplex_app/screens/admin/products/create/admin_products_create_page.dart';
-import 'package:simpplex_app/screens/admin/products/list_products/list_products.dart';
-import 'package:simpplex_app/screens/admin/products/list_products_category.dart/list_products_category.dart';
-import 'package:simpplex_app/screens/admin/users/list_users.dart';
-import 'package:simpplex_app/screens/admin/users/menu_users/menu_users_screen.dart';
-import 'package:simpplex_app/screens/admin/users/user_details_screen.dart';
 import 'package:simpplex_app/screens/client/Account/client_account_page.dart';
 import 'package:simpplex_app/screens/client/address/create/client_address_create_page.dart';
 import 'package:simpplex_app/screens/client/address/list/client_address_list_page.dart';
@@ -26,6 +17,8 @@ import 'package:simpplex_app/screens/delivery/orders/list/delivery_orders_list_p
 import 'package:simpplex_app/screens/delivery/orders/map/delivery_orders_map_page.dart';
 import 'package:simpplex_app/screens/register/register_page.dart';
 import 'package:simpplex_app/screens/roles/roles_page.dart';
+
+import 'package:simpplex_app/screens/admin/admin_screens.dart';
 
 import 'package:flutter/material.dart';
 import 'package:simpplex_app/screens/splash2.0/splash.dart';
