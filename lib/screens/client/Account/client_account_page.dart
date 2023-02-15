@@ -36,9 +36,9 @@ class _ClientAcountPageState extends State<ClientAcountPage> {
                       margin: const EdgeInsets.only(top: 15),
                       child: const Image(
                         image: AssetImage(
-                          "assets/images/Simplex.png",
+                          "assets/images/EXHIBIDEAS.png",
                         ),
-                        height: 50,
+                        height: 32,
                       ),
                     ),
                   ),

@@ -37,7 +37,7 @@ class _SplashScreenV2State extends State<SplashScreenV2> {
                   backgroundColor: Colors.white,
                   child: Image(
                     image: AssetImage(
-                      "assets/images/Simplex.png",
+                      "assets/images/EXHIBIDEAS.png",
                     ),
                     width: 200,
                   ),

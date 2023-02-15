@@ -40,8 +40,11 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     const SizedBox(height: 10),
-                    const Image(
-                      image: AssetImage("assets/images/Simplex.png"),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: const Image(
+                        image: AssetImage("assets/images/EXHIBIDEAS.png"),
+                      ),
                     ),
                     const SizedBox(height: 30),
                     _loginForm(),

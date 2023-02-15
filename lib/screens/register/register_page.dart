@@ -43,8 +43,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           const Image(
-                            image: AssetImage("assets/images/Simplex.png"),
-                            height: 38,
+                            image: AssetImage("assets/images/EXHIBIDEAS.png"),
+                            height: 20,
                           ),
                           _imageUser()
                         ],

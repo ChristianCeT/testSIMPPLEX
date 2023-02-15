@@ -192,7 +192,7 @@ class _ClientProductsListPageState extends State<ClientProductsListPage> {
                   Container(
                     margin: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 15),
-                    child: Text('${product.precio ?? 0}',
+                    child: Text('S/${product.precio ?? 00}',
                         style: const TextStyle(
                           fontSize: 15,
                           fontFamily: "NimbuSans",

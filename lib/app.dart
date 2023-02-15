@@ -11,7 +11,7 @@ class App extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
     return MaterialApp(
-      title: "SIMPPLEX",
+      title: "EXHIBIDEAS",
       debugShowCheckedModeBanner: false,
       initialRoute: SplashScreenV2.routName,
       routes: routes,

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class BackgroundWidget extends StatelessWidget {
   final Widget child;
   final String page;
-  const BackgroundWidget({Key? key, required this.child, required this.page}) : super(key: key);
+  const BackgroundWidget({Key? key, required this.child, required this.page})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +72,8 @@ class _PurpleBox extends StatelessWidget {
   //Metodo que renderiza el gradiente
   BoxDecoration _purpleBackground() => const BoxDecoration(
         gradient: LinearGradient(colors: [
-          Color.fromRGBO(252, 171, 4, 100),
-          Color.fromRGBO(252, 172, 4, 100),
+          Color.fromRGBO(27, 142, 126, 85),
+          Color.fromRGBO(27, 143, 126, 20),
         ]),
       );
 }

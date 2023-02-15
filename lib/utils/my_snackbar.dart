@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 class MySnackBar {
   static void show(BuildContext context, String text) {
-    
     FocusScope.of(context).requestFocus(FocusNode());
-
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
